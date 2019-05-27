@@ -1,0 +1,11 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>AddDev</h1>
+
+<form method="post" asp-controller="Dev" asp-action="AddDev">
+   
+   <h1>name your company</h1>
+    <input  type="text" name="name"/><br>
+    <button type="submit">Add</button>
+    
+    
+</form>

@@ -1,0 +1,40 @@
+@await Component.InvokeAsync("Menu" , new {})
+
+<h1>Add Sub</h1>
+
+
+<form method="post" asp-controller="Admin" asp-action="AddSub"  class="form_line">
+
+    
+    <div class="card" style="width: 18rem;">
+  
+    
+  
+        
+        <div class="card-body">
+        
+            
+
+
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+            <div class="input-group-text">@@</div>
+            </div>
+            <input type="text" class="form-control" name="name" placeholder="Sub Name" value="">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" step="0.01" class="form-control" name="price" value="0.0" >
+        </div>
+    </div>
+
+
+   
+    
+    <button type="submit"  class="bn_all">Add</button>
+</form>

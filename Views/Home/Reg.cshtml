@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Registration";
+}
+
+@await Component.InvokeAsync("Menu" , new {})
+
+ @if(Model == 1)
+    {
+        <p>Пароли не совпадают</p>
+    }
+@if(Model == 2)
+    {
+        <p>Данный логин уже зарегистрирован</p>
+    }
+@if(Model == 3)
+    {
+        <p>Данный E-mail уже зарегистрирован</p>
+    }
+@if(Model == 4)
+    {
+        <p>Введите правельно  E-mail</p>
+    }
+
+<form method="post" asp-controller="Home" asp-action="Reg">
+
+
+
+    <div class="registration">
+
+        <div class="form-group">
+            <label for="mail">@ViewBag.Data_name[30]</label>
+            <input type="text" class="form-control" name="_mail" aria-describedby="mailHelp" placeholder="@ViewBag.Data_name[30]">
+            <small id="mailHelp" class="form-text text-muted">We'll never share your mail with anyone else.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="login">@ViewBag.Data_name[28]</label>
+            <input type="text" class="form-control" name="_login" aria-describedby="loginHelp" placeholder="@ViewBag.Data_name[28]">
+            <small id="loginHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="password">@ViewBag.Data_name[29]</label>
+            <input type="password" class="form-control" name="_password" placeholder="@ViewBag.Data_name[29]">
+        </div>
+
+        <div class="form-group">
+            <label for="password">@ViewBag.Data_name[29]</label>
+            <input type="password" class="form-control" name="_password2" placeholder="@ViewBag.Data_name[29]">
+        </div>
+  </div>
+    
+    
+
+    <button type="submit">@ViewBag.Data_name[31]</button>
+</form>

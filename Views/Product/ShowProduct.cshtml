@@ -1,0 +1,191 @@
+@await Component.InvokeAsync("Menu" , new {})
+
+
+@{
+    ViewData["Title"] = "ShowProduct" + @Model  ;
+}
+
+<h1 >@ViewBag.Translate_words[22]: @ViewBag.Product.name</h1>
+
+<h4 >@ViewBag.Translate_words[23]: @ViewBag.Product.description</h4>
+<h4>@ViewBag.Translate_words[40] @ViewBag.Product.id_category </h4>
+<h4> @ViewBag.Translate_words[35]: @ViewBag.Product.price</h4>
+<a class="btn btn-primary" asp-controller="Home"  asp-action="DevShow" asp-route-id_dev = "@ViewBag.Product.id_dev">@ViewBag.Product.developer</a>
+<h5> Def Pic : @ViewBag.Def_picture</h5>
+<hr>
+    
+<hr>
+Pictures:
+<hr>
+@foreach (var pic in @ViewBag.Product.pictures)
+{
+    @pic <br>
+}
+<hr>
+@ViewBag.Translate_words[41]:
+<hr>
+@foreach (var label in @ViewBag.Product.labels)
+{
+    string str = label + ",";
+    @str
+}
+<hr>
+@ViewBag.Translate_words[42]:
+<hr>
+      <table class="table">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">@ViewBag.Translate_words[22]</th>
+                <th scope="col">@ViewBag.Translate_words[23]</th>
+                <th scope="col">@ViewBag.Translate_words[43]</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+             @foreach (List<string> this_event in @ViewBag.Product.product_events)
+             {
+                <tr>
+                <th scope="row">@this_event[0]</th>
+                <td>@this_event[1]</td>
+                <td>@this_event[2]</td>
+                <td>@this_event[3]</td>
+                <td>
+                    <form method="post" asp-controller="Product" asp-action="ShowEvent" class="form-inline form_search">
+                        <input type ="hidden" name="_id_product" value="@this_event[0]">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[44]</button>
+                    </form>
+                </td>
+                </tr>
+                
+            
+            }
+
+
+            </table>
+<hr>
+DLCs:
+<hr>
+            <table class="table">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">name of product</th>
+                <th scope="col">@ViewBag.Translate_words[35]</th>
+                <th scope="col">picture</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+             @foreach (List<string> this_dlc in @ViewBag.Product.dlc)
+             {
+                <tr>
+                <th scope="row">@this_dlc[0]</th>
+                <td>@this_dlc[1]</td>
+                <td>@this_dlc[2]</td>
+                <td>@this_dlc[3]</td>
+                <td>
+                    <form method="post" asp-controller="Product" asp-action="AddDLC" class="form-inline form_search">
+                        <input type ="hidden" name="_id_product" value="@ViewBag.Product.id_product">
+                        <input type ="hidden" name="_id_dlc" value="@this_dlc[0]">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[36]</button>
+                    </form>
+                </td>
+                </tr>
+            
+            }
+
+
+            </table>
+
+<hr>
+<form  method="post"  asp-controller="Product" asp-action="AddProduct"  class="form-inline form_search">
+                                  
+        <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />              
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[36]</button>
+                                  
+</form>
+
+<hr>
+
+                            
+
+
+<form  asp-controller="Product" asp-action="AddComment" >
+    <div  >
+             <div  class="assessment">
+            <input type="radio" id="Incompetent" name="_assessment" value="1" >
+            <label for="Incompetent">@ViewBag.Translate_words[46]</label>
+             </div>
+             <div  class="assessment">
+            <input type="radio" id="Bad" name="_assessment" value="2">
+            <label for="Bad">@ViewBag.Translate_words[47]</label>
+            </div>
+             <div  class="assessment">
+            <input type="radio" id="NotBad" name="_assessment" value="3">
+            <label for="NotBad">@ViewBag.Translate_words[48]</label>
+            </div>
+         <div  class="assessment">
+            <input type="radio" id="Good" name="_assessment" value="4">
+            <label for="Good">@ViewBag.Translate_words[49]</label>
+            </div>
+         <div  class="assessment">
+            <input type="radio" id="Cool" name="_assessment" value="5" checked>
+            <label for="Cool">@ViewBag.Translate_words[50]</label>
+            </div>
+        
+    </div>      
+    
+        <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />  
+        <div class="form-group">
+            <label for="_comment">@ViewBag.Translate_words[51]:</label>
+            <textarea class="form-control" name="_comment" rows="3"></textarea>
+        </div>            
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[37]</button>
+                                  
+</form>
+
+@if(@ViewBag.Product.liked)
+{
+    <form  asp-controller="Product" asp-action="RemoveLike" >
+            <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />   
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[39]</button>                          
+    </form>
+}
+else 
+{
+    <form  asp-controller="Product" asp-action="AddLike" >
+            <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />   
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[38]</button>                          
+    </form>
+}
+
+
+<hr>
+ @ViewBag.Translate_words[62]
+<hr>
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <td>@ViewBag.Translate_words[24]</td>
+            <td>@ViewBag.Translate_words[25]</td>
+            <td>@ViewBag.Translate_words[16]</td>
+            <td>@ViewBag.Translate_words[45]</td>
+         </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var review in @ViewBag.Product.product_reviews)
+        {
+            
+                <tr>
+                    @foreach (string item3 in review)
+                    {
+                        <td>@item3</td>
+                    }
+                </tr>
+            
+        }
+    </tbody>
+</table>

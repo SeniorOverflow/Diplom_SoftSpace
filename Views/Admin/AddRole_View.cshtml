@@ -1,0 +1,40 @@
+@await Component.InvokeAsync("Menu" , new {})
+
+<h1>Add Role</h1>
+
+@if(@ViewBag.Ex == 1)
+{
+    <h1>Данная роль уже существует</h1>
+}
+
+<form method="post" asp-controller="Admin" asp-action="AddRole"  class="form_line">
+
+    
+    <div class="card" style="width: 18rem;">
+  
+    
+  
+        
+        <div class="card-body">
+        
+            
+
+
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+            <div class="input-group-text">@@</div>
+            </div>
+            <input type="text" class="form-control" name="name" placeholder="Role Name" value="">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" rows="3"></textarea>
+        </div>
+    </div>
+
+
+   
+    
+    <button type="submit"  class="bn_all">Add</button>
+</form>

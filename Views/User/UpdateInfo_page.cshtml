@@ -1,0 +1,8 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>UserUpdateInfo</h1>
+
+<form method="post" asp-controller="User" asp-action="UpdateInfo"  class="form_line">
+    <input type="text" name="first_name" value="@ViewBag.User_data.first_name">
+    <input type="text" name="second_name" value="@ViewBag.User_data.second_name">
+    <button type="submit"  class="bn_all">Save</button>
+</form>

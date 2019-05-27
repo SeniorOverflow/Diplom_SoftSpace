@@ -1,0 +1,29 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>@ViewBag.Translate_words[58]</h1>
+
+
+
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      
+      <th scope="col">@ViewBag.Translate_words[22]</th>
+      <th scope="col">@ViewBag.Translate_words[23]</th>
+      <th scope="col">@ViewBag.Translate_words[65]</th>
+      <th scope="col">@ViewBag.Translate_words[66]</th>
+    </tr>
+  </thead>
+  <tbody>
+@foreach( var a in @ViewBag.Lib) 
+{
+    <tr>
+      <th scope="row">@a[1]</th>
+      <td>@a[2]</td>
+      <td>@a[3]</td>
+      <td>@a[4]</td>
+    </tr>
+   
+}
+
+</table>

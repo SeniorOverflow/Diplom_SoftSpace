@@ -1,0 +1,43 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>Edit Your Product  check on bellow</h1>
+
+
+
+
+
+<form method="post" asp-controller="Admin" asp-action="EditCategory_Save"  class="form_line">
+    <div class="card" style="width: 18rem;">
+  @{
+    string pic = @ViewBag.Category.def_picture + ".png";
+  }
+    <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+    <div class="card-body">
+     
+        
+    
+    
+  
+    <input hidden name="id_category" value="@ViewBag.Category.id_category">
+    
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">@@</div>
+        </div>
+        <input type="text" class="form-control" name="name" placeholder="ProductName" value="@ViewBag.Category.name">
+    </div>
+    <div class="form-group">
+        <label for="description">Example textarea</label>
+        <textarea class="form-control" name="description" rows="3">@ViewBag.Category.description</textarea>
+    </div>
+    
+    
+     
+    
+   
+    <button type="submit"  class="btn btn-primary">Save</button>
+      </div>
+  
+    </div>
+</form>
+
+

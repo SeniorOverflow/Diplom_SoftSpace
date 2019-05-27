@@ -1,0 +1,38 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>Edit Your Product  check on bellow</h1>
+
+@if(@ViewBag.Ex == 1)
+{
+    <h1>Данная роль уже существует</h1>
+}
+
+<form method="post" asp-controller="Admin" asp-action="EditRole_Save"  class="form_line">
+    <div class="card" style="width: 18rem;">
+  
+    
+    <div class="card-body">
+
+    <input hidden name="id_role_users" value="@ViewBag.Role[0][0]">
+    
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">@@</div>
+        </div>
+        <input type="text" class="form-control" name="name" placeholder="RoleName" value="@ViewBag.Role[0][1]">
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" name="description" rows="3">@ViewBag.Role[0][2]</textarea>
+    </div>
+    
+    
+     
+    
+   
+    <button type="submit"  class="btn btn-primary">Save</button>
+      </div>
+  
+    </div>
+</form>
+
+

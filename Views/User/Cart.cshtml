@@ -1,0 +1,47 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>@ViewBag.Translate_words[18]</h1>
+
+
+
+
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">@ViewBag.Translate_words[22]</th>
+      <th scope="col">@ViewBag.Translate_words[19]</th>
+      <th scope="col">@ViewBag.Translate_words[63]</th>
+      <th scope="col">@ViewBag.Translate_words[35]</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+@foreach( var a in @ViewBag.Cart.items) 
+{
+    <tr>
+      <th scope="row">@a[1]</th>
+      <td>@a[2]</td>
+      <td>@a[3]</td>
+      <td>@a[4]</td>
+      <td>
+            <form  asp-controller="Product" asp-action="RemoveProduct"  class="form-inline form_search">        
+                <input type="hidden" name ="_id_product_in_cart" value="@a[0]"  />              
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Remove</button>
+            </form>
+      </td>
+      
+    </tr>
+   
+}
+</table>
+
+ <form  asp-controller="User" asp-action="Buy"  class="form-inline form_search">        
+                <input type="hidden" name ="_id_user" value="@ViewBag.Cart.id_user"  />  
+                <label for="buy">@ViewBag.Cart.this_price</label>
+                <button  name="buy" class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[64]</button>
+</form>
+
+
+
+
+

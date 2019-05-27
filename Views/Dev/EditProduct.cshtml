@@ -1,0 +1,68 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>Edit Your Product  check on bellow</h1>
+
+
+
+
+
+<form method="post" asp-controller="Dev" asp-action="EditProduct_Save"  class="form_line">
+    <div class="card" style="width: 18rem;">
+  @{
+    string pic = @ViewBag.Product.def_picture + ".png";
+  }
+    <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+    <div class="card-body">
+     
+        <div class="form-group">
+            <label for="file">Example file input</label>
+            <input type="File"  name="upload_file">
+        </div>
+    
+    
+  
+    <input hidden name="id_product" value="@ViewBag.Product.id_product">
+    
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">@@</div>
+        </div>
+        <input type="text" class="form-control" name="name" placeholder="ProductName" value="@ViewBag.Product.name">
+    </div>
+    
+    <div class="form-group">
+        <label for="description">Example textarea</label>
+        <textarea class="form-control" name="description" rows="3">@ViewBag.Product.description</textarea>
+    </div>
+    
+     
+    <div class="form-group">
+        <label for="labels">Example textarea</label>
+        <textarea class="form-control" name="labels" rows="3">
+        @for (int i =0;i<@ViewBag.Product.labels.Count;i++)
+        {
+            string comma = ",";
+            @ViewBag.Product.labels[i]
+            if(i<(ViewBag.Product.labels.Count -1))
+            {
+                @comma
+            }
+            
+            
+        }
+    </textarea>
+    </div>
+   
+    <button type="submit"  class="btn btn-primary">Save</button>
+      </div>
+  
+    </div>
+</form>
+
+
+
+
+
+
+
+
+<h1>Price : @ViewBag.Product.price</h1>

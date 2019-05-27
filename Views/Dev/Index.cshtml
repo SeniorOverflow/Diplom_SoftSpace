@@ -1,0 +1,35 @@
+@await Component.InvokeAsync("Menu" , new {})
+
+
+
+
+<div class="media">
+  <img class="mr-3" src="~/Pictures/NaPicture2.png" alt="Generic placeholder image" width="128" height="128">
+  <div class="media-body">
+    
+    <h1> @ViewBag.DesDev[0][1]</h1>
+
+    <h5>@ViewBag.Translate_words[72]: -InF</h5>
+    
+   
+  </div>
+  
+  <div>
+      
+    <form method="post" asp-controller="Dev" asp-action="UpdateInfo_page"  class="form_line">
+        <input hidden name="id_dev" value="@ViewBag.DesDev[0][0]">
+        <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[69]</button>
+    </form>
+
+    <form method="post" asp-controller="Dev" asp-action="YourProducts"  class="form_line">
+        <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[70]</button>
+    </form>
+
+    <form method="post" asp-controller="Dev" asp-action="DelDev"  class="form_line">
+        <input hidden name="id_dev" value="@ViewBag.DesDev[0][0]">
+        <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[71]</button>
+    </form>
+
+  </div>
+
+</div>

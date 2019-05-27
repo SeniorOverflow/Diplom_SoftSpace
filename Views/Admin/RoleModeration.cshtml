@@ -1,0 +1,159 @@
+@{
+  int previous  = 0;
+  int next = 1;
+  int this_page = 0;
+    
+    if(@ViewBag.Roles.currect_number < 0)
+      {
+        this_page = 0;
+      }
+    else
+      {
+        this_page = @ViewBag.Roles.currect_number;
+      }
+      
+    if(this_page > 0) 
+      {
+        previous = this_page - 1;
+      }
+    else
+      {
+        this_page = 0;
+      }
+    
+    next = this_page  +1 ;
+}
+@await Component.InvokeAsync("Menu" , new {})
+<h1>@ViewBag.Translate_words[12]</h1>
+
+<form method="post" asp-controller="Admin" asp-action="AddRole_View"  class="form_line">
+    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[77]</button>
+</form>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      
+      <th scope="col">@ViewBag.Translate_words[22]</th>
+      <th scope="col">@ViewBag.Translate_words[23]</th>
+
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+@foreach( var a in @ViewBag.Roles.list) 
+{
+    <tr>
+      <th scope="row">@a[1]</th>
+      <td>@a[2]</td>
+
+      <td>
+           <form method="get" asp-controller="Admin" asp-action="EditRole"  class="form_line">
+                    <input type="hidden" name="id_role_users" value="@a[0]"/>
+                    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[73]</button>
+            </form>
+      </td>
+      <td>
+          
+          <form method="post" asp-controller="Admin" asp-action="GiveRole"  class="form_line">
+                  <input type="hidden" name="id_role_users" value="@a[0]"/>
+                  <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[76]</button>
+          </form>
+          
+      </td>
+      <td>
+          @if(Convert.ToInt32(a[0])>2)
+          {
+           <form method="post" asp-controller="Admin" asp-action="DelRole"  class="form_line">
+                    <input type="hidden" name="id_role_users" value="@a[0]"/>
+                    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[27]</button>
+            </form>
+          }
+      </td>
+    </tr>
+   
+}
+
+</table>
+
+
+@if(@ViewBag.Roles.count_pages > 1 )
+{
+<nav aria-label="...">
+  <ul class="pagination">
+    @if(this_page > 0)
+    {
+    <li class="page-item">
+      <a class="page-link" asp-controller="Admin"  asp-action="RoleModeration" asp-route-numb_page = "@previous"  aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    }
+
+    
+    
+
+
+    @if(this_page < 12)
+    {
+      @for(int i = 0;i < 19; i++ )
+      {
+        int nn_page = i;
+         @if(nn_page == this_page)
+        {
+          <li class="page-item active">
+            <a class="page-link" asp-controller="Admin"  asp-action="RoleModeration" asp-route-numb_page = "@this_page">@(this_page + 1) <span class="sr-only">(current)</span></a>
+          </li>
+
+        }
+        else{
+          if((i < @ViewBag.Roles.count_pages)&&(i >= 0))
+          {
+            <a class="page-link" asp-controller="Admin"  asp-action="RoleModeration" asp-route-numb_page = "@nn_page" >@(nn_page + 1)</a>
+          }
+        }
+      }
+      
+    }
+    else
+    {
+      @for( int i =  Convert.ToInt32(this_page) - 9 ;
+        i < Convert.ToInt32(this_page) + 10; i++)
+      {
+        
+        int nn_page = i;
+        
+        @if(nn_page == this_page)
+        {
+          <li class="page-item active">
+            <a class="page-link" asp-controller="Admin"  asp-action="RoleModeration" asp-route-numb_page = "this_page">@(this_page + 1) <span class="sr-only">(current)</span></a>
+          </li>
+
+        }
+        else{
+          if((i < @ViewBag.Roles.count_pages)&&(i >= 0))
+          {
+            <a class="page-link" asp-controller="Admin"  asp-action="RoleModeration" asp-route-numb_page = "@nn_page" >@(nn_page + 1)</a>
+          }
+        }
+      }
+
+
+    }
+
+    @if(next < @ViewBag.Roles.count_pages)
+    {
+    <li class="page-item">
+      <a class="page-link" asp-controller="Admin"  asp-action="RoleModeration" asp-route-numb_page = "@next" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    }
+
+  </ul>
+</nav>
+}

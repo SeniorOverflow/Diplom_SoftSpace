@@ -1,0 +1,47 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>@ViewBag.Translate_words[57]</h1>
+
+
+
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      
+      <th scope="col">@ViewBag.Translate_words[22]</th>
+      <th scope="col">@ViewBag.Translate_words[23]</th>
+      <th scope="col">@ViewBag.Translate_words[65]</th>
+      <th scope="col">@ViewBag.Translate_words[66]</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+@foreach( var a in @ViewBag.Baggage) 
+{
+    <tr>
+      <th scope="row">@a[1]</th>
+      <td>@a[2]</td>
+      <td>@a[3]</td>
+      <td>@a[4]</td>
+
+      <td>
+           <form method="post" asp-controller="User" asp-action="AddToLib"  class="form_line">
+                    
+                    <input type="hidden" name="_id_deal_product" value="@a[0]"/>
+                    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[67]</button>
+            </form>
+      </td>
+      <td>
+
+           <form method="post" asp-controller="User" asp-action="GiveYourFriend"  class="form_line">
+                    
+                    <input type="hidden" name="_id_deal_product" value="@a[0]"/>
+                    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[68]</button>
+            </form>
+      </td>
+    </tr>
+   
+}
+
+</table>

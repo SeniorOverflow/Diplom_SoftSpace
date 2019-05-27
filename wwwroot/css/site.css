@@ -1,0 +1,137 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+.form_search{
+  position: relative;
+}
+.center{
+  display: block;
+  margin: 0 auto;
+}
+
+.search_line{
+  max-width: 150px
+}
+._Cart{
+  margin: 10px;
+  margin-left: 15px; 
+  display: inline;
+}
+.assessment
+{
+  display: inline;
+  position: relative;
+
+ 
+}
+
+.registration
+{
+  width: 300px;
+}
+.autorisation 
+{
+  width: 300px;
+}
+.carusel
+{
+  min-width : 90px;
+  width : 900px;
+  max-height: 800px;
+  min-height: 80px;
+}
+
+.btn_carusel
+{
+  
+  width: 50px;
+  height: 100%;
+  
+}
+
+.sing{
+
+  position: relative;
+  top:0%;
+  padding-left:10px ;
+  padding-right:10px ;
+  /* background-color: rgb(0, 119, 8); */
+  color:  rgb(219, 219, 219);
+  text-decoration: none;
+  font-size: 18px;
+
+}
+
+.admin_tools{
+  position: relative;
+  top:0%;
+  padding-left:10px ;
+  padding-right:10px ;
+  /* background-color: rgb(221, 118, 0); */
+  color:  rgb(219, 219, 219);
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.sing:hover {
+  color:white; /* Цвет ссылки при наведении на нее курсора мыши */  
+  text-decoration: none;
+ }
+ .admin_tools:hover {
+  color:white; /* Цвет ссылки при наведении на нее курсора мыши */  
+  text-decoration: none;
+ }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}

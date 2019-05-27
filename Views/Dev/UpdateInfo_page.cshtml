@@ -1,0 +1,19 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>UpdateInfo</h1>
+<form method="post" asp-controller="Dev" asp-action="UpdateInfo"  class="form_line">
+    <input hidden name="id_dev" value="@ViewBag.Dev.id_dev">
+    
+    <h4>name</h4>
+    <input type="text" name="name" value="@ViewBag.Dev.name"><br>
+    <h4>url_on_logo</h4>
+    <input type="text" name="url_on_logo" value="@ViewBag.Dev.url_on_logo"><br>
+    <h4>discription</h4>
+    <input type="text" name="description" value="@ViewBag.Dev.description"><br>
+    <h4>address</h4>
+    <input type="text" name="address" value="@ViewBag.Dev.address"><br>
+    <h4>mail</h4>
+    <input type="text" name="mail" value="@ViewBag.Dev.mail"><br>
+    <h4>phone</h4>
+    <input type="text" name="phone" value="@ViewBag.Dev.phone"><br>
+    <button type="submit"  class="bn_all">Save</button>
+</form>

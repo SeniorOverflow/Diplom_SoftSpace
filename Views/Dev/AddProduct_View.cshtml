@@ -1,0 +1,27 @@
+@await Component.InvokeAsync("Menu" , new {})
+
+<h1>AddProduct</h1>
+
+<h1>@ViewBag.List_category[0][1]</h1>
+<form method="post" asp-controller="Dev" asp-action="AddProduct"  class="form_line">
+    <h3>Name Your Product</h3><br>
+    <input type="text" name="name"><br>
+    <h3>Price Your Product</h3><br>
+    <input type="number" name="price"><br>
+    
+    <select name="id_category">
+    @foreach (var item in ViewBag.List_category)
+        {
+
+             <option value="@item[0]">@item[1] </option>
+        }
+    </select>
+
+     <select name="type_product">
+         <option value="0" >Product</option>
+         <option value="1">DLC</option>
+     </select>
+
+    
+    <button type="submit"  class="bn_all">Add</button>
+</form>

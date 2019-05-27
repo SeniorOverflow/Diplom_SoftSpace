@@ -1,0 +1,22 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>Admin Tools :)</h1>
+
+@using(Html.BeginForm()){
+    <div class ="row" >
+    @foreach ( var  a in @ViewBag.Menu)
+    {
+        <div class="_Cart">
+            <div class="card" mx-auto style="width: 18rem;">
+                <!--<img src="~/Pictures/" class="card-img-top" alt="...">-->
+                <div class="card-body">
+                <h5 class="card-title">@a[0]</h5>
+                <input type="submit"  value="@ViewBag.ButtonWord"     class="btn btn-primary" formmethod="get" formaction="/Admin/@a[2]"/>
+                </div>
+            </div>
+       
+        </div>
+    }
+    </div>
+    
+
+}

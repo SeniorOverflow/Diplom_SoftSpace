@@ -1,0 +1,153 @@
+@{
+  int previous  = 0;
+  int next = 1;
+  int this_page = 0;
+    
+    if(@ViewBag.You_product.currect_number < 0)
+      {
+        this_page = 0;
+      }
+    else
+      {
+        this_page = @ViewBag.You_product.currect_number;
+      }
+      
+    if(this_page > 0) 
+      {
+        previous = this_page - 1;
+      }
+    else
+      {
+        this_page = 0;
+      }
+    
+    next = this_page  +1 ;
+}
+
+@await Component.InvokeAsync("Menu" , new {})
+<h1>here will be your products ...</h1>
+<form method="post" asp-controller="Dev" asp-action="AddProduct_View"  class="form_line">
+    
+    <button type="submit"  class="btn btn-primary">Add Product</button>
+</form>
+<br>
+
+<div class ="row" >
+@foreach( var a in @ViewBag.You_product.list) 
+{
+
+    <div class="card" style="width: 18rem;">
+    @{
+        string pic = @a[7] + ".png";
+        <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3 class="card-title">@a[1]</h3>
+            <h4 class="card-title">Price: @a[5]</h4>
+            
+            <form method="post" asp-controller="Dev" asp-action="EditProduct"  class="form_line">
+                <input type="hidden" name="id_product" value="@a[0]"/>
+                <button type="submit"  class="btn btn-primary">Edit</button>
+            </form>
+            
+            <form method="post" asp-controller="Dev" asp-action="DelProduct"  class="form_line">
+                <input type="hidden" name="id_product" value="@a[0]"/>
+                <button type="submit"  class="btn btn-primary">Delete</button>
+            </form>
+            @if( @Convert.ToBoolean(@a[8]) == false)
+            {
+            <form method="post" asp-controller="Dev" asp-action="AddDlC_view"  class="form_line">
+                <input type="hidden" name="id_product" value="@a[0]"/>
+                <button type="submit"  class="btn btn-primary">Add DlC</button>
+            </form>
+
+            <form method="post" asp-controller="Dev" asp-action="AddEvent_view"  class="form_line">
+                <input type="hidden" name="id_product" value="@a[0]"/>
+                <button type="submit"  class="btn btn-primary">Add Event</button>
+            </form>
+            }
+        </div>
+    }
+  </div>
+}
+</div >
+
+
+@if(@ViewBag.You_product.count_pages > 1 )
+{
+<nav aria-label="...">
+  <ul class="pagination">
+    @if(this_page > 0)
+    {
+    <li class="page-item">
+      <a class="page-link" asp-controller="Dev"  asp-action="YourProducts" asp-route-numb_page = "@previous"  aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    }
+
+    
+    
+
+
+    @if(this_page < 12)
+    {
+      @for(int i = 0;i < 19; i++ )
+      {
+        int nn_page = i;
+         @if(nn_page == this_page)
+        {
+          <li class="page-item active">
+            <a class="page-link" asp-controller="Dev"  asp-action="YourProducts" asp-route-numb_page = "@this_page">@(this_page + 1) <span class="sr-only">(current)</span></a>
+          </li>
+
+        }
+        else{
+          if((i < @ViewBag.You_product.count_pages)&&(i >= 0))
+          {
+            <a class="page-link" asp-controller="Dev"  asp-action="YourProducts" asp-route-numb_page = "@nn_page" >@(nn_page + 1)</a>
+          }
+        }
+      }
+      
+    }
+    else
+    {
+      @for( int i =  Convert.ToInt32(this_page) - 9 ;
+        i < Convert.ToInt32(this_page) + 10; i++)
+      {
+        
+        int nn_page = i;
+        
+        @if(nn_page == this_page)
+        {
+          <li class="page-item active">
+            <a class="page-link" asp-controller="Dev"  asp-action="YourProducts" asp-route-numb_page = "this_page">@(this_page + 1) <span class="sr-only">(current)</span></a>
+          </li>
+
+        }
+        else{
+          if((i < @ViewBag.You_product.count_pages)&&(i >= 0))
+          {
+            <a class="page-link" asp-controller="Dev"  asp-action="YourProducts" asp-route-numb_page = "@nn_page" >@(nn_page + 1)</a>
+          }
+        }
+      }
+
+
+    }
+
+    @if(next < @ViewBag.You_product.count_pages)
+    {
+    <li class="page-item">
+      <a class="page-link" asp-controller="Dev"  asp-action="YourProducts" asp-route-numb_page = "@next" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    }
+
+  </ul>
+</nav>
+}
+
