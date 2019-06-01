@@ -24,11 +24,34 @@
     <form method="post" asp-controller="Dev" asp-action="YourProducts"  class="form_line">
         <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[70]</button>
     </form>
+@{
+  string id_this = "delComp";
+  <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Вы точно хотите удалить свою компанию  ?</h5>
 
-    <form method="post" asp-controller="Dev" asp-action="DelDev"  class="form_line">
-        <input hidden name="id_dev" value="@ViewBag.DesDev[0][0]">
-        <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[71]</button>
-    </form>
+        </div>
+        
+        <div class="modal-footer">
+
+          <form method="post" asp-controller="Dev" asp-action="DelDev"  class="form_line">
+                  <input type="hidden"  name="id_dev" value="@ViewBag.DesDev[0][0]"/>
+                  
+                  <button type="submit"  class="btn btn-primary">Confirm</button>
+          </form>    
+         
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+
+    
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[71]</button>
 
   </div>
 

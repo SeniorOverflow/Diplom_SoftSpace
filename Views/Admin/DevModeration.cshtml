@@ -40,6 +40,32 @@
   <tbody>
 @foreach( var a in @ViewBag.Devs.list) 
 {
+
+  string id_this = "a"+@a[0];
+  <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Вы точно хотите удалить  @a[1] ?</h5>
+
+        </div>
+        
+        <div class="modal-footer">
+
+          <form method="post" asp-controller="Admin" asp-action="DelDev"  class="form_line">
+                  <input type="hidden"  name="id_dev" value="@a[0]"/>
+                  <input type="hidden" name="numb_page" value="@this_page"/>
+                  <button type="submit"  class="btn btn-primary">Confirm</button>
+          </form>    
+         
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
     <tr>
       <th scope="row">@a[1]</th>
       <td>@a[2]</td>
@@ -47,10 +73,7 @@
       <td>@a[4]</td>
       <td>@a[5]</td>
       <td>
-           <form method="post" asp-controller="Admin" asp-action="DelDev"  class="form_line">
-                    <input type="hidden" name="id_dev" value="@a[0]"/>
-                    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[27]</button>
-            </form>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
       </td>
     </tr>
 }

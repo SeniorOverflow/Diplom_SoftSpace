@@ -142,12 +142,12 @@ namespace SoftSpace_web.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DelComments(int id_review)
+        public IActionResult DelComments(int id_review,int numb_page)
         {
 
             DbConfig.UseSqlCommand("Delete FROM review WHERE id =" + id_review);
              return RedirectToAction("CommentModeration", new RouteValueDictionary( 
-                        new { controller = "Admin", action = "CommentModeration"} ));
+                        new { controller = "Admin", action = "CommentModeration", numb_page = numb_page} ));
         }
 
 
@@ -290,9 +290,10 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DelCategory(int id_category)
+        public IActionResult DelCategory(int id_category,int  numb_page)
         {
             
+            Console.WriteLine(id_category);
             
             if(IsAdmin() == false)
             {
@@ -301,12 +302,13 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-
-            DbConfig.UseSqlCommand("delete from category cascade where id = " + id_category);
-           
+                
+                DbConfig.UseSqlCommand("delete from category cascade where id = " + id_category);
+                
             }
             return RedirectToAction("CategoryModeration", new RouteValueDictionary( 
-                                new { controller = "Admin", action = "CategoryModeration"} ));
+                                new { controller = "Admin", action = "CategoryModeration",numb_page = numb_page } ));
+                                
 
 
            
@@ -395,7 +397,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                 Edit sub = new Edit();
-                string _sql_com = "select users.login,type_of_subscription.name,type_of_subscription.price,developers.name_of_company,subscription_on_dev.date_end "+
+                string _sql_com = "select subscription_on_dev.id, users.login,type_of_subscription.name,type_of_subscription.price,developers.name_of_company,subscription_on_dev.date_end "+
                     " from subscription_on_dev inner join users on  subscription_on_dev.id_user = users.id "+
                     "                          inner join type_of_subscription on subscription_on_dev.id_type  = type_of_subscription.id "+
                     "                          inner join developers on subscription_on_dev.id_dev = developers.id   OFFSET "+(numb_page)*12 +" limit 12" ;
@@ -531,7 +533,7 @@ namespace SoftSpace_web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DelSubribe(int id_user)
+        public IActionResult DelSubribe( int id_sub, int numb_page)
         {
             
             
@@ -543,11 +545,11 @@ namespace SoftSpace_web.Controllers
             else
             {
 
-            DbConfig.UseSqlCommand("delete from subscription_on_dev  where id_user = " + id_user);
+            DbConfig.UseSqlCommand("delete from subscription_on_dev  where subscription_on_dev.id = " + id_sub);
            
             }
-            return RedirectToAction("SubEdition", new RouteValueDictionary( 
-                                new { controller = "Admin", action = "SubEdition"} ));
+            return RedirectToAction("SubModeration", new RouteValueDictionary( 
+                                new { controller = "Admin", action = "SubModeration" , numb_page = numb_page} ));
 
         }
 

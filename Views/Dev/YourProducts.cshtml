@@ -36,6 +36,31 @@
 @foreach( var a in @ViewBag.You_product.list) 
 {
 
+  string id_this = "a" + @a[0];
+  <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Вы точно хотите удалить @a[1]  ?</h5>
+
+        </div>
+        
+        <div class="modal-footer">
+
+          <form method="post" asp-controller="Dev" asp-action="DelProduct"  class="form_line">
+                  <input type="hidden"  name="id_product" value="@a[0]"/>
+                  
+                  <button type="submit"  class="btn btn-primary">Confirm</button>
+          </form>    
+         
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
     <div class="card" style="width: 18rem;">
     @{
         string pic = @a[7] + ".png";
@@ -49,10 +74,8 @@
                 <button type="submit"  class="btn btn-primary">Edit</button>
             </form>
             
-            <form method="post" asp-controller="Dev" asp-action="DelProduct"  class="form_line">
-                <input type="hidden" name="id_product" value="@a[0]"/>
-                <button type="submit"  class="btn btn-primary">Delete</button>
-            </form>
+             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
+
             @if( @Convert.ToBoolean(@a[8]) == false)
             {
             <form method="post" asp-controller="Dev" asp-action="AddDlC_view"  class="form_line">

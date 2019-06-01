@@ -42,6 +42,8 @@ namespace SoftSpace_web.Controllers
                     " WHERE id =  "+ id_dev ,tmp_dev);
 
             ViewBag.DesDev = tmp_dev;
+            List<string> translate_words = Language_Settings.GetWords(1);
+            ViewBag.Translate_words = translate_words;
             return View();
         }
         
@@ -107,6 +109,8 @@ namespace SoftSpace_web.Controllers
             Console.WriteLine("++++++++ +++ ++ " +tmp_data[0][1] + " -- " + tmp_data.Count);
 
             ViewBag.List_category =  tmp_data;
+            List<string> translate_words = Language_Settings.GetWords(1);
+            ViewBag.Translate_words = translate_words;
             return View();
         }
 
@@ -140,7 +144,7 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DelProduct(int id_product)
+        public IActionResult DelProduct(int id_product, int numb_page)
         {
             Screening sr = new Screening();
             string login = HttpContext.Session.GetString("login");
@@ -155,8 +159,8 @@ namespace SoftSpace_web.Controllers
                 DbConfig.UseSqlCommand("delete from product cascade where id = " + id_product);
     
             }
-            return RedirectToAction("Index", new RouteValueDictionary( 
-                                new { controller = "Home", action = "Idex"} ));
+            return RedirectToAction("YourProducts", new RouteValueDictionary( 
+                                new { controller = "Dev", action = "YourProducts" , numb_page= numb_page} ));
         }
 
        
@@ -172,10 +176,12 @@ namespace SoftSpace_web.Controllers
             int id_dev = Convert.ToInt32(tmp_dev[0][0]);
 
             Edit you_product = new Edit();
-                string _sql_com = "SELECT * FROM product WHERE id_dev="+id_dev + " OFFSET  "+(numb_page)*3 +" limit 3";
-                you_product = ShowPage.TakePages("product WHERE id_dev="+id_dev, _sql_com, numb_page,3);
+            string _sql_com = "SELECT * FROM product WHERE id_dev="+id_dev + " OFFSET  "+(numb_page)*3 +" limit 3";
+            you_product = ShowPage.TakePages("product WHERE id_dev="+id_dev, _sql_com, numb_page,3);
 
-                ViewBag.You_product = you_product;
+            ViewBag.You_product = you_product;
+            List<string> translate_words = Language_Settings.GetWords(1);
+            ViewBag.Translate_words = translate_words;
             return View();
 
         }
@@ -198,6 +204,8 @@ namespace SoftSpace_web.Controllers
             addDLC.id_product = id_product;
             addDLC.dlcs = your_dlcs;
             ViewBag.AddDLC = addDLC;
+            List<string> translate_words = Language_Settings.GetWords(1);
+            ViewBag.Translate_words = translate_words;
             return View();
         }
 
@@ -205,6 +213,7 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddEvent_view (int id_product)
         {
+            
             return View(id_product);
         }
         
