@@ -220,7 +220,7 @@ namespace SoftSpace_web.Controllers
         }
 
 
-        public IActionResult Library()
+        public IActionResult Library()//pagination need 
         {
 
             List<List<string>> tmp_data = new List<List<string>>();
@@ -283,7 +283,8 @@ namespace SoftSpace_web.Controllers
                 if(tmp_data.Count < 1)
                 {
                 DbConfig.UseSqlCommand("INSERT INTO  library( id_user, id_deal_product )"+
-                        "  VALUES ( "+id_user+", "+_id_deal_product+")");
+                        "  VALUES ( "+id_user+", "+_id_deal_product+")");  // here need delete product from baggadge
+                DbConfig.UseSqlCommand("DELETE FROM baggage WHERE id_deal_product = " + _id_deal_product);
                 }
                 else 
                 {
@@ -297,11 +298,50 @@ namespace SoftSpace_web.Controllers
                         new { controller = "User", action = "Library"} ));
         }
 
+
+        public IActionResult YourSubscriptions(int numb_page = 0)
+        {
+            Console.WriteLine(numb_page + " -------------------------------- ");
+            Screening sr = new Screening();
+            string login = HttpContext.Session.GetString("login");
+            
+            List<List<string >> tmp_data = new List<List<string>>();
+            if(string.IsNullOrEmpty( login))
+            {
+                return RedirectToAction("Autorisation", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+            }
+            else
+            {
+               
+                tmp_data.Clear();
+                DbConfig.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
+
+                int id_user = Convert.ToInt32(tmp_data[0][0]);
+                tmp_data.Clear();
+
+                Edit subs = new Edit();
+                string _sql_com =  "SELECT  type_of_subscription.name, developers.name_of_company, date_begin, date_end "+
+                    " FROM subscription_on_dev inner join type_of_subscription "+
+                        " on subscription_on_dev.id_type = type_of_subscription.id "+
+                        " inner join developers on subscription_on_dev.id_dev = developers.id " +
+                    " WHERE subscription_on_dev.id_user = " + id_user +" OFFSET  "+(numb_page)*12 +" limit 12";
+                
+                subs = ShowPage.TakePages("subscription_on_dev WHERE id_user =" + id_user, _sql_com, numb_page, 12);
+
+            
+                ViewBag.Subs = subs;
+                List<string> translate_words = Language_Settings.GetWords(1);
+                ViewBag.Translate_words  = translate_words;
+                
+                return View();
+            }
+        }
         
-        public IActionResult Baggage()
+        public IActionResult Baggage()//need pagination
         {
             Screening sr = new Screening();
-             string login = HttpContext.Session.GetString("login");
+            string login = HttpContext.Session.GetString("login");
             Cart cart = new Cart();
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
@@ -317,7 +357,8 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
                 DbConfig.UseSqlCommand("select deal_product.id, product.name, product.description, developers.name_of_company, deal.date_deal " +
-                                       "  from deal inner join deal_product on deal.id = deal_product.id_deal " +
+                                       "   from baggage inner join deal_product on baggage.id_deal_product = deal_product.id " +
+                                                    " inner join deal on deal_product.id_deal = deal.id " + 
 		                                            " inner join product on deal_product.id_product = product.id " +
 		                                            " inner join developers on product.id_dev = developers.id " +
 	                                   " WHERE deal.id_user = " + id_user, tmp_data);
@@ -356,7 +397,7 @@ namespace SoftSpace_web.Controllers
                 tmp_data.Clear();
 
                 DbConfig.UseSqlCommand("INSERT INTO subscription_on_dev(id_type, id_dev,id_user, date_begin, date_end) "+
-	            " VALUES ( "+id_type_sub+", "+id_dev+","+id_user+", now(), now())"); //XXXX
+	            " VALUES ( "+id_type_sub+", "+id_dev+","+id_user+", now(), now())");
 
                 return RedirectToAction("Index", new RouteValueDictionary( 
                                 new { controller = "Home", action = "Index"} ));

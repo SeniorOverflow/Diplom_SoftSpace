@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj": {}
+    "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj": {}
   },
   "projects": {
-    "d:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj": {
+    "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
+        "projectUniqueName": "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
         "projectName": "SoftSpace_web",
-        "projectPath": "d:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
+        "projectPath": "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
         "packagesPath": "C:\\Users\\DonEn\\.nuget\\packages\\",
-        "outputPath": "d:\\diploma_project_here\\SoftSpace_web\\obj\\",
+        "outputPath": "E:\\diploma_project_here\\SoftSpace_web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\ProgramData\\Xamarin\\NuGet\\",

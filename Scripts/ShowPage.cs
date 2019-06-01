@@ -12,7 +12,7 @@ namespace  SoftSpace_web.Script
             Edit edit = new Edit();
             List<List<string>> tmp_data = new List<List<string>>();
             DbConfig.UseSqlCommand("SELECT count(id) from  " + name_table, tmp_data);
-                
+            Console.WriteLine(numb_page + " - " + name_table);
             if(tmp_data.Count > 0)
             {
                 edit.count_pages = Convert.ToInt32(tmp_data[0][0]) / count_items_on_page;

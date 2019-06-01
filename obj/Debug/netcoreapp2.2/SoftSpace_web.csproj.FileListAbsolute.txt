@@ -166,3 +166,4 @@ E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\D
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\SubToDev_View.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\ShowUsers.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\ShowUsers.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\YourSubscriptions.g.cshtml.cs
