@@ -31,19 +31,14 @@ namespace SoftSpace_web.Models
                 foreach(List<string>product_price in tmp_data_price)
                 {
                     _price += Convert.ToDouble(product_price[0]);
-                     Console.WriteLine( _price);
+                    
 
                 }
             }
 
-            if(_price > 5000)
-            {
-                _price -=  _price * discount/100; 
-            }
-
-            
+           
             this.total_price = _price;
-            Console.WriteLine( this.total_price);
+           
 
         }
 

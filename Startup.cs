@@ -37,6 +37,7 @@ namespace SoftSpace_web
                DbConfig.SetStringConnection(Configuration.GetConnectionString("Connection"));
                DbConfig.OpenConnection();
                Language_Settings.Initialization();
+               ICOP.Initialization();
             });
             services.AddDistributedMemoryCache();
 

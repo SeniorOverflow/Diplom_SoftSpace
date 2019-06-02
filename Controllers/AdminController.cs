@@ -69,8 +69,8 @@ namespace SoftSpace_web.Controllers
             {
                
                 Edit dev = new Edit();
-                string _sql_com = "Select id,name_of_company,description,mail,phone,score from developers OFFSET  "+(numb_page)*12 +" limit 12";
-                dev = ShowPage.TakePages("developers",_sql_com,numb_page,12);
+                string _sql_com = "Select id,name_of_company,description,mail,phone,score from developers OFFSET  "+(numb_page)*ICOP.a_dev +" limit " + ICOP.a_dev;
+                dev = ShowPage.TakePages("developers",_sql_com,numb_page,ICOP.a_dev);
 
                 ViewBag.Devs = dev;
                 List<string> translate_words = Language_Settings.GetWords(1);
@@ -99,8 +99,8 @@ namespace SoftSpace_web.Controllers
             else
             {
                 Edit users = new Edit();
-                string _sql_com = "Select id,login,mail,lvl,score, bonus_score FROM users OFFSET  "+(numb_page)*12 +" limit 12" ;
-                users = ShowPage.TakePages("users",_sql_com,numb_page,12);
+                string _sql_com = "Select id,login,mail,lvl,score, bonus_score FROM users OFFSET  "+(numb_page)*ICOP.a_users +" limit "+ICOP.a_users ;
+                users = ShowPage.TakePages("users",_sql_com,numb_page,ICOP.a_users);
                 
                 
 
@@ -128,8 +128,8 @@ namespace SoftSpace_web.Controllers
                 Edit comments = new Edit();
 
                 string _sql_com = "SELECT review.id, login, comment_to_product, assessment "+
-                    "FROM users INNER JOIN review ON users.id = review.id_user OFFSET  "+(numb_page)*12 +" limit 12";
-                comments = ShowPage.TakePages("review",_sql_com,numb_page,12);
+                    "FROM users INNER JOIN review ON users.id = review.id_user OFFSET  "+(numb_page)*ICOP.a_reviews +" limit "+ICOP.a_reviews;
+                comments = ShowPage.TakePages("review",_sql_com,numb_page,ICOP.a_reviews);
 
                 ViewBag.Comments = comments;
                 List<string> translate_words = Language_Settings.GetWords(1);
@@ -213,9 +213,9 @@ namespace SoftSpace_web.Controllers
                 Edit product = new Edit();
                 string _sql_com = "SELECT product.id , product.name , name_of_company, category.name "+
 	                                    "FROM product inner join developers on product.id_dev = developers.id "+
-		                                "inner join category on product.id_category = category.id OFFSET  "+(numb_page)*12 +" limit 12" ;
+		                                "inner join category on product.id_category = category.id OFFSET  "+(numb_page)*ICOP.a_products +" limit "+ICOP.a_products ;
                  
-                product = ShowPage.TakePages("product",_sql_com,numb_page,12);
+                product = ShowPage.TakePages("product",_sql_com,numb_page,ICOP.a_products);
                 
                 
 
@@ -375,9 +375,9 @@ namespace SoftSpace_web.Controllers
             else
             {
                 Edit category = new Edit();
-                string _sql_com = "select * from category OFFSET "+(numb_page)*12 +" limit 12" ;
+                string _sql_com = "select * from category OFFSET "+(numb_page)*ICOP.a_category +" limit "+ICOP.a_category ;
                  
-                category = ShowPage.TakePages("category",_sql_com,numb_page,12);
+                category = ShowPage.TakePages("category",_sql_com,numb_page,ICOP.a_category);
                 
                 ViewBag.Categories = category;
                 List<string> translate_words = Language_Settings.GetWords(1);
@@ -400,9 +400,9 @@ namespace SoftSpace_web.Controllers
                 string _sql_com = "select subscription_on_dev.id, users.login,type_of_subscription.name,type_of_subscription.price,developers.name_of_company,subscription_on_dev.date_end "+
                     " from subscription_on_dev inner join users on  subscription_on_dev.id_user = users.id "+
                     "                          inner join type_of_subscription on subscription_on_dev.id_type  = type_of_subscription.id "+
-                    "                          inner join developers on subscription_on_dev.id_dev = developers.id   OFFSET "+(numb_page)*12 +" limit 12" ;
+                    "                          inner join developers on subscription_on_dev.id_dev = developers.id   OFFSET "+(numb_page)*ICOP.a_sub +" limit "+ICOP.a_sub ;
                  
-                sub = ShowPage.TakePages("subscription_on_dev",_sql_com,numb_page,12);
+                sub = ShowPage.TakePages("subscription_on_dev",_sql_com,numb_page,ICOP.a_sub);
                 
                 
 
@@ -423,9 +423,9 @@ namespace SoftSpace_web.Controllers
             else
             {
                 Edit sub = new Edit();
-                string _sql_com = "select * from type_of_subscription OFFSET "+(numb_page)*12 +" limit 12" ;
+                string _sql_com = "select * from type_of_subscription OFFSET "+(numb_page)*ICOP.a_type_sub +" limit "+ICOP.a_type_sub ;
                  
-                sub = ShowPage.TakePages("type_of_subscription",_sql_com,numb_page,12);
+                sub = ShowPage.TakePages("type_of_subscription",_sql_com,numb_page,ICOP.a_type_sub);
                 
                 ViewBag.Sub = sub;
                 List<string> translate_words = Language_Settings.GetWords(1);
@@ -568,9 +568,9 @@ namespace SoftSpace_web.Controllers
                
                 Edit transaction = new Edit();
                 string _sql_com = "SELECT deal.id, users.login, date_deal,total_price"+
-                " FROM deal inner join users on deal.id_user = users.id OFFSET "+(numb_page)*12 +" limit 12" ;
+                " FROM deal inner join users on deal.id_user = users.id OFFSET "+(numb_page)*ICOP.a_trans +" limit "+ICOP.a_trans ;
                  
-                transaction = ShowPage.TakePages("deal",_sql_com,numb_page,12);
+                transaction = ShowPage.TakePages("deal",_sql_com,numb_page,ICOP.a_trans);
                 
                 
 
@@ -607,9 +607,9 @@ namespace SoftSpace_web.Controllers
             {
                 
                 Edit roles = new Edit();
-                string _sql_com = "SELECT * from roles OFFSET "+(numb_page)*12 +" limit 12" ;
+                string _sql_com = "SELECT * from roles OFFSET "+(numb_page)*ICOP.a_roles +" limit "+ICOP.a_roles ;
                  
-                roles = ShowPage.TakePages("roles",_sql_com,numb_page,12);
+                roles = ShowPage.TakePages("roles",_sql_com,numb_page,ICOP.a_roles);
                 
                 ViewBag.Roles = roles;
                 List<string> translate_words = Language_Settings.GetWords(1);

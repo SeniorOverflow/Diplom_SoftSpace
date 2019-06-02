@@ -96,7 +96,7 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{"Subscribe","Подписаться"} );                          //84
             words_array.Add(new List<string>{"Name of sub","Название подписки"} );                  //85
             words_array.Add(new List<string>{"Date End"," Дата окончания"} );                       //86
-            words_array.Add(new List<string>{"",""} );                                              //87
+            words_array.Add(new List<string>{"Count days","кол-во дней"} );                         //87
             words_array.Add(new List<string>{"",""} );                                              //88
             words_array.Add(new List<string>{"",""} );                                              //89
                                              

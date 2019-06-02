@@ -7,7 +7,11 @@
     <h3>Name Your Product</h3><br>
     <input type="text" name="name"><br>
     <h3>Price Your Product</h3><br>
-    <input type="number" name="price"><br>
+   
+    <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number"  class="form-control" name="price"  value="0.00" step="0.01">
+    </div>
     
     <select name="id_category">
     @foreach (var item in ViewBag.List_category)

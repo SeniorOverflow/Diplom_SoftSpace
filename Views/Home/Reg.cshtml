@@ -20,6 +20,10 @@
     {
         <p>Введите правельно  E-mail</p>
     }
+@if(Model == 5)
+    {
+        <p>Пароль должен быть больше 8 символов </p>
+    }
 
 <form method="post" asp-controller="Home" asp-action="Reg">
 

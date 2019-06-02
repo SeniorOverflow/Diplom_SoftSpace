@@ -20,11 +20,16 @@ namespace SoftSpace_web.Controllers
         public IActionResult Index()
         {
             Screening sr = new Screening();
+            List<List<string>> tmp_data = new List<List<string>>();
+            DbConfig.UseSqlCommand("SELECT id from users WHERE login= "+
+            sr.GetScr()+HttpContext.Session.GetString("login")+sr.GetScr(),tmp_data);
+            int id_user = Convert.ToInt32( tmp_data[0][0]);
+
             List<List<string>> tmp_dev = new List<List<string>>();
-            DbConfig.UseSqlCommand("SELECT id_dev,name_of_company FROM users "+ 
+            DbConfig.UseSqlCommand("SELECT developers.id,developers.name_of_company,developers.score FROM users "+ 
                     " inner join user_dev on users.id = user_dev.id_user "+ 
                     " inner join developers on user_dev.id_dev =  developers.id "+
-                    " WHERE users.login = "+sr.GetScr()+HttpContext.Session.GetString("login")+sr.GetScr() ,tmp_dev);
+                    " WHERE users.id = "+sr.GetScr()+ id_user +sr.GetScr() ,tmp_dev);
 
             ViewBag.DesDev = tmp_dev;
             List<string> translate_words = Language_Settings.GetWords(1);
@@ -56,27 +61,50 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddDev(string name)
         {
+            double price_for_open_dev = 1500;
             List<List<string>> tmp_data = new List<List<string>>();
             Screening sr = new Screening();
-                    DbConfig.UseSqlCommand("INSERT INTO developers (name_of_company)"
-                                        +"VALUES("+sr.GetScr()+name+sr.GetScr()+")");
 
-                    DbConfig.UseSqlCommand("SELECT id from developers WHERE name_of_company= "+sr.GetScr()+name
-                                        +sr.GetScr(),tmp_data);
-                    int id_dev = Convert.ToInt32( tmp_data[0][0]);
-                    tmp_data.Clear();
+            DbConfig.UseSqlCommand("SELECT id from users WHERE login= "+
+            sr.GetScr()+HttpContext.Session.GetString("login")+sr.GetScr(),tmp_data);
+            int id_user = Convert.ToInt32( tmp_data[0][0]);
 
-                    DbConfig.UseSqlCommand("SELECT id from users WHERE login= "+
-                            sr.GetScr()+HttpContext.Session.GetString("login")+sr.GetScr(),tmp_data);
-                    int id_user = Convert.ToInt32( tmp_data[0][0]);
-                    tmp_data.Clear();
+            List<List<string>> tmp_user_score = new List<List<string>>();
+            DbConfig.UseSqlCommand("SELECT score from users WHERE users.id = " + id_user,tmp_user_score);
 
-                    DbConfig.UseSqlCommand("INSERT INTO user_dev (id_user,id_dev) "
-                                        +" VALUES("+id_user+","+id_dev+")");
+            double u_score = Convert.ToDouble(tmp_user_score[0][0]);
 
-                   
-             return RedirectToAction("Index", new RouteValueDictionary( 
-                                new { controller = "Home", action = "Idex"} ));
+            if(u_score -  price_for_open_dev > 0)
+            {
+            
+                DbConfig.UseSqlCommand("UPDATE users set score= score - " + price_for_open_dev + " WHERE users.id =" + id_user);
+
+                DbConfig.UseSqlCommand("INSERT INTO deal (id_user, date_deal, total_price) "+
+                                            " VALUES ("+id_user+", now(), "+price_for_open_dev+")");
+                
+
+                DbConfig.UseSqlCommand("INSERT INTO developers (name_of_company)"+
+                                    "VALUES("+sr.GetScr()+name+sr.GetScr()+")");
+                tmp_data.Clear();
+                DbConfig.UseSqlCommand("SELECT developers.id from developers WHERE name_of_company = "+sr.GetScr()+name +sr.GetScr(),tmp_data);
+
+                int id_dev = Convert.ToInt32( tmp_data[0][0]);
+                Console.WriteLine("Тут ид компании "+id_dev + " - user id = " + id_user);
+                tmp_data.Clear();
+
+                DbConfig.UseSqlCommand("INSERT INTO user_dev (id_user,id_dev) "+
+                                    " VALUES("+id_user+","+id_dev+")");
+
+                    
+                return RedirectToAction("Index", new RouteValueDictionary( 
+                                    new { controller = "Dev", action = "Idex"} ));
+            }
+            else
+            {
+                 return RedirectToAction("Profile", new RouteValueDictionary( 
+                                new { controller = "User", action = "Profile"} ));
+
+            }
         }
 
         [HttpPost]
@@ -116,7 +144,7 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddProduct(string name , double price,   int type_product = 0, int id_category = 1)
+        public IActionResult AddProduct(string name , string price ,   int type_product = 0, int id_category = 1)
         {
             Screening sr = new Screening();
             List<List<string>> tmp_dev = new List<List<string>>();
@@ -127,19 +155,22 @@ namespace SoftSpace_web.Controllers
             
             if(tmp_dev.Count>0)
             {
+                string _price = "" + price;
+                _price = _price.Replace(',','.');
+                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++" +_price + "  " , price);
                 int id_dev = Convert.ToInt32(tmp_dev[0][0]);
                 bool is_dlc = false ;
                 if (type_product == 1)
                 {
                     is_dlc = true;
                 }
-                DbConfig.UseSqlCommand("INSERT INTO public.product("+
+                DbConfig.UseSqlCommand("INSERT INTO product("+
 	            "name,id_dev, id_category, price,is_dlc)"+
-	            "VALUES ("+sr.GetScr()+name+sr.GetScr()+","+id_dev+","+id_category+","+price+" , "+is_dlc + ")");
+	            "VALUES ("+sr.GetScr()+name+sr.GetScr()+","+id_dev+","+id_category+","+_price+" , "+is_dlc + ")");
             }
 
-            return RedirectToAction("Index", new RouteValueDictionary( 
-                                new { controller = "Home", action = "Index"} ));
+            return RedirectToAction("YourProducts", new RouteValueDictionary( 
+                                new { controller = "Dev", action = "YourProducts"} ));
         }
 
         [HttpPost]
@@ -176,8 +207,8 @@ namespace SoftSpace_web.Controllers
             int id_dev = Convert.ToInt32(tmp_dev[0][0]);
 
             Edit you_product = new Edit();
-            string _sql_com = "SELECT * FROM product WHERE id_dev="+id_dev + " OFFSET  "+(numb_page)*3 +" limit 3";
-            you_product = ShowPage.TakePages("product WHERE id_dev="+id_dev, _sql_com, numb_page,3);
+            string _sql_com = "SELECT * FROM product WHERE id_dev="+id_dev + " OFFSET  "+(numb_page)*ICOP.your_p +" limit "+ICOP.your_p;
+            you_product = ShowPage.TakePages("product WHERE id_dev="+id_dev, _sql_com, numb_page,ICOP.your_p);
 
             ViewBag.You_product = you_product;
             List<string> translate_words = Language_Settings.GetWords(1);

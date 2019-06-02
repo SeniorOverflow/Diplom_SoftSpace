@@ -46,11 +46,11 @@
 @foreach( var a in @ViewBag.Roles.list) 
 {
   string id_this = "a"+@a[0];
-  <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Вы точно хотите удалить  @a[1] ?</h5>
+          <h5 class="modal-title" id="ModalLabel">Вы точно хотите удалить  @a[1] ?</h5>
 
         </div>
         
@@ -68,7 +68,7 @@
     </div>
   </div>
 
-   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
+  
   
 
 

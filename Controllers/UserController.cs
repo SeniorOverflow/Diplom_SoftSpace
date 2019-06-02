@@ -87,54 +87,76 @@ namespace SoftSpace_web.Controllers
              cart.Set_Price();
              double total_price = cart.Get_TotalPrice();
 
-             long _total_price = Convert.ToInt64(total_price);
+             string str_price = ""+ total_price;
+             str_price = str_price.Replace(',','.');
             
-            Console.WriteLine("All fine ^_^ " + _total_price);
+            Console.WriteLine("All fine ^______________________^ " + str_price);
 
+            List<List<string>> tmp_user_score = new List<List<string>>();
+            DbConfig.UseSqlCommand("SELECT score from users WHERE users.id = " + cart.id_user,tmp_user_score);
 
-            DbConfig.UseSqlCommand("INSERT INTO deal (id_user, date_deal, total_price) "+
-	                                       " VALUES ("+cart.id_user+", now(), "+_total_price+")");
+            double u_score = Convert.ToDouble(tmp_user_score[0][0]);
 
- 
-            
+            if(u_score -  total_price > 0)
+            {
+                DbConfig.UseSqlCommand("UPDATE users set score = score - " + str_price + "WHERE users.id = " + cart.id_user);
 
-             List<List<string>> tmp_data = new List<List<string>>();
+                DbConfig.UseSqlCommand("INSERT INTO deal (id_user, date_deal, total_price) "+
+                                            " VALUES ("+cart.id_user+", now(), "+str_price+")");
 
+                List<List<string>> tmp_data = new List<List<string>>();
 
-             DbConfig.UseSqlCommand(" select  id   from deal " +
-                                    "where id_user = " + cart.id_user + 
-                                    " order by id  desc  LIMIT 1 ",tmp_data);
-            int id_deal = Convert.ToInt32(tmp_data[0][0]);
-            tmp_data.Clear();
-            Console.WriteLine(id_deal);
+                DbConfig.UseSqlCommand(" select  id   from deal " +
+                                        "where id_user = " + cart.id_user + 
+                                        " order by id  desc  LIMIT 1 ",tmp_data);
 
-             DbConfig.UseSqlCommand("select shopping_cart.id_product,shopping_cart.count,product.price"+
-	                                         " from shopping_cart  inner join product on shopping_cart.id_product = product.id " +
-	                                         " where shopping_cart.id_user = " + _id_user,tmp_data);
+                int id_deal = Convert.ToInt32(tmp_data[0][0]);
+                tmp_data.Clear();
+                Console.WriteLine(id_deal);
 
-                foreach(List<string> item in tmp_data)
-                {
-                    int id_product = Convert.ToInt32(item[0]);
-                    int count = Convert.ToInt32(item[1]);
-                    double price = Convert.ToDouble(item[2]);
-                    DbConfig.UseSqlCommand("INSERT INTO deal_product(id_deal, id_product, count, price)"+
-	                                      "       VALUES ( "+id_deal+", "+id_product+","+count+", "+price+")");
+                DbConfig.UseSqlCommand("select shopping_cart.id_product,shopping_cart.count,product.price"+
+                                                " from shopping_cart  inner join product on shopping_cart.id_product = product.id " +
+                                                " where shopping_cart.id_user = " + _id_user,tmp_data);
 
-                    List<List<string>> tmp_this_deal_product = new List<List<string>>();
-                    DbConfig.UseSqlCommand(" select  deal_product.id   from deal_product " +
-                                    " where id_deal = " + id_deal+ 
-                                    " order by id  desc  LIMIT 1 ",tmp_this_deal_product);
+                    foreach(List<string> item in tmp_data)
+                    {
+                        int id_product = Convert.ToInt32(item[0]);
+                        int count = Convert.ToInt32(item[1]);
+                        string price = item[2].Replace(',','.');
+                        DbConfig.UseSqlCommand("INSERT INTO deal_product(id_deal, id_product, count, price)"+
+                                            "       VALUES ( "+id_deal+", "+id_product+","+count+", "+price+")");
 
-                    int deal_product = Convert.ToInt32(tmp_this_deal_product[0][0]);
-                    DbConfig.UseSqlCommand("INSERT INTO baggage(id_user, id_deal_product)"+
-	                                        "VALUES ("+cart.id_user+", "+deal_product+")");
+                        List<List<string>> tmp_dev = new List<List<string>>();
+                        DbConfig.UseSqlCommand("SELECT developers.id from developers"+
+                                                    " INNER JOIN product on developers.id = product.id_dev"+
+                                                " WHERE product.id = " + id_product,tmp_dev);
+                        int id_dev = Convert.ToInt32(tmp_dev[0][0]);
+                        DbConfig.UseSqlCommand("UPDATE developers SET score = score + " + price);
+                                        
 
-                }
-            
-            DbConfig.UseSqlCommand("DELETE FROM shopping_cart where id_user = " + cart.id_user);
+                        List<List<string>> tmp_this_deal_product = new List<List<string>>();
+                        DbConfig.UseSqlCommand(" select  deal_product.id   from deal_product " +
+                                        " where id_deal = " + id_deal+ 
+                                        " order by id  desc  LIMIT 1 ",tmp_this_deal_product);
 
-            return RedirectToAction("Index", new RouteValueDictionary( 
+                        int deal_product = Convert.ToInt32(tmp_this_deal_product[0][0]);
+                        DbConfig.UseSqlCommand("INSERT INTO baggage(id_user, id_deal_product)"+
+                                                "VALUES ("+cart.id_user+", "+deal_product+")");
+
+                    }
+                
+                DbConfig.UseSqlCommand("DELETE FROM shopping_cart where id_user = " + cart.id_user);
+
+                return RedirectToAction("Index", new RouteValueDictionary( 
+                            new { controller = "Home", action = "Index"} ));
+
+            }
+            else 
+            {
+                return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
+
+            }
         }
        
 
@@ -396,11 +418,65 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
 
+                List<List<string>> tmp_user_score = new List<List<string>>();
+                DbConfig.UseSqlCommand("SELECT score from users WHERE users.id = " + id_user,tmp_user_score);
+                double u_score = Convert.ToDouble(tmp_user_score[0][0]);
+
+                tmp_data.Clear();
+
+                
+
+                DbConfig.UseSqlCommand("SELECT price from type_of_subscription WHERE type_of_subscription.id =" + id_type_sub, tmp_data);
+
+                 double price_sub = Convert.ToDouble(tmp_data[0][0]);
+
+                if(u_score - price_sub  > 0)
+             {
+
+                tmp_data.Clear();
+                string _price_sub = "" + price_sub;
+                _price_sub = _price_sub.Replace(',','.');
+
+
+                DbConfig.UseSqlCommand("UPDATE users set score= score - " + _price_sub + " WHERE users.id =" + id_user);
+                DbConfig.UseSqlCommand("UPDATE developers SET score = score + " + _price_sub);
+                DbConfig.UseSqlCommand("INSERT INTO deal (id_user, date_deal, total_price) "+
+                                            " VALUES ("+id_user+", now(), "+_price_sub+")");
+                
+
+                DbConfig.UseSqlCommand("SELECT date_end FROM subscription_on_dev " +
+	                                    "WHERE   id = "+
+                                        " (SELECT MAX(id) FROM subscription_on_dev "+
+                                                " WHERE id_user = "+id_user+" AND id_dev = "+id_dev+" )",tmp_data);
+                string last_date_end = "";
+                if(tmp_data.Count > 0)
+                {
+                    last_date_end = tmp_data[0][0];
+                   
+                }
+                tmp_data.Clear();
+                DbConfig.UseSqlCommand("SELECT count_days from type_of_subscription WHERE id=" +id_type_sub,tmp_data );
+
+                int count_days = Convert.ToInt32(tmp_data[0][0]);
+
+                Sub_Date_Seting set_date = new Sub_Date_Seting(last_date_end,count_days);
+
+                string date_begin = set_date.GetDate_Begin();
+                string date_end = set_date.GetDate_End();
+
                 DbConfig.UseSqlCommand("INSERT INTO subscription_on_dev(id_type, id_dev,id_user, date_begin, date_end) "+
-	            " VALUES ( "+id_type_sub+", "+id_dev+","+id_user+", now(), now())");
+	            " VALUES ( "+id_type_sub+", "+id_dev+","+id_user+", '"+date_begin+"', '"+date_end+"')");
 
                 return RedirectToAction("Index", new RouteValueDictionary( 
                                 new { controller = "Home", action = "Index"} ));
+             }
+             else
+             {
+
+             
+                 return RedirectToAction("Index", new RouteValueDictionary( 
+                         new { controller = "Home", action = "Index"} ));
+             }
             }
         }
         public IActionResult ShowUsers(int numb_page = 0)

@@ -49,15 +49,15 @@ namespace SoftSpace_web.Controllers
             DbConfig.UseSqlCommand("SELECT count(id) from product ", tmp_data);
             if(tmp_data.Count > 0)
             {
-                page.count_pages = Convert.ToInt32(tmp_data[0][0]) / 12;
+                page.count_pages = Convert.ToInt32(tmp_data[0][0]) / ICOP.main;
                 int items = Convert.ToInt32(tmp_data[0][0]);
-                if((items % 12 != 0)&&(items > 12))
+                if((items % ICOP.main != 0)&&(items > ICOP.main))
                 {
                    page.count_pages++;
                 }
             }
            
-            DbConfig.UseSqlCommand("SELECT * FROM product  where is_dlc = false  OFFSET  "+(numb_page)*12 +" limit 12",page.new_product);
+            DbConfig.UseSqlCommand("SELECT * FROM product  where is_dlc = false  OFFSET  "+(numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
             page.currect_number = numb_page;
             ViewBag.Page = page;
             List<string> words_translate = Language_Settings.GetWords(1);
@@ -111,44 +111,51 @@ namespace SoftSpace_web.Controllers
                 return RedirectToAction("Reg",new {type  = 1});
             else
                 {
-                    Screening sr = new Screening();
-                    List<List<string>> tmp1 = new List<List<string>>();
-                    DbConfig.UseSqlCommand("Select id FROM users WHERE login =lower("+sr.GetScr()+_login+sr.GetScr()+")" ,tmp1);
-
-                    if(tmp1.Count == 0)
+                    if( _password.Length > 8)
                     {
-                     Regex ex = new Regex("^[0-9A-Za-z]{1}[0-9A-Za-z_-]*@{1}[A-Za-z]+[.][A-Za-z]+$");
-                     if(ex.IsMatch(_mail))
-                     {
-                         Console.WriteLine("Plus + + +");
+                        Screening sr = new Screening();
+                        List<List<string>> tmp1 = new List<List<string>>();
+                        DbConfig.UseSqlCommand("Select id FROM users WHERE login =lower("+sr.GetScr()+_login+sr.GetScr()+")" ,tmp1);
 
-                         tmp1.Clear();
-                         DbConfig.UseSqlCommand("select id FROM users  where mail="+sr.GetScr()+_mail +sr.GetScr(),tmp1);
+                        if(tmp1.Count == 0)
+                        {
+                        Regex ex = new Regex("^[0-9A-Za-z]{1}[0-9A-Za-z_-]*@{1}[A-Za-z]+[.][A-Za-z]+$");
+                        if(ex.IsMatch(_mail))
+                        {
+                            Console.WriteLine("Plus + + +");
 
-                         if(tmp1.Count != 0)
-                         {
-                             return RedirectToAction("Reg",new {type  = 3});
-                         }
-                     }
-                     else
-                     {
-                         Console.WriteLine("Minus - - - ");
+                            tmp1.Clear();
+                            DbConfig.UseSqlCommand("select id FROM users  where mail="+sr.GetScr()+_mail +sr.GetScr(),tmp1);
 
-                        return RedirectToAction("Reg",new {type  = 4});
-                     }
-                    List<List<string>> tmp = new List<List<string>>();
-                    
-                    Console.WriteLine( sr.GetScr());
-                    DbConfig.UseSqlCommand("INSERT INTO users(mail,login,password) " +
-                                                    " VALUES "+
-                                                    "       (" +sr.GetScr()+_mail     +sr.GetScr()+
-                                                    " ,lower(" +sr.GetScr()+_login    +sr.GetScr()+ 
-                                                    "),crypt(" +sr.GetScr()+_password +sr.GetScr()+", gen_salt('bf', 8)));",tmp);
+                            if(tmp1.Count != 0)
+                            {
+                                return RedirectToAction("Reg",new {type  = 3});
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Minus - - - ");
 
-                    return RedirectToAction("Autorisation", new{ex  = 3});
+                            return RedirectToAction("Reg",new {type  = 4});
+                        }
+                        List<List<string>> tmp = new List<List<string>>();
+                        
+                        Console.WriteLine( sr.GetScr());
+                        DbConfig.UseSqlCommand("INSERT INTO users(mail,login,password) " +
+                                                        " VALUES "+
+                                                        "       (" +sr.GetScr()+_mail     +sr.GetScr()+
+                                                        " ,lower(" +sr.GetScr()+_login    +sr.GetScr()+ 
+                                                        "),crypt(" +sr.GetScr()+_password +sr.GetScr()+", gen_salt('bf', 8)));",tmp);
+
+                        return RedirectToAction("Autorisation", new{ex  = 3});
+                        }
+                        else
+                            return RedirectToAction("Reg",new {type  = 2});
+
                     }
                     else
-                        return RedirectToAction("Reg",new {type  = 2});
+                        return RedirectToAction("Reg",new {type  = 5});
+
                 }
         }
 
