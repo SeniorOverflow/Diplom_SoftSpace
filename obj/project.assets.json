@@ -3243,6 +3243,25 @@
           "ref/netstandard1.5/System.Diagnostics.Tracing.dll": {}
         }
       },
+      "System.Drawing.Common/4.5.0-preview1-25718-03": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0"
+        },
+        "compile": {
+          "ref/netcoreapp2.0/System.Drawing.Common.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "System.Dynamic.Runtime/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -8620,6 +8639,24 @@
         "system.diagnostics.tracing.nuspec"
       ]
     },
+    "System.Drawing.Common/4.5.0-preview1-25718-03": {
+      "sha512": "LqnS1oesMxiig9qtw9fy9agg60dX71ywZ+DzDwbp4ktdMcos9fgwWO/J9XAuPdjcOfZvaDBWzzYvdSrVDHUU0A==",
+      "type": "package",
+      "path": "system.drawing.common/4.5.0-preview1-25718-03",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "ref/netcoreapp2.0/System.Drawing.Common.dll",
+        "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll",
+        "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll",
+        "system.drawing.common.4.5.0-preview1-25718-03.nupkg.sha512",
+        "system.drawing.common.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Dynamic.Runtime/4.3.0": {
       "sha512": "SNVi1E/vfWUAs/WYKhE9+qlS6KqK0YVhnlT0HQtr8pMIA8YX3lwy3uPMownDwdYISBdmAF/2holEIldVp85Wag==",
       "type": "package",
@@ -12159,7 +12196,8 @@
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 2.2.0-preview1"
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 2.2.0-preview1",
+      "System.Drawing.Common >= 4.5.0-preview1-25718-03"
     ]
   },
   "packageFolders": {
@@ -12170,11 +12208,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
+      "projectUniqueName": "e:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
       "projectName": "SoftSpace_web",
-      "projectPath": "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
+      "projectPath": "e:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
       "packagesPath": "C:\\Users\\DonEn\\.nuget\\packages\\",
-      "outputPath": "E:\\diploma_project_here\\SoftSpace_web\\obj\\",
+      "outputPath": "e:\\diploma_project_here\\SoftSpace_web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\ProgramData\\Xamarin\\NuGet\\",
@@ -12226,6 +12264,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[2.2.0-preview1, )"
+          },
+          "System.Drawing.Common": {
+            "target": "Package",
+            "version": "[4.5.0-preview1-25718-03, )"
           }
         },
         "imports": [

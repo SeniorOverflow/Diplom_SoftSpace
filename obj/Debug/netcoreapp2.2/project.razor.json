@@ -2780,7 +2780,7 @@
     ],
     "CSharpLanguageVersion": 703
   },
-  "RootNamespace": "SoftSpace_web",
+  "RootNamespace": "SoftSpace",
   "Documents": [
     {
       "FilePath": "Views\\User\\YourSubscriptions.cshtml",

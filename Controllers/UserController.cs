@@ -160,7 +160,8 @@ namespace SoftSpace_web.Controllers
         }
        
 
-        
+        //XXXX НУЖНО РАЗДЕЛИТЬ НА МОДУЛЬ АВТОРИЗАЦИИ И НА МОДУЛЬ ПОКАЗА ПРОФИЛЯ 
+        //СРОЧНО !!!!!!!!!!! ЭТО НЕ БЕЗОПАСНО ПРИМИ МЕРЫ ИГОРЬ
         public IActionResult Profile(string login ="", string password ="") 
         {
              if(string.IsNullOrEmpty(login))
@@ -240,6 +241,8 @@ namespace SoftSpace_web.Controllers
                                 new { controller = "Home", action = "Autorisation", ex= 1} ));
             }
         }
+        //XXXX ------------------------------------------------------------------------------------------------------------------------
+        //
 
 
         public IActionResult Library()//pagination need 
@@ -472,8 +475,6 @@ namespace SoftSpace_web.Controllers
              }
              else
              {
-
-             
                  return RedirectToAction("Index", new RouteValueDictionary( 
                          new { controller = "Home", action = "Index"} ));
              }
@@ -481,7 +482,7 @@ namespace SoftSpace_web.Controllers
         }
         public IActionResult ShowUsers(int numb_page = 0)
         {
-             Screening sr = new Screening();
+            Screening sr = new Screening();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
 
@@ -555,9 +556,31 @@ namespace SoftSpace_web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddFriend()
+        public IActionResult AddRequest(int id_user_add, int numb_page = 0)
         {
-            return View();
+
+            Screening sr = new Screening();
+            string login = HttpContext.Session.GetString("login");
+            List<List<string >> tmp_data = new List<List<string>>();
+
+            if(string.IsNullOrEmpty( login))
+            {
+                return RedirectToAction("Autorisation", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+            }
+            else
+            {
+                tmp_data.Clear();
+                DbConfig.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
+
+                int id_user = Convert.ToInt32(tmp_data[0][0]);
+
+                DbConfig.UseSqlCommand("INSERT INTO public.social_interconnection( "+      
+	                                    "id_user_first, id_user_second, id_social_status) " +
+	                                    "VALUES ("+ id_user+", "+id_user_add+", 1)");
+            }
+             return RedirectToAction("ShowUsers", new RouteValueDictionary( 
+                        new { controller = "User", action = "ShowUsers" , numb_page = numb_page} ));
         }
         public IActionResult SearchPeople()
         {

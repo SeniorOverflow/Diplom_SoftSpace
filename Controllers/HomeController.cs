@@ -9,6 +9,7 @@ using Npgsql;
 using SoftSpace_web.Script;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace SoftSpace_web.Controllers
 {
@@ -64,6 +65,16 @@ namespace SoftSpace_web.Controllers
             ViewBag.Words_translate = words_translate;
             return View();
         }
+
+
+
+        
+
+
+
+
+
+
         [HttpGet]
         public IActionResult Autorisation(int ex = 0)
         {

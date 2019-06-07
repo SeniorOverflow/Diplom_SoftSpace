@@ -54,11 +54,11 @@
   <div class="carousel-inner">
      @foreach( var a in @ViewBag.Page.new_product) 
           {
-            string pic = a[7] + "2.png";
+            string pic = a[7];
             if(is_first)
             {
                 <div class="carousel-item active">
-                  <img src="~/Pictures/@pic" class="d-block w-100" alt="...">
+                  <img src="~/Pictures/@pic" class="d-block w-100 carusel" alt="...">
                   
                   <div class="carousel-caption d-none d-md-block">
                     <h4>@a[1]</h4>
@@ -70,7 +70,7 @@
             else
             {
               <div class="carousel-item ">
-                  <img src="~/Pictures/@pic" class="d-block w-100" alt="...">
+                  <img src="~/Pictures/@pic" class="d-block w-100 carusel" alt="...">
                   <div class="carousel-caption d-none d-md-block">
                     <h4>@a[1]</h4>
                     <h5>@a[5]</h5>
@@ -98,8 +98,8 @@
     <div class="_Cart">
       <div class="card" style="width: 18rem; max-height:400px;">
       @{
-        string pic = @a[7] + ".png";
-        <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+        string pic = @a[7] ;
+        <img src="~/Pictures/@pic" class="card-img-top " style="max-height:200px;" alt="...">
         <div class="card-body">
           <h4 class="card-title">@a[1]</h4>
           <h5 class="card-title">@ViewBag.Words_translate[35]: @a[5]</h5>

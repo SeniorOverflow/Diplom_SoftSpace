@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Routing;
 using SoftSpace_web.Models;
 using SoftSpace_web.Script;
 using System.IO;
-
-
+using System.Drawing;
+using System.Threading;
 
 namespace SoftSpace_web.Controllers
 {
@@ -128,8 +128,31 @@ namespace SoftSpace_web.Controllers
                                 new { controller = "Home", action = "Idex"} ));
         }
         
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+        // [HttpPost]
+        // public async Task<IActionResult> Upload(IFormFile files,int type_op)
+        // {
+
+        //     Console.WriteLine("1 -- -- -- "+ files);
+            
+          
+        //     // full path to file in temp location
+        //     string filePath = "~\Pictures\" + files.FileName;
+            
+            
+            
+                
+        //     Console.WriteLine("2 -- -- -- "+ filePath);
+        //     using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+        //         {
+        //             await files.CopyToAsync(fs);
+        //         }
+
+        //     return Ok(new {  filePath});
+        // }
+
+
+
         public IActionResult AddProduct_View()
         {
             List<List<string>> tmp_data = new List<List<string>>();
@@ -143,9 +166,76 @@ namespace SoftSpace_web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddProduct(string name , string price ,   int type_product = 0, int id_category = 1)
+        
+        public async Task<IActionResult> AddProduct(
+                                        IFormFile u_file,
+                                        string name , 
+                                        string description,
+                                        int id_category ,
+                                        int type_product, 
+                                        string labels,
+                                        string price 
+                                        )
         {
+            string filePath = "";
+                if(u_file.Name != null )
+                {
+                    string [] type = u_file.FileName.Split('.');
+
+                    Console.WriteLine("+_+_+_+_+_+_+_+_+_+_+_+_///|||||\\\\-------"+type[1]);
+                   
+                    
+                    type[1] = type[1].ToUpper();
+                    if(( type[1] == "PNG")||( type[1] == "JPEG")||( type[1] == "JPG"))
+                    {
+                        filePath = "wwwroot\\Pictures\\" + u_file.FileName;
+
+
+                        
+                        Console.WriteLine("2 -- -- -- "+ filePath);
+                        Bitmap myBitmap;
+                        using (Stream  fs = new FileStream(filePath, FileMode.OpenOrCreate))
+                            {
+                                await u_file.CopyToAsync(fs);
+                                Console.WriteLine(fs.Position  + "  ---  - - - -- " +  u_file.Length );
+
+                                while(fs.Position != u_file.Length)
+                                {
+
+                                }
+                                myBitmap = new Bitmap(fs);
+                                Console.WriteLine(myBitmap.Width + " -+_+-" + myBitmap.Height);
+                            }
+                        
+                        
+                        
+                      
+                     
+                        Image img = myBitmap;
+                        int im_w = myBitmap.Width;
+                        int im_h = myBitmap.Height;
+
+                        if(im_w > im_h)
+                        {
+                            im_w = im_h;
+                            im_h = (im_h *9)/10; 
+                        }
+                        else
+                            im_h = (im_w *9)/10;
+
+                        Console.WriteLine(im_w+" - -test-"+im_h);
+                           
+                        
+                        img = img.Crop(new Rectangle(0, 0,  im_w,  im_h));
+                        img.Save(filePath);
+                    }
+                    else
+                    {
+                        return RedirectToAction("YourProducts", new RouteValueDictionary( 
+                                new { controller = "Dev", action = "YourProducts"} ));  // MB need redirect Add_View
+                    }
+                }
+
             Screening sr = new Screening();
             List<List<string>> tmp_dev = new List<List<string>>();
             DbConfig.UseSqlCommand("SELECT id_dev FROM users "+ 
@@ -155,9 +245,14 @@ namespace SoftSpace_web.Controllers
             
             if(tmp_dev.Count>0)
             {
+                
+                    
+                
+               
+              
                 string _price = "" + price;
                 _price = _price.Replace(',','.');
-                Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++" +_price + "  " , price);
+               
                 int id_dev = Convert.ToInt32(tmp_dev[0][0]);
                 bool is_dlc = false ;
                 if (type_product == 1)
@@ -165,8 +260,29 @@ namespace SoftSpace_web.Controllers
                     is_dlc = true;
                 }
                 DbConfig.UseSqlCommand("INSERT INTO product("+
-	            "name,id_dev, id_category, price,is_dlc)"+
-	            "VALUES ("+sr.GetScr()+name+sr.GetScr()+","+id_dev+","+id_category+","+_price+" , "+is_dlc + ")");
+	            "name,description,id_dev, id_category, price,is_dlc, def_picture)"+
+	            "VALUES ("  +sr.GetScr()+name+sr.GetScr()+","+
+                            sr.GetScr()+description+sr.GetScr()+","+
+                            id_dev+","+
+                            id_category+","+
+                            _price+" , "+
+                            is_dlc +", "+ 
+                            sr.GetScr()+u_file.FileName+sr.GetScr()+")");
+
+
+                List<List<string>> tmp_data = new List<List<string>>();
+                DbConfig.UseSqlCommand("SELECT product.id from product WHERE name = " +sr.GetScr()+name+sr.GetScr(),tmp_data);
+                int id_product = Convert.ToInt32(tmp_data[0][0]);
+                string [] array_labels = labels.Split(",");
+                DbConfig.UseSqlCommand("Delete from label_product where id_product = "+id_product );
+                foreach(string a in array_labels)
+                {
+                     DbConfig.UseSqlCommand("INSERT INTO label_product(id_product,label_name) "+
+                     "VALUES ("+id_product+","+sr.GetScr()+a+sr.GetScr()+")");
+                }
+
+                
+                
             }
 
             return RedirectToAction("YourProducts", new RouteValueDictionary( 

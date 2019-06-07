@@ -49,6 +49,8 @@
 
       <td>
            <form method="post" asp-controller="User" asp-action="AddRequest"  class="form_line">
+                    <input type="hidden" name="id_user_add" value="@a[0]"/>
+                    <input type="hidden" name="number_page" value="@this_page"/>
                     <button type="submit"  class="btn btn-primary">Send Request</button>
             </form>
       </td>

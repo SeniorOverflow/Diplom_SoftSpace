@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "aa46298dffeeb9a555555a50364d0cb3bd21caa7"
+    "signature": "a554f5ccef1d1ae7efc5ad68e6a1b391f2c52d8c"
   },
   "compilationOptions": {
     "defines": [
@@ -27,7 +27,8 @@
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "2.2.0-preview1"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "2.2.0-preview1",
+          "System.Drawing.Common": "4.5.0-preview1-25718-03"
         },
         "runtime": {
           "SoftSpace_web.dll": {}
@@ -67,6 +68,28 @@
         },
         "compile": {
           "lib/netstandard2.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {}
+        }
+      },
+      "System.Drawing.Common/4.5.0-preview1-25718-03": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.2.0"
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "rid": "unix",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.25718.3"
+          },
+          "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.25718.3"
+          }
+        },
+        "compile": {
+          "ref/netcoreapp2.0/System.Drawing.Common.dll": {}
         }
       },
       "System.ValueTuple/4.5.0": {},
@@ -3277,6 +3300,13 @@
       "sha512": "sha512-sAd/YR66pX44VBs77Ws/tRnMCVIgu8moVdVUwiTRO/ToMtY5bLkAsDHAmXj+uljQfz8qJjRZMzjqzrVZ0bHXWw==",
       "path": "npgsql.entityframeworkcore.postgresql/2.2.0-preview1",
       "hashPath": "npgsql.entityframeworkcore.postgresql.2.2.0-preview1.nupkg.sha512"
+    },
+    "System.Drawing.Common/4.5.0-preview1-25718-03": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LqnS1oesMxiig9qtw9fy9agg60dX71ywZ+DzDwbp4ktdMcos9fgwWO/J9XAuPdjcOfZvaDBWzzYvdSrVDHUU0A==",
+      "path": "system.drawing.common/4.5.0-preview1-25718-03",
+      "hashPath": "system.drawing.common.4.5.0-preview1-25718-03.nupkg.sha512"
     },
     "System.ValueTuple/4.5.0": {
       "type": "package",

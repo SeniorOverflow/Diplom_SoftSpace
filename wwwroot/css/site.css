@@ -41,9 +41,9 @@ a.navbar-brand {
 }
 .carusel
 {
-  min-width : 90px;
-  width : 900px;
-  max-height: 800px;
+  min-width : 120px;
+  max-width : 600px;
+  max-height: 400px;
   min-height: 80px;
 }
 
