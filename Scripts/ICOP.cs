@@ -22,7 +22,7 @@ namespace  SoftSpace_web.Script
 
       public static void Initialization()
        {
-          main = 9;
+          main = 8;
           your_p = 3;
           a_category  = 6;
           a_users     = 10;

@@ -178,21 +178,23 @@ namespace SoftSpace_web.Controllers
                                         )
         {
             string filePath = "";
+            string file_name="";
                 if(u_file.Name != null )
                 {
                     string [] type = u_file.FileName.Split('.');
 
-                    Console.WriteLine("+_+_+_+_+_+_+_+_+_+_+_+_///|||||\\\\-------"+type[1]);
                    
-                    
                     type[1] = type[1].ToUpper();
                     if(( type[1] == "PNG")||( type[1] == "JPEG")||( type[1] == "JPG"))
                     {
-                        filePath = "wwwroot\\Pictures\\" + u_file.FileName;
+                        string [] type_pic = u_file.FileName.Split('.');
+                        Guid id_pic = Guid.NewGuid();
+                        filePath = "wwwroot\\Pictures\\"+id_pic + "." + type_pic[1];
+                        file_name = ""  +id_pic + "." + type_pic[1];
 
+                       
+                        Console.WriteLine("2 -- -- -- "+ filePath  + " -- " + id_pic );
 
-                        
-                        Console.WriteLine("2 -- -- -- "+ filePath);
                         Bitmap myBitmap;
                         using (Stream  fs = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -267,7 +269,7 @@ namespace SoftSpace_web.Controllers
                             id_category+","+
                             _price+" , "+
                             is_dlc +", "+ 
-                            sr.GetScr()+u_file.FileName+sr.GetScr()+")");
+                            sr.GetScr()+file_name+sr.GetScr()+")");
 
 
                 List<List<string>> tmp_data = new List<List<string>>();
@@ -356,8 +358,7 @@ namespace SoftSpace_web.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult AddEvent_view (int id_product)
         {
             
@@ -487,8 +488,7 @@ namespace SoftSpace_web.Controllers
 
         
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult EditProduct(int id_product)
         {
             Screening sr = new Screening();
@@ -563,7 +563,29 @@ namespace SoftSpace_web.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  IActionResult AddDiscount( int id_product ,int discount, int count_days , int numb_page = 0)
+        {
+            Screening sr = new  Screening();
 
+            List<List<string>> tmp_price = new List<List<string>>();
+            DbConfig.UseSqlCommand("SELECT price FROM product WHERE id =" + id_product, tmp_price);
+            double price = Convert.ToDouble(tmp_price[0][0]);
+            price = price * (100 - discount)/100;
+
+            string _price = "" + price;
+            _price = _price.Replace(",",".");
+
+            DbConfig.UseSqlCommand(" INSERT INTO discount( " +
+                " id_product, discount_price, date_begin, date_end) " +
+                " VALUES ( "+ id_product + ", "+_price+", now() , now() + interval '"+count_days+" day'  )");
+
+
+            return RedirectToAction("YourProducts", new RouteValueDictionary( 
+                                new { controller = "Dev", action = "YourProducts",numb_page =numb_page } ));
+
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

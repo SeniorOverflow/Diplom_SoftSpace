@@ -122,6 +122,9 @@ namespace SoftSpace_web.Views.Components.Menu
                 buttons_names = Language_Settings.GetWords(1);
                 ViewBag.Bn_names = buttons_names;
                 ViewBag.User = user;
+
+                string search_product_name = HttpContext.Session.GetString("search_porduct_name");
+                ViewBag.Search_product_name = search_product_name;
             
             return View();
         }

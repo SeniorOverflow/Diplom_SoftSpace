@@ -69,8 +69,8 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{"Your Item","Ваши веши "} );                           //57
             words_array.Add(new List<string>{"Library","Библиотека "} );                            //58
             words_array.Add(new List<string>{"Items","Предметы "} );                                //59
-            words_array.Add(new List<string>{"Your Friend","Ваши друзья "} );                       //60
-            words_array.Add(new List<string>{"Social","Общество "} );                               //61
+            words_array.Add(new List<string>{"Your friend","Ваши друзья "} );                       //60
+            words_array.Add(new List<string>{"Friends","Друзья "} );                               //61
             words_array.Add(new List<string>{"Product reviews","Отзывы на продукт"} );              //62
             words_array.Add(new List<string>{"Count","Кол-во"} );                                   //63
             words_array.Add(new List<string>{"Buy","Купить "} );                                    //64

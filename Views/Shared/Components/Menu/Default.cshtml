@@ -1,17 +1,15 @@
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class=" navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <!--1-->
-                <form method = "get" asp-controller="Home" asp-action="Index" class="form-inline">
-                    <input type="submit" class="btn btn-outline-success my-2 my-sm-0"  value="SoftSpace_web">
-                </form>
-
+                <div class="nav-item">
+                  <a class="navbar-brand" asp-controller="Home" asp-action="Index">SoftSpace</a> 
+                </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <!--2-->
                         <li class="nav-item">
-                            
-                             <a class="btn btn-outline-success my-2 my-sm-0" asp-area="" asp-controller="Home" asp-action="Download">@ViewBag.Bn_names[1]</a> 
+                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Download">@ViewBag.Bn_names[1]</a> 
                         </li>
                       @{
                           bool is_user  = false;
@@ -23,28 +21,27 @@
                         
                           @if(role == -1)
                           {
-                            <li>
-                              <form method="get"  asp-controller="Home" asp-action="Autorisation" class="form-inline">
-                                <input type="submit" class="btn btn-outline-success my-2 my-sm-0"  value="@ViewBag.Bn_names[0]"/>
-                              </form>
+                            <li class="nav-item">
+                              
+                               <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Autorisation">@ViewBag.Bn_names[0]</a> 
                             </li>
                           }
                          
                           @if(role == 1)
                           {
                             is_user = true;
-                            <li>
-                              <a class="btn btn-outline-success my-2 my-sm-0" asp-area="" asp-controller="Home" asp-action="LogOut">@ViewBag.Bn_names[5]</a> 
+                            <li class="nav-item">
+                              <a class="nav-link" asp-area="" asp-controller="Home" asp-action="LogOut">@ViewBag.Bn_names[5]</a> 
                             </li>
-                            <li>
+                            <li class="nav-item">
                               
-                               <a   asp-controller="User" asp-action="Profile" class="btn btn-outline-success my-2 my-sm-0">@ViewBag.Bn_names[17]</a>
+                               <a   asp-controller="User" asp-action="Profile" class="nav-link">@ViewBag.Bn_names[17]</a>
                             </li>
                           }
                           @if(role == 2)
                           {
-                            <li>
-                              <a   asp-controller="Admin" asp-action="Index" class="btn btn-outline-success my-2 my-sm-0">@ViewBag.Bn_names[6]</a>
+                            <li class="nav-item">
+                              <a   asp-controller="Admin" asp-action="Index" class="nav-link">@ViewBag.Bn_names[6]</a>
                             </li>
                          
                           }
@@ -52,8 +49,8 @@
 
                           @if((@ViewBag.User.id_dev>0)&&(role == 1))
                           {
-                            <li>
-                              <a   asp-controller="Dev" asp-action="Index" class="btn btn-outline-success my-2 my-sm-0">@ViewBag.Bn_names[7]</a>
+                            <li class="nav-item" >
+                              <a   asp-controller="Dev" asp-action="Index" class="nav-link">@ViewBag.Bn_names[7]</a>
                             </li>
                           
                           }
@@ -65,11 +62,14 @@
                 </div>
                       @if( is_user)
                           {
-                            <div >
-                              <form  asp-controller="User" asp-action="Cart"  class="form-inline form_search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Bn_names[18] @ViewBag.User.quantity_cart_places</button>               
-                              </form>
-                            </div>
+                            <div>
+                               <ul class="navbar-nav flex-grow-1">
+                                 <li class="nav-item">
+                                  <a   asp-controller="User" asp-action="Cart" class="nav-link">@ViewBag.Bn_names[18] @ViewBag.User.quantity_cart_places  </a>
+                                 </li>
+                               </ul>
+                            </div >
+                            
                           }   
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -83,12 +83,24 @@
                 
             </div>
             
+        
+        
+        <div   class="form-inline form_search">
+          
+
+          <form method="get" asp-controller="User" asp-action="SearchProduct"  class="form_line">
+            <ul class="navbar-nav flex-grow-1"> 
+            <li class="nav-item">     
+            <input class="form-control mr-sm-2 search_line" type="search"
+             name="name_product" placeholder="@ViewBag.Bn_names[2]" aria-label="Search" value="@ViewBag.Search_product_name"> 
+            </li>
+           <li class="nav-item">     
+              <button type="submit"  class="btn btn-sm-2 btn-dark">@ViewBag.Bn_names[2]</button>
+            </li>
+            <ul class="navbar-nav flex-grow-1"> 
+          </form>  
+                                
+        </div>
+       
         </nav>
         
-        <form method="post" asp-controller="Product" asp-action="Search"  class="form-inline form_search">
-                                
-                      <input class="form-control mr-sm-2 search_line" type="search" placeholder="@ViewBag.Bn_names[2]" aria-label="Search">
-                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Bn_names[2]</button>
-                                
-        </form>
-        <hr>

@@ -2813,11 +2813,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "Views\\User\\SearchPeople.cshtml",
-      "TargetPath": "Views\\User\\SearchPeople.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "Views\\Admin\\Index.cshtml",
       "TargetPath": "Views\\Admin\\Index.cshtml",
       "FileKind": "mvc"
@@ -2830,6 +2825,11 @@
     {
       "FilePath": "Views\\User\\Baggage.cshtml",
       "TargetPath": "Views\\User\\Baggage.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "cancel\\View\\User\\baggage.cshtml",
+      "TargetPath": "cancel\\View\\User\\baggage.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -2873,18 +2873,13 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "cancel\\View\\User\\Profile.cshtml",
+      "TargetPath": "cancel\\View\\User\\Profile.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Home\\Menu.cshtml",
       "TargetPath": "Views\\Home\\Menu.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "Views\\User\\Order.cshtml",
-      "TargetPath": "Views\\User\\Order.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "Views\\User\\YourOrders.cshtml",
-      "TargetPath": "Views\\User\\YourOrders.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -2900,6 +2895,16 @@
     {
       "FilePath": "Views\\Admin\\TransactionModeration.cshtml",
       "TargetPath": "Views\\Admin\\TransactionModeration.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "cancel\\View\\User\\SetOrder.cshtml",
+      "TargetPath": "cancel\\View\\User\\SetOrder.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "cancel\\View\\User\\YourOrders.cshtml",
+      "TargetPath": "cancel\\View\\User\\YourOrders.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -2935,6 +2940,11 @@
     {
       "FilePath": "Views\\Admin\\AddRole_View.cshtml",
       "TargetPath": "Views\\Admin\\AddRole_View.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "cancel\\View\\User\\Order.cshtml",
+      "TargetPath": "cancel\\View\\User\\Order.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -3008,11 +3018,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "Views\\User\\SetOrder.cshtml",
-      "TargetPath": "Views\\User\\SetOrder.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "Views\\User\\SearchProduct.cshtml",
       "TargetPath": "Views\\User\\SearchProduct.cshtml",
       "FileKind": "mvc"
@@ -3078,6 +3083,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "cancel\\View\\User\\SearchPeople.cshtml",
+      "TargetPath": "cancel\\View\\User\\SearchPeople.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
@@ -3088,13 +3098,13 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "Views\\User\\ShowUsers.cshtml",
-      "TargetPath": "Views\\User\\ShowUsers.cshtml",
+      "FilePath": "Views\\Admin\\CategoryModeration.cshtml",
+      "TargetPath": "Views\\Admin\\CategoryModeration.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "Views\\Admin\\CategoryModeration.cshtml",
-      "TargetPath": "Views\\Admin\\CategoryModeration.cshtml",
+      "FilePath": "cancel\\View\\User\\ShowUsers.cshtml",
+      "TargetPath": "cancel\\View\\User\\ShowUsers.cshtml",
       "FileKind": "mvc"
     }
   ]

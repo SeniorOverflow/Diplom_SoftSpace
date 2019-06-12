@@ -19,6 +19,8 @@ a.navbar-brand {
   max-width: 150px
 }
 ._Cart{
+  position: relative;
+  left: 0;
   margin: 10px;
   margin-left: 15px; 
   display: inline;
@@ -41,10 +43,13 @@ a.navbar-brand {
 }
 .carusel
 {
+  position: relative;
+  right:  50% - 200px;
   min-width : 120px;
-  max-width : 600px;
-  max-height: 400px;
   min-height: 80px;
+  max-width : 400px;
+  max-height: 400px;
+  
 }
 
 .btn_carusel
@@ -57,14 +62,14 @@ a.navbar-brand {
 
 .sing{
 
-  position: relative;
-  top:0%;
-  padding-left:10px ;
-  padding-right:10px ;
+  
+  top:0.5em;
+  padding: 10px;
+  
   /* background-color: rgb(0, 119, 8); */
   color:  rgb(219, 219, 219);
   text-decoration: none;
-  font-size: 18px;
+  
 
 }
 
@@ -97,6 +102,20 @@ html {
   html {
     font-size: 16px;
   }
+}
+.search_friend
+{
+  width: 300px;
+  height: 50px;
+  
+}
+.inline{
+  display : inline-block;
+}
+.btn_serch
+{
+  position: relative;
+  top: -3px;
 }
 
 .border-top {

@@ -4,7 +4,7 @@
 }
 
 @await Component.InvokeAsync("Menu" , new {})
-<form method="post" asp-controller="User" asp-action="Profile">
+<form method="post" asp-controller="User" asp-action="LogIn">
     @if(@ViewBag.AutoData.ex == 1)
     {
         <p>Логин не найден  !!! @Model</p>

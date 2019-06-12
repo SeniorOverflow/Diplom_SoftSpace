@@ -45,7 +45,7 @@ namespace SoftSpace_web.Controllers
         {
             ShopPage page = new ShopPage();
          
-
+            HttpContext.Session.SetString("search_porduct_name","" );
             List<List<string>> tmp_data = new List<List<string>>();
             DbConfig.UseSqlCommand("SELECT count(id) from product ", tmp_data);
             if(tmp_data.Count > 0)
@@ -58,7 +58,17 @@ namespace SoftSpace_web.Controllers
                 }
             }
            
-            DbConfig.UseSqlCommand("SELECT * FROM product  where is_dlc = false  OFFSET  "+(numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
+            DbConfig.UseSqlCommand("SELECT product.id,product.name,price ,def_picture,discount_price "+
+                    "FROM product left join discount  on product.id = discount.id_product  "+
+                    " where is_dlc = false  OFFSET  "+(numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
+            
+            
+
+
+            
+
+          
+
             page.currect_number = numb_page;
             ViewBag.Page = page;
             List<string> words_translate = Language_Settings.GetWords(1);

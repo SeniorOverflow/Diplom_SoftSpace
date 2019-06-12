@@ -12208,11 +12208,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "e:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
+      "projectUniqueName": "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
       "projectName": "SoftSpace_web",
-      "projectPath": "e:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
+      "projectPath": "E:\\diploma_project_here\\SoftSpace_web\\SoftSpace_web.csproj",
       "packagesPath": "C:\\Users\\DonEn\\.nuget\\packages\\",
-      "outputPath": "e:\\diploma_project_here\\SoftSpace_web\\obj\\",
+      "outputPath": "E:\\diploma_project_here\\SoftSpace_web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\ProgramData\\Xamarin\\NuGet\\",

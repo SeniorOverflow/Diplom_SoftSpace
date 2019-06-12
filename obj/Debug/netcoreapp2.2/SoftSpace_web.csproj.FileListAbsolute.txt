@@ -102,13 +102,9 @@ E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\D
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Reg.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\AddFriend.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\Cart.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\Order.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\Profile.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\SearchPeople.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\SearchProduct.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\SetOrder.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\Subscriptions.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\YourOrders.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\EditProduct.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\YourProducts.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\EditProduct.g.cshtml.cs
@@ -153,7 +149,6 @@ D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\Ad
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\AddEvent_view.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\ShowDev.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\ShowDev.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\SoftSpace_web.csprojAssemblyReference.cache
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Admin\SubEdition.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Admin\AddSub_View.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Admin\UpdateSub_View.g.cshtml.cs
@@ -165,6 +160,13 @@ D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\S
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\DevShow.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\SubToDev_View.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\ShowUsers.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\ShowUsers.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\YourSubscriptions.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\YourSubscriptions.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\SoftSpace_web.csprojAssemblyReference.cache
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\Order.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\Profile.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\SearchPeople.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\SetOrder.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\ShowUsers.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\YourOrders.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\baggage.g.cshtml.cs

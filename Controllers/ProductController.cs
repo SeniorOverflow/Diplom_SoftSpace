@@ -74,9 +74,7 @@ namespace SoftSpace_web.Controllers
                     {
                         this_product.product_events.Add(_event);
                     }
-                
 
-                
                 product_data.Clear();
 
                 DbConfig.UseSqlCommand("SELECT first_name,second_name, comment_to_product, assessment "+
@@ -88,22 +86,6 @@ namespace SoftSpace_web.Controllers
                         this_product.product_reviews.Add(_review);
                     }
 
-               
-                // ViewBag.Dlc = this_product.dlc;
-                // ViewBag.Events = this_product.product_events;
-                // ViewBag.Reviews = this_product.product_reviews;
-                // ViewBag.Pictures = this_product.pictures;
-                // ViewBag.Labels  = this_product.labels;
-
-                // ViewBag.Id_product  = this_product.id_product;
-                // ViewBag.Name  = this_product.name;
-                // ViewBag.Description  = this_product.description;
-                // ViewBag.Id_category = this_product.id_category;
-                // ViewBag.Def_picture = this_product.def_picture;
-                // ViewBag.Price = this_product.price;
-                // ViewBag.Liked = false;
-                // ViewBag.Id_dev = this_product.id_dev;
-            
             if(!string.IsNullOrEmpty(login))
             {
                 List<List<string>> tmp_data = new List<List<string>>();
@@ -122,7 +104,6 @@ namespace SoftSpace_web.Controllers
                 {
                     this_product.liked= false;
                 }
-
             }
             List<string> translate_words =  Language_Settings.GetWords(1);
             ViewBag.Translate_words = translate_words;
@@ -149,7 +130,6 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-
                 tmp_data.Clear();
                 DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
@@ -158,7 +138,6 @@ namespace SoftSpace_web.Controllers
                 DbConfig.UseSqlCommand("INSERT INTO shopping_cart("+
 	                                    "id_product, id_user, count)"+
 	                                    "VALUES ('"+_id_product+"', '"+id_user+"', '"+count+"')");
-
             }
            
            return RedirectToAction("ShowProduct", new RouteValueDictionary( 
@@ -178,7 +157,6 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-
                 tmp_data.Clear();
                 DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
@@ -187,9 +165,8 @@ namespace SoftSpace_web.Controllers
                 DbConfig.UseSqlCommand("INSERT INTO shopping_cart("+
 	                                    "id_product, id_user, count)"+
 	                                    "VALUES ('"+_id_dlc+"', '"+id_user+"', '"+count+"')");
-
             }
-           
+
            return RedirectToAction("ShowProduct", new RouteValueDictionary( 
                         new { controller = "Product", action = "ShowProduct", id_product= _id_product} ));
         }
@@ -238,15 +215,15 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+                DbConfig.UseSqlCommand("select id from users where login = " 
+                                            +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("DELETE FROM liked_product WHERE id_product = " 
-                + _id_product + " AND  id_user = " + id_user);
-
+                DbConfig.UseSqlCommand("DELETE FROM liked_product"+
+                                            " WHERE id_product = " + _id_product +
+                                                " AND  id_user = " + id_user);
             }
            
            return RedirectToAction("ShowProduct", new RouteValueDictionary( 
@@ -289,42 +266,27 @@ namespace SoftSpace_web.Controllers
         public IActionResult RemoveProduct(int _id_product_in_cart)
         {
             Screening sr = new Screening();
-            Console.WriteLine(1);
-             string login = HttpContext.Session.GetString("login");
+           
+            string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                Console.WriteLine(2);
                 return RedirectToAction("Autorisation", new RouteValueDictionary( 
                         new { controller = "Home", action = "Autorisation", ex= 0} ));
             }
             else
             {
-                Console.WriteLine(3);
+                
                 tmp_data.Clear();
                 DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
-                
+
                 tmp_data.Clear();
                 DbConfig.UseSqlCommand("DELETE FROM shopping_cart  where id_user = " + id_user + " AND id =" + _id_product_in_cart);
-                
-
-
             }
-            Console.WriteLine(4);
-
-
                 return RedirectToAction("Cart", new RouteValueDictionary( 
                          new { controller = "User", action = "Cart"} ));
         }
-
-
-      
-        
-        
-
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

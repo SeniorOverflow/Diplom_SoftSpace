@@ -19,7 +19,7 @@
     <h3>@ViewBag.Translate_words[54]:  @ViewBag.User_data.lvl</h3>
 
     <form method="post" asp-controller="User" asp-action="UpdateInfo_page"  class="form_line">
-        <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[55]</button>
+        <button type="submit"  class="btn btn-sm-2 btn-dark">@ViewBag.Translate_words[55]</button>
     </form>
   </div>
 
@@ -31,12 +31,12 @@
 {
     
     <div class="_Cart">
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 18rem; height:24rem">
         <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">Create DevTeam</h5>
                 
-                <a  method ="get" asp-controller="Dev" asp-action="AddDev" class="btn btn-primary"><h3>@ViewBag.Translate_words[56]</h3></a>
+                <a  method ="get" asp-controller="Dev" asp-action="AddDev" class="btn btn-sm-2 btn-dark"><h3>@ViewBag.Translate_words[56]</h3></a>
             </div>
         </div>
     </div>
@@ -44,53 +44,49 @@
 else
 {
    <div class="_Cart">
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 16rem; height:24rem;">
         <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title"> @ViewBag.User_data.company</h5>
-                <a  method ="get" asp-controller="Dev" asp-action="Index" class="btn btn-primary"><h4>@ViewBag.Translate_words[7]</h4></a>
+                <a  method ="get" asp-controller="Dev" asp-action="Index" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[7]</h4></a>
             </div>
         </div>
    </div>
 }
 
     <div class="_Cart">
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 16rem;  height:24rem;">
         <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
             <div class="card-body">
                
                 <h5 class="card-title">  @ViewBag.Translate_words[57]  </h5>
                 
-            
-                <a  method ="get" asp-controller="User" asp-action="Library" class="btn btn-primary"><h4>@ViewBag.Translate_words[58] </h4></a>
-                <a  method ="get" asp-controller="User" asp-action="Baggage" class="btn btn-primary"><h4>@ViewBag.Translate_words[59] </h4></a>
+                <div class="inline">
+                    <ul class="navbar-nav flex-grow-1"> 
+                        <li class="nav-item">
+                            <a  method ="get" asp-controller="User" asp-action="Library" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[58] </h4></a>
+                        </li>
+                        <br>
+                        <li>
+                       
+                            <a  method ="get" asp-controller="User" asp-action="Baggage" class="btn btn-sm-5 btn-dark"><h4>@ViewBag.Translate_words[59] </h4></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
+ 
     <div class="_Cart">
-        <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
-            <div class="card-body">
-               
-                <h5 class="card-title">  @ViewBag.Translate_words[61] </h5>
-                
-            
-                <a  method ="get" asp-controller="User" asp-action="ShowUsers" class="btn btn-primary"><h4>@ViewBag.Translate_words[60] </h4></a>
-               
-            </div>
-        </div>
-    </div>
-
-    <div class="_Cart">
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 16rem; height:24rem">
         <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
             <div class="card-body">
                
                 <h5 class="card-title">  Your Subscriptions  </h5>
                 
             
-                <a  method ="get" asp-controller="User" asp-action="YourSubscriptions" class="btn btn-primary"><h4>Your Subscriptions </h4></a>
+                <a  method ="get" asp-controller="User" asp-action="YourSubscriptions" class="btn btn-sm-2 btn-dark"><h4>Your Subscriptions </h4></a>
                
             </div>
         </div>

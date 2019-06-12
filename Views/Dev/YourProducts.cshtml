@@ -33,65 +33,91 @@
 <br>
 
 <div class ="row" >
-@foreach( var a in @ViewBag.You_product.list) 
-{
+  @foreach( var a in @ViewBag.You_product.list) 
+  {
 
-  string id_this = "a" + @a[0];
-  <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Вы точно хотите удалить @a[1]  ?</h5>
+    string id_this = "a" + @a[0];
+    <div class="modal fade" id="@id_this" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Вы точно хотите удалить @a[1]  ?</h5>
 
-        </div>
-        
-        <div class="modal-footer">
+          </div>
+          
+          <div class="modal-footer">
 
-          <form method="post" asp-controller="Dev" asp-action="DelProduct"  class="form_line">
-                  <input type="hidden"  name="id_product" value="@a[0]"/>
-                  
-                  <button type="submit"  class="btn btn-primary">Confirm</button>
-          </form>    
-         
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <form method="post" asp-controller="Dev" asp-action="DelProduct"  class="form_line">
+                    <input type="hidden"  name="id_product" value="@a[0]"/>
+                    
+                    <button type="submit"  class="btn btn-primary">Confirm</button>
+            </form>    
+          
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
- 
+    string id_add_discount = "d" + @a[0];
+    <div class="modal fade" id="@id_add_discount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Добавить скидку к  @a[1]  ?</h5>
 
-    <div class="card" style="width: 18rem;">
-    @{
-        string pic = @a[7];
-        <img src="~/Pictures/@pic" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h3 class="card-title">@a[1]</h3>
-            <h4 class="card-title">Price: @a[5]</h4>
-            
-            <form method="post" asp-controller="Dev" asp-action="EditProduct"  class="form_line">
-                <input type="hidden" name="id_product" value="@a[0]"/>
-                <button type="submit"  class="btn btn-primary">Edit</button>
-            </form>
-            
-             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
+          </div>
+          
+          <div class="modal-footer">
 
-            @if( @Convert.ToBoolean(@a[8]) == false)
-            {
-            <form method="post" asp-controller="Dev" asp-action="AddDlC_view"  class="form_line">
-                <input type="hidden" name="id_product" value="@a[0]"/>
-                <button type="submit"  class="btn btn-primary">Add DlC</button>
-            </form>
-
-            <form method="post" asp-controller="Dev" asp-action="AddEvent_view"  class="form_line">
-                <input type="hidden" name="id_product" value="@a[0]"/>
-                <button type="submit"  class="btn btn-primary">Add Event</button>
-            </form>
-            }
+            <form method="post" asp-controller="Dev" asp-action="AddDiscount"  class="form_line">
+                    <input type="hidden"  name="id_product" value="@a[0]"/>
+                    <input type="number" name ="discount" value="0" max="99" min="0"/>
+                    <input type="number" name ="count_days" value="0"/>
+                    <input type="hidden"  name="numb_page" value="@this_page"/>
+                    <button type="submit"  class="btn btn-primary">Confirm</button>
+            </form>    
+          
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
         </div>
-    }
-  </div>
-}
+      </div>
+    </div>
+
+  
+    <div class="_Cart">
+      <div class="card" style="width: 14rem;">
+      @{
+          string pic = @a[7];
+          <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+          <div class="card-body">
+              <h3 class="card-title">@a[1]</h3>
+              <h4 class="card-title">Price: @a[5]</h4>
+              
+
+              <!-- Example split danger button -->
+                  <div class="btn-group">
+                    <a  method ="get" asp-controller="Dev" asp-action="EditProduct"  asp-route-id_product="@a[0]" class="btn btn-sm-2 btn-dark">Редактировать</a>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @if( @Convert.ToBoolean(@a[8]) == false)
+                      {
+                        <a   asp-controller="Dev" asp-action="AddDlC_view"   asp-route-id_product="@a[0]" class=" dropdown-item btn ">Добавить DLC</a>
+                        <a   asp-controller="Dev" asp-action="AddEvent_view" asp-route-id_product="@a[0]" class=" dropdown-item btn ">Добавить событие</a>
+                        
+                      }
+                      <button type="button" class="dropdown-item btn " data-toggle="modal" data-target="#@id_add_discount" >добавить скидку</button>
+                      <div class="dropdown-divider"></div>
+                      <button type="button" class="dropdown-item btn " data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
+                    </div>
+                  </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </div >
 
 

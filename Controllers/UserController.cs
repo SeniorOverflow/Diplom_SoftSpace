@@ -19,8 +19,6 @@ namespace SoftSpace_web.Controllers
             return View();
         }
 
-        
-        
         public IActionResult Cart()
         {
             Screening sr  = new Screening();
@@ -61,19 +59,7 @@ namespace SoftSpace_web.Controllers
             return View();
         }
 
-        public IActionResult SetOrder()
-        {
-            return View();
-        }
 
-        public IActionResult YourOrders()
-        {
-            return View();
-        }
-        public IActionResult Order()
-        {
-            return View();
-        }
 
 
 
@@ -90,7 +76,6 @@ namespace SoftSpace_web.Controllers
              string str_price = ""+ total_price;
              str_price = str_price.Replace(',','.');
             
-            Console.WriteLine("All fine ^______________________^ " + str_price);
 
             List<List<string>> tmp_user_score = new List<List<string>>();
             DbConfig.UseSqlCommand("SELECT score from users WHERE users.id = " + cart.id_user,tmp_user_score);
@@ -160,10 +145,12 @@ namespace SoftSpace_web.Controllers
         }
        
 
-        //XXXX НУЖНО РАЗДЕЛИТЬ НА МОДУЛЬ АВТОРИЗАЦИИ И НА МОДУЛЬ ПОКАЗА ПРОФИЛЯ 
-        //СРОЧНО !!!!!!!!!!! ЭТО НЕ БЕЗОПАСНО ПРИМИ МЕРЫ ИГОРЬ
-        public IActionResult Profile(string login ="", string password ="") 
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+         public IActionResult LogIn(string login ="", string password ="") 
         {
+            //Console.Clear();
              if(string.IsNullOrEmpty(login))
              {
                 login = HttpContext.Session.GetString("login");
@@ -186,23 +173,43 @@ namespace SoftSpace_web.Controllers
                 login =  login.ToLower();
                 HttpContext.Session.SetString("login",""+login);
                 HttpContext.Session.SetString("password",""+ password);
-                Console.WriteLine(HttpContext.Session.GetString("login"));
-                Console.WriteLine(HttpContext.Session.GetString("password"));
+                
             }
            
+            
+            return RedirectToAction("Profile", new RouteValueDictionary( 
+                new { controller = "User", action = "Profile"   } ));
+            
+        }
 
-            User _user = new User();
-            _user.is_dev = false;
-            List<List<string>> tmp_login = new List<List<string>>();
-            Screening sr = new Screening();
-            DbConfig.UseSqlCommand("SELECT id "+
-                                        "FROM users WHERE login = lower("+sr.GetScr()+login+sr.GetScr()+") ",tmp_login);
-            if(tmp_login.Count()>0)
+        public IActionResult Profile() 
+        {
+            List<List<string>> tmp_data = new List<List<string>>();
+
+            Screening sr  = new Screening();
+            string login = HttpContext.Session.GetString("login");
+            
+            if(string.IsNullOrEmpty( login))
             {
+                return RedirectToAction("Autorisation", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+            }
+            else
+            {
+                tmp_data.Clear();
+                DbConfig.UseSqlCommand("select id from users where login =  lower(" +sr.GetScr()+login+sr.GetScr()+")" ,tmp_data);
+                int id_user = Convert.ToInt32(tmp_data[0][0]);
+           
+
+                User _user = new User();
+                _user.is_dev = false;
+                List<List<string>> tmp_login = new List<List<string>>();
+              
+                
+                
                 List<List<string>> tmp = new List<List<string>>();
                 DbConfig.UseSqlCommand("SELECT id,login,lvl,score,first_name,second_name,bonus_score "+
-                                        "FROM users WHERE login = lower("+sr.GetScr()+login+sr.GetScr()+") AND "+
-                                         "password = crypt("+sr.GetScr()+password+sr.GetScr()+", password); ",tmp);
+                                        "FROM users WHERE users.id = "+id_user ,tmp);
                 if(tmp.Count()>0)
                 {
                         _user.id_user= Convert.ToInt32(tmp[0][0]);
@@ -214,10 +221,10 @@ namespace SoftSpace_web.Controllers
                         _user.bonus_score = Convert.ToDouble(tmp[0][6]);
                         List<List<string>> tmp_u =  new List<List<string>>();
                         DbConfig.UseSqlCommand("SELECT name_of_company " +  
-	                                                "FROM developers "+
+                                                    "FROM developers "+
                                                         "inner join user_dev on"+
                                                         " developers.id = user_dev.id_dev "+
-	                                            "WHERE user_dev.id_user = "+ _user.id_user,tmp_u);
+                                                "WHERE user_dev.id_user = "+ _user.id_user,tmp_u);
                         if(tmp_u.Count>0)
                         {
                             _user.is_dev = true;
@@ -225,24 +232,17 @@ namespace SoftSpace_web.Controllers
                         }
                         ViewBag.User_data = _user;
                         
-                         List<string> translate_words =  Language_Settings.GetWords(1);
-                         ViewBag.Translate_words = translate_words;
+                        List<string> translate_words =  Language_Settings.GetWords(1);
+                        ViewBag.Translate_words = translate_words;
                     return View();
-                }
-                else
-                {
-                    return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                                new { controller = "Home", action = "Autorisation", ex= 2} ));
+                
                 }
             }
-            else
-            {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                                new { controller = "Home", action = "Autorisation", ex= 1} ));
-            }
+
+            return RedirectToAction("Autorisation", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Autorisation", ex= 0} ));
         }
-        //XXXX ------------------------------------------------------------------------------------------------------------------------
-        //
+        
 
 
         public IActionResult Library()//pagination need 
@@ -308,7 +308,7 @@ namespace SoftSpace_web.Controllers
                 if(tmp_data.Count < 1)
                 {
                 DbConfig.UseSqlCommand("INSERT INTO  library( id_user, id_deal_product )"+
-                        "  VALUES ( "+id_user+", "+_id_deal_product+")");  // here need delete product from baggadge
+                        "  VALUES ( "+id_user+", "+_id_deal_product+")");  
                 DbConfig.UseSqlCommand("DELETE FROM baggage WHERE id_deal_product = " + _id_deal_product);
                 }
                 else 
@@ -326,7 +326,7 @@ namespace SoftSpace_web.Controllers
 
         public IActionResult YourSubscriptions(int numb_page = 0)
         {
-            Console.WriteLine(numb_page + " -------------------------------- ");
+           
             Screening sr = new Screening();
             string login = HttpContext.Session.GetString("login");
             
@@ -396,10 +396,8 @@ namespace SoftSpace_web.Controllers
             }
         }
 
-        public IActionResult Subscriptions()
-        {
-            return View();
-        }
+       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SubToDev(int id_dev , int id_type_sub)
@@ -480,37 +478,7 @@ namespace SoftSpace_web.Controllers
              }
             }
         }
-        public IActionResult ShowUsers(int numb_page = 0)
-        {
-            Screening sr = new Screening();
-            string login = HttpContext.Session.GetString("login");
-            List<List<string >> tmp_data = new List<List<string>>();
 
-            if(string.IsNullOrEmpty( login))
-            {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
-            }
-            else
-            {
-                tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
-
-                int id_user = Convert.ToInt32(tmp_data[0][0]);
-            
-                Edit users = new Edit();
-                string _sql_com = "Select id,login,mail,lvl FROM users WHERE users.id != "+id_user+" OFFSET  "+(numb_page)*12 +" limit 12" ;
-                users = ShowPage.TakePages("users",_sql_com,numb_page,12);
-                
-                ViewBag.Users = users;
-                List<string> translate_words = Language_Settings.GetWords(1);
-                ViewBag.Translate_words  = translate_words;
-                return View();
-            }
-            
-        }
-
-        
         public IActionResult SubToDev_View(int id_dev)
         {
             List<List<string>> tmp_data = new List<List<string>>();
@@ -524,8 +492,6 @@ namespace SoftSpace_web.Controllers
             return View();
         }
         
-        
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateInfo_page()
@@ -554,41 +520,41 @@ namespace SoftSpace_web.Controllers
             return RedirectToAction("Index", new RouteValueDictionary( 
                                 new { controller = "Home", action = "Index"} ));
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddRequest(int id_user_add, int numb_page = 0)
-        {
 
+        public IActionResult SearchProduct( string name_product, int  numb_page = 0)
+        {
+            
+            
+            HttpContext.Session.SetString("search_porduct_name","" + name_product);
+            
+            
+            ShopPage page = new ShopPage();
             Screening sr = new Screening();
-            string login = HttpContext.Session.GetString("login");
-            List<List<string >> tmp_data = new List<List<string>>();
+         
 
-            if(string.IsNullOrEmpty( login))
+            List<List<string>> tmp_data = new List<List<string>>();
+            DbConfig.UseSqlCommand("SELECT count(id) from product WHERE product.name ~* " 
+                                    + sr.GetScr()  + name_product + sr.GetScr()  , tmp_data);
+            if(tmp_data.Count > 0)
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                page.count_pages = Convert.ToInt32(tmp_data[0][0]) / ICOP.main;
+                int items = Convert.ToInt32(tmp_data[0][0]);
+                if((items % ICOP.main != 0)&&(items > ICOP.main))
+                {
+                   page.count_pages++;
+                }
             }
-            else
-            {
-                tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
-
-                int id_user = Convert.ToInt32(tmp_data[0][0]);
-
-                DbConfig.UseSqlCommand("INSERT INTO public.social_interconnection( "+      
-	                                    "id_user_first, id_user_second, id_social_status) " +
-	                                    "VALUES ("+ id_user+", "+id_user_add+", 1)");
-            }
-             return RedirectToAction("ShowUsers", new RouteValueDictionary( 
-                        new { controller = "User", action = "ShowUsers" , numb_page = numb_page} ));
-        }
-        public IActionResult SearchPeople()
-        {
+           
+            DbConfig.UseSqlCommand("SELECT * FROM product  where product.name ~* " 
+                                    + sr.GetScr()  + name_product + sr.GetScr() + " OFFSET  "+(numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
+            page.currect_number = numb_page;
+            ViewBag.Page = page;
+            ViewBag.NameProduct = name_product;
+            List<string> words_translate = Language_Settings.GetWords(1);
+            ViewBag.Words_translate = words_translate;
             return View();
-        }
-        public IActionResult SearchProduct()
-        {
-            return View();
+
+            
         }  
         public IActionResult Privacy()
         {
