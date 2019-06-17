@@ -45,7 +45,7 @@ namespace SoftSpace_web.Controllers
                 db.UseSqlCommand("select shopping_cart.id, product.name,"+
 	                                         " product.def_picture,"+
 	                                         " shopping_cart.count,"+
-	                                         " product.price*shopping_cart.count as price ,"+
+	                                         " (product.price*shopping_cart.count) as price ,"+
                                              " discount.discount_price"+
 	                                         " from shopping_cart inner join product on shopping_cart.id_product = product.id"+
                                              " left join discount on   product.id = discount.id_product"+
@@ -167,7 +167,8 @@ namespace SoftSpace_web.Controllers
             {
                 List<List<string>> tmp_data = new List<List<string>>();
                 tmp_data.Clear();
-                db.UseSqlCommand("select id from users where login =  lower(" +sr.GetScr()+login+sr.GetScr()+")" ,tmp_data);
+                db.UseSqlCommand("select id from users where login =  lower(" +sr.GetScr()+login+sr.GetScr()+") "+ 
+                                    "AND  password = crypt(" + sr.GetScr() + password + sr.GetScr() + ", password)" ,tmp_data);
                 if(tmp_data.Count ==0)
                 {
                     return RedirectToAction("Authorization", new RouteValueDictionary( 
@@ -182,6 +183,8 @@ namespace SoftSpace_web.Controllers
                         return RedirectToAction("Authorization", new RouteValueDictionary( 
                                 new { controller = "Home", action = "Authorization", ex= 5} ));
                     }
+
+                    
 
                     login =  login.ToLower();
                     HttpContext.Session.SetString("login",""+login);
@@ -366,7 +369,8 @@ namespace SoftSpace_web.Controllers
                 tmp_data.Clear();
 
                 Edit subs = new Edit();
-                string _sql_com =  "SELECT  type_of_subscription.name, developers.name_of_company, date_begin, date_end "+
+                string _sql_com =  "SELECT  type_of_subscription.name, developers.name_of_company,"+
+                                            " date_begin, date_end ,subscription_on_dev.id_dev"+
                     " FROM subscription_on_dev inner join type_of_subscription "+
                         " on subscription_on_dev.id_type = type_of_subscription.id "+
                         " inner join developers on subscription_on_dev.id_dev = developers.id " +
@@ -420,8 +424,7 @@ namespace SoftSpace_web.Controllers
 
        
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult SubToDev(int id_dev , int id_type_sub)
         {
             Screening sr = new Screening();

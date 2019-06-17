@@ -28,12 +28,12 @@
        @if(@a[5] != "")
           {
             <td>
-             <strike> @a[4]  </strike>  @a[5]
+             <strike> @a[4] у.е. </strike>  @a[5] у.е. 
             </td>
           }
           else
           {
-             <td>@a[4]  </td>
+             <td>@a[4] у.е.  </td>
           }
       
       <td>
@@ -46,13 +46,25 @@
     </tr>
    
 }
-</table>
+
+
 <hr>
-<form  asp-controller="User" asp-action="Buy"  class="form-inline form_search">        
-                <input type="hidden" name ="_id_user" value="@ViewBag.Cart.id_user"  />  
-                <h3>@ViewBag.Cart.this_price<h3>
-                <button  name="buy" class="btn btn-sm-2 btn-dark" type="submit">@ViewBag.Translate_words[64]</button>
-</form>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+    
+      <form  asp-controller="User" asp-action="Buy"  class="test" style="width: 60%;">        
+              <input type="hidden" name ="_id_user" value="@ViewBag.Cart.id_user"  />  
+              <h3 class="">@ViewBag.Cart.this_price у.е.<h3>
+              <button  name="buy" class="btn btn-sm-2 btn-dark  "  type="submit">@ViewBag.Translate_words[64]</button>     
+      </form>
+    
+    </td>
+  </tr>
+</table>
 
 
 

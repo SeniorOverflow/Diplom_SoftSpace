@@ -23,8 +23,10 @@ a:hover {text-decoration: none; color: rgb(255, 153, 0) ;}
   position: relative;
   width: 500px;
   height: 400px;
-  
-  
+}
+.R{
+  position: relative;
+  right: 0px;
 }
 .product_btn
 {

@@ -131,11 +131,13 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddProduct(int _id_product, int count =1)
+        public IActionResult AddProduct(int _id_product, int _id_dlc = -1, int count =1)
         {
+            
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
+            Console.WriteLine(_id_product + " - " + login   );
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
@@ -147,44 +149,69 @@ namespace SoftSpace_web.Controllers
                 tmp_data.Clear();
                 db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
+                tmp_data.Clear();
+                db.UseSqlCommand("SELECT shopping_cart.count from shopping_cart WHERE id_product = " + _id_product 
+                                +"AND shopping_cart.id_user =" + id_user,tmp_data);
+                if(tmp_data.Count > 0)
+                {
+                    int count_in_cart = 0;
+                    count_in_cart += Convert.ToInt32(tmp_data[0][0]);
+                    count_in_cart++;
 
+                    db.UseSqlCommand(" UPDATE shopping_cart set count = " + count_in_cart +
+                                         " WHERE  id_product = "+ _id_product
+                                          +"AND shopping_cart.id_user =" + id_user); 
+
+                }
+                else
+                {
+                
                 tmp_data.Clear();
                 db.UseSqlCommand("INSERT INTO shopping_cart("+
 	                                    "id_product, id_user, count)"+
 	                                    "VALUES ('"+_id_product+"', '"+id_user+"', '"+count+"')");
+                }
             }
-           
-           return RedirectToAction("ShowProduct", new RouteValueDictionary( 
-                        new { controller = "Product", action = "ShowProduct", id_product= _id_product} ));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddDLC(int _id_product, int _id_dlc, int count =1)
-        {
-            Screening sr = new Screening();
-            DbConfig db = new DbConfig();
-            string login = HttpContext.Session.GetString("login");
-            List<List<string >> tmp_data = new List<List<string>>();
-            if(string.IsNullOrEmpty( login))
-            {
-                return RedirectToAction("Authorization", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Authorization", ex= 0} ));
-            }
-            else
-            {
-                tmp_data.Clear();
-                db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
-                int id_user = Convert.ToInt32(tmp_data[0][0]);
+           if(_id_dlc == -1)
+           {
+                return RedirectToAction("ShowProduct", new RouteValueDictionary( 
+                                new { controller = "Product", action = "ShowProduct", id_product= _id_product} ));
+           }
+           else
+           {
+               return RedirectToAction("ShowProduct", new RouteValueDictionary( 
+                        new { controller = "Product", action = "ShowProduct", id_product= _id_dlc} ));
 
-                tmp_data.Clear();
-                db.UseSqlCommand("INSERT INTO shopping_cart("+
-	                                    "id_product, id_user, count)"+
-	                                    "VALUES ('"+_id_dlc+"', '"+id_user+"', '"+count+"')");
-            }
-
-           return RedirectToAction("ShowProduct", new RouteValueDictionary( 
-                        new { controller = "Product", action = "ShowProduct", id_product= _id_product} ));
+           }
         }
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // public IActionResult AddDLC(int _id_product, int _id_dlc, int count =1)
+        // {
+        //     Screening sr = new Screening();
+        //     DbConfig db = new DbConfig();
+        //     string login = HttpContext.Session.GetString("login");
+        //     List<List<string >> tmp_data = new List<List<string>>();
+        //     if(string.IsNullOrEmpty( login))
+        //     {
+        //         return RedirectToAction("Authorization", new RouteValueDictionary( 
+        //                 new { controller = "Home", action = "Authorization", ex= 0} ));
+        //     }
+        //     else
+        //     {
+        //         tmp_data.Clear();
+        //         db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+        //         int id_user = Convert.ToInt32(tmp_data[0][0]);
+
+        //         tmp_data.Clear();
+        //         db.UseSqlCommand("INSERT INTO shopping_cart("+
+	    //                                 "id_product, id_user, count)"+
+	    //                                 "VALUES ('"+_id_dlc+"', '"+id_user+"', '"+count+"')");
+        //     }
+
+        //    return RedirectToAction("ShowProduct", new RouteValueDictionary( 
+        //                 new { controller = "Product", action = "ShowProduct", id_product= _id_product} ));
+        // }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

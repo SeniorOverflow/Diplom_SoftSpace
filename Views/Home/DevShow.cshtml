@@ -16,7 +16,7 @@
   
   <div>
       
-    <form method="post" asp-controller="User" asp-action="SubToDev_View"  class="form_line">
+    <form method="get" asp-controller="User" asp-action="SubToDev_View"  class="form_line">
         <input hidden name="id_dev" value="@ViewBag.Dev[0][0]">
         <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[84]</button>
     </form>

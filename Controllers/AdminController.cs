@@ -161,12 +161,49 @@ namespace SoftSpace_web.Controllers
             else
             {
                 Edit users = new Edit();
-                string _sql_com = "Select id,login,mail,lvl,score, bonus_score FROM users OFFSET  "+(numb_page)*ICOP.a_users +" limit "+ICOP.a_users ;
+                string _sql_com = "Select id,login,score FROM users OFFSET  "+(numb_page)*ICOP.a_users +" limit "+ICOP.a_users ;  
                 users = ShowPage.TakePages("users",_sql_com,numb_page,ICOP.a_users);
                 
+                List<List<string>> tmp_roles_name = new List<List<string>>();
+               
+                DbConfig db = new DbConfig();
+                List<List<string>> users_list = new List<List<string>>();
                 
 
+                foreach(List<string> a in users.list)
+                {
+                   string _roles = "";
+                   tmp_roles_name.Clear();
+                   db.UseSqlCommand("Select  roles.name FROM  user_role " + 
+                                        "inner join roles on "+
+                                        "user_role.id_role = roles.id  WHERE id_user = "+a[0],tmp_roles_name);
+                    foreach(List<string> role_name in tmp_roles_name)
+                    {
+                        _roles += role_name[0] + "  "; 
+                    }
+                    
+                   
+
+                    a.Add(_roles);
+                    
+                   
+
+                    users_list.Add(a);
+                
+                }
+            users.list = users_list;
+
+            foreach(List<string> t in users_list)
+            {
+                foreach(string g in t )
+                {
+                    Console.Write(g + "  -  " );
+                }
+                Console.WriteLine();
+            }
+               
                 ViewBag.Users = users;
+                ViewBag.User_roles = users_list;
                 List<string> translate_words = Language_Settings.GetWords(1);
                 ViewBag.Translate_words  = translate_words;
                 return View();
@@ -310,6 +347,26 @@ namespace SoftSpace_web.Controllers
                             new { controller = "Admin", action = "ProductModeration"} ));
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveRoles(int id_user,int  numb_page)
+        {
+            DbConfig db = new DbConfig();
+            if(IsNotJustUser() == false)
+            {
+                 return RedirectToAction("Index", new RouteValueDictionary( 
+                  new { controller = "Home", action = "Index"} ));
+            }
+            else
+            {
+
+                db.UseSqlCommand("DELETE FROM user_role WHERE id_user = "+ id_user+ " AND id_role != 1");
+                return RedirectToAction("UserModeration", new RouteValueDictionary( 
+                            new { controller = "Admin", action = "UserModeration" , numb_page = numb_page} ));
+            }
+        }
+        
 
         
         public IActionResult EditCategory(int id_category)

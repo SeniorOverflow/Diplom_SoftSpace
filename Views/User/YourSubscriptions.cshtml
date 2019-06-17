@@ -25,17 +25,18 @@
 }
 
 @await Component.InvokeAsync("Menu" , new {})
-<h1>Your Subscriptions</h1>
+<h1>Ваши подписки</h1>
 
 
 <table class="table">
   <thead class="thead-light">
     <tr>
       
-      <th scope="col"> Type sub</th>
-      <th scope="col"> Dev</th>
-      <th scope="col">Date Begin</th>
-      <th scope="col">Date End</th>
+      <th scope="col">Тип подписки  </th>
+      <th scope="col">Разработчик   </th>
+      <th scope="col">Дата начала   </th>
+      <th scope="col">Дата конца    </th>
+      <th scope="col"></th> 
       
     </tr>
   </thead>
@@ -47,7 +48,9 @@
       <td>@a[1]</td>
       <td>@a[2]</td>
       <td>@a[3]</td>
-     
+      <td>
+       <a class="btn btn-sm-2 btn-dark" asp-controller="User"  asp-action="SubToDev_View" asp-route-id_dev="@a[4]"  aria-label="Previous"> Продлить</a>
+      </td>
     </tr>
    
 }

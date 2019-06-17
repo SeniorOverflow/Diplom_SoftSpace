@@ -7,7 +7,7 @@
 <form method="post" asp-controller="User" asp-action="LogIn">
     @if(@ViewBag.AutoData.ex == 1)
     {
-        <p>Логин не найден  !!! @Model</p>
+        <p>Логин  или пароль не найден  !!! @Model</p>
     }
 
     @if(ViewBag.AutoData.ex == 2)

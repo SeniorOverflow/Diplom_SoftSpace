@@ -15,15 +15,15 @@ VALUES
 INSERT INTO abilities(
 	id, name)
 	VALUES
-	 (1,'Category Moderation'),
-	 (2,'Dev Moderation'),
-	 (3,'Product Moderation'),
-	 (4,'Role Moderation'),
-	 (5,'Subscription Moderation'),
-	 (6,'Transaction Moderation'),
-	 (7,'Users Moderation'),
-	 (8,'Comments Moderation'),
-	 (9,'Subscriptions Edition');
+	 (1,'управление категориями'),
+	 (2,'управление разработчиками'),
+	 (3,'управление продуктами'),
+	 (4,'управление ролями'),
+	 (5,'управление подписками'),
+	 (6,'управление транзакциями'),
+	 (7,'управление	пользователями'),
+	 (8,'управление	коментракиями'),
+	 (9,'редактирование подписок');
 
 
 INSERT INTO role_abilities(
@@ -77,6 +77,16 @@ VALUES
 		   ( '6 Month',		182,	'499.99'),
 		   ( '12 Month', 	365,	'899.99');
 
+
+INSERT INTO users(first_name, second_name ,login,password ,mail)
+VALUES
+ ('Mr', 'Admin','admin',crypt('admin', gen_salt('bf', 8)),'2010igorpopov2010@gmail.com');
+
+ INSERT INTO user_role (id_user, id_role)
+	VALUES(1,2)
+
+--
+
  INSERT INTO activity_status(name, description)
 	VALUES ('online',''),('offline',''),('away',''),('play','');
 
@@ -89,15 +99,7 @@ INSERT INTO social_status(
 			(5, 'remove friend', 		'you or any person removed person from friend list');
 	
 
-INSERT INTO users(first_name, second_name ,login,password ,mail)
-VALUES
- ('Mr', 'Admin','admin',crypt('admin', gen_salt('bf', 8)),'2010igorpopov2010@gmail.com');
-
- INSERT INTO user_role (id_user, id_role)
-	VALUES(1,2)
-
---
-
+	
 INSERT INTO public.social_interconnection(                         					-- add to friend
 	id_user_first, id_user_second, id_status)
 	VALUES (1, 2, 1);

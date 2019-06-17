@@ -102,16 +102,13 @@
               <h3 class="card-title">@a[1]</h3>
               @if(@a[5] != "")
               {
-                <h4 class="card-title">Цена: <strike> @a[2]</strike> @a[5] </h4>
+                <h4 class="card-title">Цена: <strike> @a[2] у. е.</strike> @a[5] у. е. </h4>
               }
               else
               {
-                 <h4 class="card-title">Цена:  @a[2] </h4>
+                 <h4 class="card-title">Цена:  @a[2] у. е. </h4>
               }
-              <h1>@a[0]</h1>
-              
-
-              <!-- Example split danger button -->
+              <!-- <h1>@a[0]</h1> -->
                   <div class="btn-group btn_p_cart">
                     <a  method ="get" asp-controller="Dev" asp-action="EditProduct"  asp-route-id_product="@a[0]" class="btn btn-sm-2 btn-dark ">Редактировать</a>
                     <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split  " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

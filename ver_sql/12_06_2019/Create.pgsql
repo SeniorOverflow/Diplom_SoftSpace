@@ -11,7 +11,7 @@ CREATE TABLE users (
 	lvl             int             default '1'				not null,
 	score			decimal(10,2) 	default '0.00' 			not null,
 	bonus_score 	decimal(10,2) 	default '0.00'			not null,
-	profile_pictute varchar(100) 	default 'NaPicture.png' not null,
+	picture_profile varchar(100) 	default 'NaPicture.png' not null,
 	primary key(id)
 );
 
@@ -102,6 +102,7 @@ CREATE TABLE product(
 	url_on_product 		varchar(100) 	default 'NaUrlOnProduct'	 not null,
 	def_picture			varchar(100) 	default 'NaPicture.png' 	 not null,
 	is_dlc				boolean			default false 				 not null,
+	is_invisuble		boolean			default false 				 not null,
 	primary key(id)
 );
 

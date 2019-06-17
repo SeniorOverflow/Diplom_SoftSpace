@@ -25,12 +25,12 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{"Transactions","Сделки"} );                            //14
             words_array.Add(new List<string>{"Users","Пользователи"} );                             //15
             words_array.Add(new List<string>{"Reviews ","Отзывы"} );                                //16
-            words_array.Add(new List<string>{"Profile"," Профайл"} );                               //17
+            words_array.Add(new List<string>{"Profile"," Профиль"} );                               //17
             words_array.Add(new List<string>{"Cart","Корзина"} );                                   //18
             words_array.Add(new List<string>{"Picture","Изображение"} );                            //19
             words_array.Add(new List<string>{"Labels","Метки"} );                                   //20
             words_array.Add(new List<string>{"Events","События"} );                                 //21
-            words_array.Add(new List<string>{"Name","Имя "} );                                      //22
+            words_array.Add(new List<string>{"Fisrst and second Name","Имя и Фамилия "} );          //22
             words_array.Add(new List<string>{"Description","Описание"} );                           //23
             words_array.Add(new List<string>{"First name","Имя"} );                                 //24
             words_array.Add(new List<string>{"Second name","Фамилия"} );                            //25
@@ -66,7 +66,7 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{"Your LvL","Ваш уровень"} );                           //54 
             words_array.Add(new List<string>{"Edit your data","Редактировать ваши данные"} );       //55 
             words_array.Add(new List<string>{"Create your company","Создать компанию"} );           //56 
-            words_array.Add(new List<string>{"Your Item","Ваши веши "} );                           //57
+            words_array.Add(new List<string>{"Your Item","Инвентарь "} );                           //57
             words_array.Add(new List<string>{"Library","Библиотека "} );                            //58
             words_array.Add(new List<string>{"Items","Предметы "} );                                //59
             words_array.Add(new List<string>{"Your friend","Ваши друзья "} );                       //60

@@ -15,11 +15,11 @@
      <h4>@ViewBag.Translate_words[40] @ViewBag.Product.category_name </h4>
     @if(@ViewBag.Discount_price =="")
     {
-    <h4> @ViewBag.Translate_words[35]: @ViewBag.Product.price </h4>
+    <h4> @ViewBag.Translate_words[35]: @ViewBag.Product.price у. е. </h4>
     }
     else
     {
-        <h4> @ViewBag.Translate_words[35]:<strike> @ViewBag.Product.price </strike> @ViewBag.Discount_price </h4>
+        <h4> @ViewBag.Translate_words[35]:<strike> @ViewBag.Product.price  у. е.</strike> @ViewBag.Discount_price у. е. </h4>
     }
     <div >
         <ul class ="navbar-nav flex-grow-1">
@@ -86,22 +86,21 @@ DLCs:
                 <td>@this_dlc[1]</td>
                 @if(@this_dlc[4] != "")
                 {
-                    <td><strike> @this_dlc[2] </strike> @this_dlc[4]</td>
+                    <td><strike> @this_dlc[2] у. е. </strike> @this_dlc[4] у. е.</td>
                 }
                 else
                 {
-                    <td> @this_dlc[2]</td>
+                    <td> @this_dlc[2] у. е.</td>
                 }
                
                 <td>
-                    <form method="post" asp-controller="Product" asp-action="AddDLC" class="form-inline form_search">
-                        <input type ="hidden" name="_id_product" value="@ViewBag.Product.id_product">
-                        <input type ="hidden" name="_id_dlc" value="@this_dlc[0]">
+                    <form method="post" asp-controller="Product" asp-action="AddProduct" class="form-inline form_search">
+                        <input type ="hidden" name="_id_product" value="@this_dlc[0]">
+                        <input type ="hidden" name="_id_dlc" value="@ViewBag.Product.id_product">
                         <button class="btn btn-sm-2 btn-dark" type="submit">@ViewBag.Translate_words[36]</button>
                     </form>
                 </td>
                 </tr>
-            
             }
 
 
