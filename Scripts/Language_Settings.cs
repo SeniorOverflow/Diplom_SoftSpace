@@ -25,9 +25,9 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{"Transactions","Сделки"} );                            //14
             words_array.Add(new List<string>{"Users","Пользователи"} );                             //15
             words_array.Add(new List<string>{"Reviews ","Отзывы"} );                                //16
-            words_array.Add(new List<string>{"Profile"," Профиль"} );                               //17
+            words_array.Add(new List<string>{"Profile"," Профайл"} );                               //17
             words_array.Add(new List<string>{"Cart","Корзина"} );                                   //18
-            words_array.Add(new List<string>{"Pictures","Изображения"} );                           //19
+            words_array.Add(new List<string>{"Picture","Изображение"} );                            //19
             words_array.Add(new List<string>{"Labels","Метки"} );                                   //20
             words_array.Add(new List<string>{"Events","События"} );                                 //21
             words_array.Add(new List<string>{"Name","Имя "} );                                      //22
@@ -60,24 +60,24 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{" Not Bad","Не плохо"} );                              //48 
             words_array.Add(new List<string>{"Good","Хорошо"} );                                    //49 
             words_array.Add(new List<string>{"Cool","Замечательно"} );                              //50 
-            words_array.Add(new List<string>{"Write your review","Напишите ваш отзыв"} );          //51 
+            words_array.Add(new List<string>{"Write your review","Напишите ваш отзыв"} );           //51 
             words_array.Add(new List<string>{"Your Score","Ваш счет"} );                            //52 
             words_array.Add(new List<string>{"Your Bonus Score","Ваш бонусный счет"} );             //53 
             words_array.Add(new List<string>{"Your LvL","Ваш уровень"} );                           //54 
-            words_array.Add(new List<string>{"Edit your data","Редактировать ваши нанные"} );       //55 
-            words_array.Add(new List<string>{"Create your team","Создать команду"} );               //56 
+            words_array.Add(new List<string>{"Edit your data","Редактировать ваши данные"} );       //55 
+            words_array.Add(new List<string>{"Create your company","Создать компанию"} );           //56 
             words_array.Add(new List<string>{"Your Item","Ваши веши "} );                           //57
             words_array.Add(new List<string>{"Library","Библиотека "} );                            //58
             words_array.Add(new List<string>{"Items","Предметы "} );                                //59
             words_array.Add(new List<string>{"Your friend","Ваши друзья "} );                       //60
-            words_array.Add(new List<string>{"Friends","Друзья "} );                               //61
+            words_array.Add(new List<string>{"Friends","Друзья "} );                                //61
             words_array.Add(new List<string>{"Product reviews","Отзывы на продукт"} );              //62
             words_array.Add(new List<string>{"Count","Кол-во"} );                                   //63
             words_array.Add(new List<string>{"Buy","Купить "} );                                    //64
             words_array.Add(new List<string>{"Company","Компания"} );                               //65
             words_array.Add(new List<string>{"Date of deal","Дата сделки"} );                       //66
             words_array.Add(new List<string>{"Add to Lib","Добавить"} );                            //67
-            words_array.Add(new List<string>{"Give friend","Дать другу"} );                         //68
+            words_array.Add(new List<string>{"Give friend",""} );                                   //68
             words_array.Add(new List<string>{"Edit your team","Редактировать компанию"} );          //69
             words_array.Add(new List<string>{"Your products","Ваши продукты"} );                    //70
             words_array.Add(new List<string>{"Delete your Company","Удалить компанию"} );           //71
@@ -85,7 +85,7 @@ namespace  SoftSpace_web.Script
             words_array.Add(new List<string>{"Edit","Редактировать"} );                             //73
             words_array.Add(new List<string>{"Phone","Телефон"} );                                  //74
             words_array.Add(new List<string>{"Score","Счет"} );                                     //75
-            words_array.Add(new List<string>{"Give","Дать"} );                                      //76
+            words_array.Add(new List<string>{"Give","Назначить"} );                                 //76
             words_array.Add(new List<string>{"Add New Role"," Добавить роль"} );                    //77
             words_array.Add(new List<string>{"User Login","Логин"} );                               //78
             words_array.Add(new List<string>{"LvL","Уровень"} );                                    //79

@@ -7,7 +7,7 @@
 <table class="table">
   <thead class="thead-light">
     <tr>
-      
+      <th scope="col">Изображение</th>
       <th scope="col">@ViewBag.Translate_words[22]</th>
       <th scope="col">@ViewBag.Translate_words[23]</th>
       <th scope="col">@ViewBag.Translate_words[65]</th>
@@ -20,6 +20,7 @@
 @foreach( var a in @ViewBag.Baggage) 
 {
     <tr>
+      <td><img src="~/Pictures/@a[5]" class="card-img-top " style="height:100px; width : 100px;" alt="..."></td>
       <th scope="row">@a[1]</th>
       <td>@a[2]</td>
       <td>@a[3]</td>

@@ -5,37 +5,30 @@
 
 
 
-<form method="post" asp-controller="Admin" asp-action="EditCategory_Save"  class="form_line">
-    <div class="card" style="width: 18rem;">
-  @{
-    string pic = @ViewBag.Category.def_picture + ".png";
-  }
-    <img src="~/Pictures/@pic" class="card-img-top" alt="...">
-    <div class="card-body">
-     
+<form method="post" enctype="multipart/form-data" asp-controller="Admin" asp-action="EditCategory_Save"  class="form_line">
+    <div class="card" style="width: 26rem;">
+      @{
+        string pic = @ViewBag.Category.def_picture;
+      }
+        <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+        <input type="file" name="u_file" multiple>
+        <div class="card-body">
         
-    
-    
-  
-    <input hidden name="id_category" value="@ViewBag.Category.id_category">
-    
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">@@</div>
+          <input hidden name="id_category" value="@ViewBag.Category.id_category">
+          
+          <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">Имя категории</div>
+              </div>
+              <input type="text" class="form-control" name="name" placeholder="ProductName" value="@ViewBag.Category.name">
+          </div>
+          <div class="form-group">
+              <label for="description">Описание </label>
+              <textarea class="form-control" name="description" rows="3">@ViewBag.Category.description</textarea>
+          </div>
+
+          <button type="submit"  class="btn btn-primary">Сохранить</button>
         </div>
-        <input type="text" class="form-control" name="name" placeholder="ProductName" value="@ViewBag.Category.name">
-    </div>
-    <div class="form-group">
-        <label for="description">Example textarea</label>
-        <textarea class="form-control" name="description" rows="3">@ViewBag.Category.description</textarea>
-    </div>
-    
-    
-     
-    
-   
-    <button type="submit"  class="btn btn-primary">Save</button>
-      </div>
   
     </div>
 </form>

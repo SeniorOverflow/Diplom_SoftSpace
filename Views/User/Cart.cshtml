@@ -8,8 +8,8 @@
 <table class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">@ViewBag.Translate_words[22]</th>
       <th scope="col">@ViewBag.Translate_words[19]</th>
+      <th scope="col">@ViewBag.Translate_words[22]</th>
       <th scope="col">@ViewBag.Translate_words[63]</th>
       <th scope="col">@ViewBag.Translate_words[35]</th>
       <th scope="col"></th>
@@ -19,14 +19,27 @@
 @foreach( var a in @ViewBag.Cart.items) 
 {
     <tr>
+      
+      
+      <td><img src="~/Pictures/@a[2]" class="card-img-top " style="height:100px; width : 100px;" alt="..."></td>
       <th scope="row">@a[1]</th>
-      <td>@a[2]</td>
       <td>@a[3]</td>
-      <td>@a[4]</td>
+      
+       @if(@a[5] != "")
+          {
+            <td>
+             <strike> @a[4]  </strike>  @a[5]
+            </td>
+          }
+          else
+          {
+             <td>@a[4]  </td>
+          }
+      
       <td>
             <form  asp-controller="Product" asp-action="RemoveProduct"  class="form-inline form_search">        
                 <input type="hidden" name ="_id_product_in_cart" value="@a[0]"  />              
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Remove</button>
+                <button class="btn btn-sm-2 btn-dark" type="submit">Убрать</button>
             </form>
       </td>
       
@@ -34,11 +47,11 @@
    
 }
 </table>
-
- <form  asp-controller="User" asp-action="Buy"  class="form-inline form_search">        
+<hr>
+<form  asp-controller="User" asp-action="Buy"  class="form-inline form_search">        
                 <input type="hidden" name ="_id_user" value="@ViewBag.Cart.id_user"  />  
-                <label for="buy">@ViewBag.Cart.this_price</label>
-                <button  name="buy" class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[64]</button>
+                <h3>@ViewBag.Cart.this_price<h3>
+                <button  name="buy" class="btn btn-sm-2 btn-dark" type="submit">@ViewBag.Translate_words[64]</button>
 </form>
 
 

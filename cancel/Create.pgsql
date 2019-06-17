@@ -49,3 +49,22 @@ CREATE TABLE user_message(
 		ON DELETE CASCADE ON UPDATE CASCADE					 		not null,
 	primary key(id)	
 );
+
+
+CREATE TABLE activity_status (
+	id serial,
+	name 				varchar(50)									not null,
+	description 		text 			default'NaD' 				not null,
+	primary key(id)
+);
+
+--3
+CREATE TABLE activity_status_user(
+
+	id serial,
+	id_user						int		 REFERENCES users(id)
+		ON DELETE CASCADE ON UPDATE CASCADE 					not null,
+	id_activity_status			int		 REFERENCES activity_status(id)
+		ON DELETE CASCADE ON UPDATE CASCADE 					not null,
+	primary key(id)
+);

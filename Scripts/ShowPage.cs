@@ -9,9 +9,10 @@ namespace  SoftSpace_web.Script
         
         public static Edit TakePages(string name_table,string sql_com,int numb_page,int count_items_on_page )
         {
+            DbConfig db = new DbConfig();
             Edit edit = new Edit();
             List<List<string>> tmp_data = new List<List<string>>();
-            DbConfig.UseSqlCommand("SELECT count(id) from  " + name_table, tmp_data);
+            db.UseSqlCommand("SELECT count(id) from  " + name_table, tmp_data);
             Console.WriteLine(numb_page + " - " + name_table);
             if(tmp_data.Count > 0)
             {
@@ -23,7 +24,7 @@ namespace  SoftSpace_web.Script
                 }
             }
 
-            DbConfig.UseSqlCommand(sql_com,edit.list);
+            db.UseSqlCommand(sql_com,edit.list);
             edit.currect_number = numb_page;
             
             return edit;

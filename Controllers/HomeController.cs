@@ -15,11 +15,12 @@ namespace SoftSpace_web.Controllers
 {
     public class HomeController : Controller
     {   
+        DbConfig db = new DbConfig();
         
          public IActionResult ShowCategory()
         {
             List<List<string>> tmp_data = new List<List<string>>();
-            DbConfig.UseSqlCommand("select * from category",tmp_data);
+            db.UseSqlCommand("select * from category",tmp_data);
 
            
             ViewBag.Categories = tmp_data;
@@ -30,7 +31,7 @@ namespace SoftSpace_web.Controllers
          public IActionResult  DevShow(int id_dev )
         {
             List<List<string>> tmp_data = new List<List<string>>();
-            DbConfig.UseSqlCommand("select * from developers WHERE id =" + id_dev,tmp_data);
+            db.UseSqlCommand("select * from developers WHERE id =" + id_dev,tmp_data);
 
            
             ViewBag.Dev = tmp_data;
@@ -43,11 +44,14 @@ namespace SoftSpace_web.Controllers
        
         public IActionResult Index( int numb_page = 0)
         {
+            DbConfig db = new DbConfig();
             ShopPage page = new ShopPage();
-         
+            Check_discount.Check();
+            
+
             HttpContext.Session.SetString("search_porduct_name","" );
             List<List<string>> tmp_data = new List<List<string>>();
-            DbConfig.UseSqlCommand("SELECT count(id) from product ", tmp_data);
+            db.UseSqlCommand("SELECT count(id) from product ", tmp_data);
             if(tmp_data.Count > 0)
             {
                 page.count_pages = Convert.ToInt32(tmp_data[0][0]) / ICOP.main;
@@ -58,16 +62,11 @@ namespace SoftSpace_web.Controllers
                 }
             }
            
-            DbConfig.UseSqlCommand("SELECT product.id,product.name,price ,def_picture,discount_price "+
+            db.UseSqlCommand("SELECT product.id,product.name,price ,def_picture,discount_price "+
                     "FROM product left join discount  on product.id = discount.id_product  "+
-                    " where is_dlc = false  OFFSET  "+(numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
+                    " where is_dlc = false  order by  product.id  desc  OFFSET  "+(numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
             
             
-
-
-            
-
-          
 
             page.currect_number = numb_page;
             ViewBag.Page = page;
@@ -76,17 +75,8 @@ namespace SoftSpace_web.Controllers
             return View();
         }
 
-
-
-        
-
-
-
-
-
-
         [HttpGet]
-        public IActionResult Autorisation(int ex = 0)
+        public IActionResult Authorization(int ex = 0)
         {
             int count =0;
              if(string.IsNullOrEmpty(HttpContext.Session.GetString("CountIn")))
@@ -99,7 +89,7 @@ namespace SoftSpace_web.Controllers
                 count ++;
                 HttpContext.Session.SetString("CountIn",""+count);
             }
-            Autorisation data = new Autorisation();
+            Authorization data = new Authorization();
             data.ex = ex;
             data.count = count;
             List<string> data_names_on_lg = Language_Settings.GetWords(1);
@@ -107,12 +97,14 @@ namespace SoftSpace_web.Controllers
             ViewBag.AutoData = data;
             return View();
         }
+
         [HttpGet]
         public IActionResult LogOut() 
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public IActionResult Reg(int type = 0)
         {
@@ -127,6 +119,7 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
          public IActionResult Reg(string _mail ,string _login , string _password , string _password2)
         {
+            DbConfig db = new DbConfig();
 
             if(_password != _password2 )
                 return RedirectToAction("Reg",new {type  = 1});
@@ -136,7 +129,7 @@ namespace SoftSpace_web.Controllers
                     {
                         Screening sr = new Screening();
                         List<List<string>> tmp1 = new List<List<string>>();
-                        DbConfig.UseSqlCommand("Select id FROM users WHERE login =lower("+sr.GetScr()+_login+sr.GetScr()+")" ,tmp1);
+                        db.UseSqlCommand("Select id FROM users WHERE login =lower("+sr.GetScr()+_login+sr.GetScr()+")" ,tmp1);
 
                         if(tmp1.Count == 0)
                         {
@@ -146,7 +139,7 @@ namespace SoftSpace_web.Controllers
                             Console.WriteLine("Plus + + +");
 
                             tmp1.Clear();
-                            DbConfig.UseSqlCommand("select id FROM users  where mail="+sr.GetScr()+_mail +sr.GetScr(),tmp1);
+                            db.UseSqlCommand("select id FROM users  where mail="+sr.GetScr()+_mail +sr.GetScr(),tmp1);
 
                             if(tmp1.Count != 0)
                             {
@@ -162,13 +155,13 @@ namespace SoftSpace_web.Controllers
                         List<List<string>> tmp = new List<List<string>>();
                         
                         Console.WriteLine( sr.GetScr());
-                        DbConfig.UseSqlCommand("INSERT INTO users(mail,login,password) " +
+                        db.UseSqlCommand("INSERT INTO users(mail,login,password) " +
                                                         " VALUES "+
                                                         "       (" +sr.GetScr()+_mail     +sr.GetScr()+
                                                         " ,lower(" +sr.GetScr()+_login    +sr.GetScr()+ 
                                                         "),crypt(" +sr.GetScr()+_password +sr.GetScr()+", gen_salt('bf', 8)));",tmp);
 
-                        return RedirectToAction("Autorisation", new{ex  = 3});
+                        return RedirectToAction("Authorization", new{ex  = 3});
                         }
                         else
                             return RedirectToAction("Reg",new {type  = 2});

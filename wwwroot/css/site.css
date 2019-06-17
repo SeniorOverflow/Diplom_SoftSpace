@@ -7,12 +7,41 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+a {
+  text-decoration: none; color:rgb(0, 0, 0) ;}
+a:hover {text-decoration: none; color: rgb(255, 153, 0) ;}
+
 .form_search{
   position: relative;
 }
 .center{
   display: block;
   margin: 0 auto;
+}
+.product
+{
+  position: relative;
+  width: 500px;
+  height: 400px;
+  
+  
+}
+.product_btn
+{
+  position: relative;
+  width: 40%;
+  
+  margin-top: 20px;
+}
+.im_product
+{
+  margin-right: 100px;
+}
+.btn_block
+{
+  width: 100%;
+  height: 300px;
+
 }
 
 .search_line{
@@ -109,8 +138,38 @@ html {
   height: 50px;
   
 }
+
+.p_cart
+{
+  position: relative;
+  width: 14rem; 
+  height:26rem;
+}
+.btn_p_cart
+{
+  position: absolute;
+  bottom:  4% ;
+  left: 6%;
+  width: 100%;
+  
+}
+.btn_p_cart_pos
+{
+  
+  width: 88%;
+  
+}
+.input_numb
+{
+  width: 4rem;
+}
 .inline{
   display : inline-block;
+  position: relative;
+  
+  
+ 
+  
 }
 .btn_serch
 {

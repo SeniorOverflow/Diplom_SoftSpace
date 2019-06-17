@@ -1,9 +1,7 @@
 ﻿@using SoftSpace_web.Models;
 @{
     ViewData["Title"] = "Home Page";
-    bool is_first_item = true;
-    bool is_first = true;
-    int is_first_item_index =0;
+
    
     int previous  = 0;
     int next = 1;
@@ -39,7 +37,7 @@
   @foreach( var a in @ViewBag.Page.new_product) 
   {
     <div class="_Cart">
-      <div class="card" style="width: 14rem; max-height:400px;">
+      <div class="card p_cart" >
       @{
         string pic = @a[3] ;
         <img src="~/Pictures/@pic" class="card-img-top " style="max-height:200px;" alt="...">
@@ -53,11 +51,17 @@
           {
             <h5 class="card-title">@ViewBag.Words_translate[35]: @a[2] </h5>
           }
+          
 
-          <a class="btn btn-primary" asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
+         
         </div>
+        <div class="btn_p_cart">
+            <a class="btn btn-sm-2 btn-dark btn_p_cart_pos " asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
+        </div>
+         
       }
       </div>
+      
     </div>
     
   }

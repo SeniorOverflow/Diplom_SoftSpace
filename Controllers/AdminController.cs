@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -14,17 +16,14 @@ namespace SoftSpace_web.Controllers
     public class AdminController : Controller
     {
 
-        private bool IsAdmin()
+        private bool IsNotJustUser()
         {
             if(String.IsNullOrEmpty(HttpContext.Session.GetString("roles")) == false)
             {
                     string [] str_roles = HttpContext.Session.GetString("roles").Split(","); //Load Roles
 
-                    foreach(string role in str_roles)
-                    {
-                        int _role = Convert.ToInt32(role);
-                        if (_role == 2) return true;
-                    }
+                    if(str_roles.Length > 1) 
+                        return true;
             }
             
             return false;
@@ -33,34 +32,97 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult Index()
         {
-             if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+            
+            if(IsNotJustUser())
             {
-                return RedirectToAction("Index", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Index"} ));
-            }
-            else
-            {
+                string [] str_roles = HttpContext.Session.GetString("roles").Split(",");
+                List<List<string>> tmp_roleId = new List<List<string>>();
+                int max_abilities_role_id  = 0;
+                int max_abilities = 0;
+                
+                foreach(string _role_id  in str_roles)
+                {
+                    tmp_roleId.Clear();
+                    db.UseSqlCommand("SELECT id_abilities FROM role_abilities WHERE id_role =  " + _role_id,tmp_roleId);
+                    if(tmp_roleId.Count > max_abilities)
+                    {
+                        max_abilities = tmp_roleId.Count ;
+                        max_abilities_role_id = Convert.ToInt32(_role_id);  
+                    }
+                }
+
+
                 List<string> words = Language_Settings.GetWords(1);
                 List<List<string>> menu = new List<List<string>>();
-                menu.Add(new List<string> {words[9],       "Описание",  "CategoryModeration"});
-                menu.Add(new List<string> {words[10],       "Описание", "DevModeration"});
-                menu.Add(new List<string> {words[11],       "Описание", "ProductModeration"});
-                menu.Add(new List<string> {words[12],       "Описание", "RoleModeration"});
-                menu.Add(new List<string> {words[13],       "Описание", "SubModeration"});
-                menu.Add(new List<string> {words[14],       "Описание", "TransactionModeration"});
-                menu.Add(new List<string> {words[15],       "Описание", "UserModeration"});
-                menu.Add(new List<string> {words[16],       "Описание", "CommentModeration"});
-                menu.Add(new List<string> {words[33],       "Описание", "SubEdition"});
+
+                List<List<string>> tmp_data_id_abilities = new List<List<string>>();
+                db.UseSqlCommand("SELECT id_abilities FROM role_abilities WHERE id_role = " + max_abilities_role_id, tmp_data_id_abilities);
+
+
+                foreach(List<string> abilities in tmp_data_id_abilities)
+                {
+
+                    switch(Convert.ToInt32( abilities[0]))
+                    {
+                        case 1 : {  
+                            menu.Add(new List<string> {words[9],       "Описание",  "CategoryModeration"});
+                            break;
+                        };
+                        case 2 : { 
+                            menu.Add(new List<string> {words[10],       "Описание", "DevModeration"});
+                            break;
+                        };
+                        case 3 : { 
+                            menu.Add(new List<string> {words[11],       "Описание", "ProductModeration"});
+                            break;
+                        };
+                        case 4 : { 
+                            menu.Add(new List<string> {words[12],       "Описание", "RoleModeration"});
+                            break;
+                        };
+                        case 5 : { 
+                            menu.Add(new List<string> {words[13],       "Описание", "SubModeration"});
+                            break;
+                        };
+
+                        case 6 : { 
+                            menu.Add(new List<string> {words[14],       "Описание", "TransactionModeration"});
+                            break;
+                        };
+
+                        case 7 : { 
+                            menu.Add(new List<string> {words[15],       "Описание", "UserModeration"});
+                            break;
+                        };
+                        case 8 : { 
+                            menu.Add(new List<string> {words[16],       "Описание", "CommentModeration"});
+                            break;
+                        };
+                        case 9 : { 
+                            menu.Add(new List<string> {words[33],       "Описание", "SubEdition"});
+                            break;
+                        };
+                        default: break;
+                    }
+               
+                }
                 ViewBag.Menu = menu;
                 ViewBag.ButtonWord = words[8];
                 return View();
+            }
+            else
+            {
+                 return RedirectToAction("Index", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Index"} ));
+
             }
         }
 
         public IActionResult DevModeration(int numb_page = 0)
         {
            
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -83,15 +145,15 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DelDev(int id_dev)
         {
-
-            DbConfig.UseSqlCommand("Delete FROM developers WHERE id =" + id_dev);
+            DbConfig db = new DbConfig();
+            db.UseSqlCommand("Delete FROM developers WHERE id =" + id_dev);
              return RedirectToAction("DevModeration", new RouteValueDictionary( 
                         new { controller = "Admin", action = "DevModeration"} ));
         }
         
         public IActionResult UserModeration(int numb_page = 0)
         {
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -118,7 +180,7 @@ namespace SoftSpace_web.Controllers
             string role = HttpContext.Session.GetString("role");
             List<List<string >> tmp_data = new List<List<string>>();
             int _role = Convert.ToInt32(role);
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -144,8 +206,9 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DelComments(int id_review,int numb_page)
         {
+            DbConfig db = new DbConfig();
 
-            DbConfig.UseSqlCommand("Delete FROM review WHERE id =" + id_review);
+            db.UseSqlCommand("Delete FROM review WHERE id =" + id_review);
              return RedirectToAction("CommentModeration", new RouteValueDictionary( 
                         new { controller = "Admin", action = "CommentModeration", numb_page = numb_page} ));
         }
@@ -156,8 +219,9 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DelUser(int id_user)
         {
+            DbConfig db = new DbConfig();
 
-            DbConfig.UseSqlCommand("Delete FROM users WHERE id =" + id_user);
+            db.UseSqlCommand("Delete FROM users WHERE id =" + id_user);
              return RedirectToAction("UserModeration", new RouteValueDictionary( 
                         new { controller = "Admin", action = "CommentModeration"} ));
         }
@@ -168,8 +232,9 @@ namespace SoftSpace_web.Controllers
         public IActionResult BlockUser(int id_user,int  _count , string cause)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             List<List<string>> tmp_data_now = new List<List<string>>();
-            DbConfig.UseSqlCommand("Select extract(day from now()) , extract(month  from now()) , extract(year  from now())" ,tmp_data_now);
+            db.UseSqlCommand("Select extract(day from now()) , extract(month  from now()) , extract(year  from now())" ,tmp_data_now);
             int day = Convert.ToInt32(tmp_data_now[0][0]);
             int month = Convert.ToInt32(tmp_data_now[0][1]);
             int year = Convert.ToInt32(tmp_data_now[0][2]);
@@ -191,7 +256,7 @@ namespace SoftSpace_web.Controllers
             Console.WriteLine(tmp_data_now[0][0]);
 
 
-            DbConfig.UseSqlCommand("INSERT INTO block_user ( id_user, date_begin, date_end, cause ) "+
+            db.UseSqlCommand("INSERT INTO block_user ( id_user, date_begin, date_end, cause ) "+
                                 " VALUES ("+id_user+", now() ,"+sr.GetScr()+day+"-"+month+"-"+year+sr.GetScr()+","+sr.GetScr()+cause+sr.GetScr()+")");
              return RedirectToAction("UserModeration", new RouteValueDictionary( 
                         new { controller = "Admin", action = "CommentModeration"} ));
@@ -202,7 +267,8 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult ProductModeration(int numb_page = 0)
         {
-            if(IsAdmin() == false)
+            Check_discount.Check();
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -230,7 +296,8 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DelProduct(int id_product)
         {
-            if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -238,19 +305,19 @@ namespace SoftSpace_web.Controllers
             else
             {
 
-                DbConfig.UseSqlCommand("Delete FROM product WHERE id =" + id_product);
+                db.UseSqlCommand("Delete FROM product WHERE id =" + id_product);
                 return RedirectToAction("ProductModeration", new RouteValueDictionary( 
                             new { controller = "Admin", action = "ProductModeration"} ));
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult EditCategory(int id_category)
         {
+            DbConfig db = new DbConfig();
             Category category = new Category();
             List<List<string>> tmp_data = new List<List<string>>();
-            DbConfig.UseSqlCommand("select * from category where id=" + id_category,tmp_data);
+            db.UseSqlCommand("select * from category where id=" + id_category,tmp_data);
             category.id_category = Convert.ToInt32( tmp_data[0][0]);
             category.name= tmp_data[0][1];
             category.description = tmp_data[0][2];
@@ -261,24 +328,83 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditCategory_Save(int id_category,string name, string description)
+        public async Task< IActionResult> EditCategory_Save(
+                                                            int         id_category,
+                                                            string      name,
+                                                            string      description,
+                                                            IFormFile   u_file = null
+                                                            )
         {
+            DbConfig db = new DbConfig();
             Screening sr = new Screening();
-            if(IsAdmin() == false)
+            string filePath = "";
+            string file_name="";
+
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
             }
             else
             {
-                
-                if(IsAdmin())
+                 if(u_file != null)
                 {
-                    DbConfig.UseSqlCommand("UPDATE category SET "+
+                    string [] type = u_file.FileName.Split('.');
+
+                    type[1] = type[1].ToUpper();
+                    if(( type[1] == "PNG")||( type[1] == "JPEG")||( type[1] == "JPG"))
+                    {
+                        string [] type_pic = u_file.FileName.Split('.');
+                        Guid id_pic = Guid.NewGuid();
+                        filePath = "wwwroot\\Pictures\\"+id_pic + "." + type_pic[1];
+                        file_name = ""  +id_pic + "." + type_pic[1];
+
+                        Console.WriteLine("2 -- -- -- "+ filePath  + " -- " + id_pic );
+                        Bitmap myBitmap;
+                        using (Stream  fs = new FileStream(filePath, FileMode.OpenOrCreate))
+                            {
+                                await u_file.CopyToAsync(fs);
+                                Console.WriteLine(fs.Position  + "  ---  - - - -- " +  u_file.Length );
+                                while(fs.Position != u_file.Length) {} // ожидание  загрузки изображения
+
+                                myBitmap = new Bitmap(fs);
+                                Console.WriteLine(myBitmap.Width + " -+_+-" + myBitmap.Height);
+                            }
+
+                        Image img = myBitmap;
+                        int im_w = myBitmap.Width;
+                        int im_h = myBitmap.Height;
+
+                        if(im_w > im_h)
+                        {
+                            im_w = im_h;
+                            im_h = (im_h *9)/10; 
+                        }
+                        else
+                            im_h = (im_w *9)/10;
+
+                        img = img.Crop(new Rectangle(0, 0,  im_w,  im_h));
+                        img.Save(filePath);
+                    }
+                    else
+                    {
+                        return RedirectToAction("UpdateInfo_page", new RouteValueDictionary( 
+                                new { controller = "User", action = "UpdateInfo_page"} )); 
+                    }
+                    db.UseSqlCommand("UPDATE category SET "+
+                    "name   =  "+sr.GetScr()+name+sr.GetScr()+","+
+                    "description      =  "+sr.GetScr()+description+sr.GetScr()+","+
+                    "def_picture      =  "+sr.GetScr()+file_name+sr.GetScr()+" "+
+                    " WHERE category.id= "+id_category );
+                }
+                else 
+                {
+                    db.UseSqlCommand("UPDATE category SET "+
                     "name   =  "+sr.GetScr()+name+sr.GetScr()+","+
                     "description      =  "+sr.GetScr()+description+sr.GetScr()+" "+
                     " WHERE category.id= "+id_category );
                 }
+                
 
                 return RedirectToAction("CategoryModeration", new RouteValueDictionary( 
                     new { controller = "Admin", action = "CategoryModeration"} ));
@@ -292,10 +418,11 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DelCategory(int id_category,int  numb_page)
         {
+            DbConfig db = new DbConfig();
             
             Console.WriteLine(id_category);
             
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -303,7 +430,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                 
-                DbConfig.UseSqlCommand("delete from category cascade where id = " + id_category);
+                db.UseSqlCommand("delete from category cascade where id = " + id_category);
                 
             }
             return RedirectToAction("CategoryModeration", new RouteValueDictionary( 
@@ -318,7 +445,7 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddCategory_View()
         {
-             if(IsAdmin() == false)
+             if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -334,23 +461,79 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddCategory(string name , string description, string def_picture ="NaPicture2")
+        public async Task<IActionResult> AddCategory(string name , string description, IFormFile u_file = null)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
+            string filePath = "";
+            string file_name="";
             
             
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
             }
             else
             {
+                 if(u_file != null)
+                {
+                    string [] type = u_file.FileName.Split('.');
+
+                    type[1] = type[1].ToUpper();
+                    if(( type[1] == "PNG")||( type[1] == "JPEG")||( type[1] == "JPG"))
+                    {
+                        string [] type_pic = u_file.FileName.Split('.');
+                        Guid id_pic = Guid.NewGuid();
+                        filePath = "wwwroot\\Pictures\\"+id_pic + "." + type_pic[1];
+                        file_name = ""  +id_pic + "." + type_pic[1];
+
+                        Console.WriteLine("2 -- -- -- "+ filePath  + " -- " + id_pic );
+                        Bitmap myBitmap;
+                        using (Stream  fs = new FileStream(filePath, FileMode.OpenOrCreate))
+                            {
+                                await u_file.CopyToAsync(fs);
+                                Console.WriteLine(fs.Position  + "  ---  - - - -- " +  u_file.Length );
+                                while(fs.Position != u_file.Length) {} // ожидание  загрузки изображения
+
+                                myBitmap = new Bitmap(fs);
+                                Console.WriteLine(myBitmap.Width + " -+_+-" + myBitmap.Height);
+                            }
+
+                        Image img = myBitmap;
+                        int im_w = myBitmap.Width;
+                        int im_h = myBitmap.Height;
+
+                        if(im_w > im_h)
+                        {
+                            im_w = im_h;
+                            im_h = (im_h *9)/10; 
+                        }
+                        else
+                            im_h = (im_w *9)/10;
+
+                        img = img.Crop(new Rectangle(0, 0,  im_w,  im_h));
+                        img.Save(filePath);
+                    }
+                    else
+                    {
+                        return RedirectToAction("UpdateInfo_page", new RouteValueDictionary( 
+                                new { controller = "User", action = "UpdateInfo_page"} )); 
+                    }
+                }
+                else 
+                {
+                    file_name = "NaPicture.png";
+                }
+
+
+
+
                 
-                DbConfig.UseSqlCommand("INSERT INTO public.category(name, description, def_picture)"+
+                db.UseSqlCommand("INSERT INTO public.category(name, description, def_picture)"+
                 " VALUES ("+sr.GetScr()+    name            +sr.GetScr()+
                         ","+sr.GetScr()+    description     +sr.GetScr()+
-                        ","+sr.GetScr()+    def_picture     +sr.GetScr()+")");
+                        ","+sr.GetScr()+    file_name     +sr.GetScr()+")");
            
             }
             return RedirectToAction("CategoryModeration", new RouteValueDictionary( 
@@ -367,7 +550,7 @@ namespace SoftSpace_web.Controllers
         public IActionResult CategoryModeration(int numb_page = 0)
         {
            
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -389,7 +572,7 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult SubModeration(int numb_page = 0)
         {
-             if(IsAdmin() == false)
+             if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -415,7 +598,7 @@ namespace SoftSpace_web.Controllers
 
         public IActionResult SubEdition(int numb_page = 0)
         {
-             if(IsAdmin() == false)
+             if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -437,7 +620,7 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult AddSub_View()
         {
-             if(IsAdmin() == false)
+             if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -451,7 +634,8 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddSub(string name, string description, string price)
         {
-             if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+             if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -460,7 +644,7 @@ namespace SoftSpace_web.Controllers
             {
                 Console.WriteLine("+++++++++++++++++++++++++++++++++++",price);
                  Screening sr = new Screening();
-                 DbConfig.UseSqlCommand("INSERT INTO type_of_subscription( name, description, price)"+
+                 db.UseSqlCommand("INSERT INTO type_of_subscription( name, description, price)"+
                                         " VALUES ("+sr.GetScr() + name          + sr.GetScr()   +", "
                                                    +sr.GetScr() + description   + sr.GetScr()   +", "
                                                    +sr.GetScr() + price         + sr.GetScr()   +") ");
@@ -471,7 +655,8 @@ namespace SoftSpace_web.Controllers
         }
         public IActionResult UpdateSub_View(int id_sub)
         {
-             if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+             if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -479,7 +664,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                 List<List<string>> tmp_data = new List<List<string>>();
-                DbConfig.UseSqlCommand("SELECT * FROM  type_of_subscription WHERE id="+id_sub,tmp_data);
+                db.UseSqlCommand("SELECT * FROM  type_of_subscription WHERE id="+id_sub,tmp_data);
                 tmp_data[0][3] = tmp_data[0][3].Replace(',','.');
                 ViewBag.Sub = tmp_data;
                 return View();
@@ -488,9 +673,10 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateSub(int id_sub,string name, string description, string price)
+        public IActionResult UpdateSub(int id_sub,string name, string count_days, string price)
         {
-             if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+             if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -498,9 +684,9 @@ namespace SoftSpace_web.Controllers
             else
             {
                  Screening sr = new Screening();
-                DbConfig.UseSqlCommand("UPDATE type_of_subscription " +
+                db.UseSqlCommand("UPDATE type_of_subscription " +
 	                                        "SET  name="    +sr.GetScr() + name          + sr.GetScr()   +
-                                            ", description="+sr.GetScr() + description   + sr.GetScr()   +
+                                            ", count_days="+sr.GetScr() + count_days   + sr.GetScr()   +
                                             ", price="      +sr.GetScr() + price         + sr.GetScr()   +
 	                                    "WHERE id ="+ id_sub);
 
@@ -515,8 +701,8 @@ namespace SoftSpace_web.Controllers
         public IActionResult DelSub(int id_sub)
         {
             
-            
-            if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -524,7 +710,7 @@ namespace SoftSpace_web.Controllers
             else
             {
 
-            DbConfig.UseSqlCommand("delete from type_of_subscription cascade where id = " + id_sub);
+            db.UseSqlCommand("delete from type_of_subscription cascade where id = " + id_sub);
            
             }
             return RedirectToAction("SubEdition", new RouteValueDictionary( 
@@ -536,8 +722,8 @@ namespace SoftSpace_web.Controllers
         public IActionResult DelSubribe( int id_sub, int numb_page)
         {
             
-            
-            if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -545,11 +731,52 @@ namespace SoftSpace_web.Controllers
             else
             {
 
-            DbConfig.UseSqlCommand("delete from subscription_on_dev  where subscription_on_dev.id = " + id_sub);
+            db.UseSqlCommand("delete from subscription_on_dev  where subscription_on_dev.id = " + id_sub);
            
             }
             return RedirectToAction("SubModeration", new RouteValueDictionary( 
                                 new { controller = "Admin", action = "SubModeration" , numb_page = numb_page} ));
+
+        }
+
+        
+
+        public IActionResult GiveRole_View( int id_role, int numb_page)
+        {
+            
+            if(IsNotJustUser() == false)
+            {
+                return RedirectToAction("Index", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Index"} ));
+            }
+            else
+            {
+                Edit users = new Edit();
+                string _sql_com = "Select id,login,mail,lvl,score, bonus_score FROM users OFFSET  "+(numb_page)*ICOP.a_users +" limit "+ICOP.a_users ;
+                users = ShowPage.TakePages("users",_sql_com,numb_page,ICOP.a_users);
+                
+                ViewBag.Users = users;
+                ViewBag.Id_role = id_role; 
+                List<string> translate_words = Language_Settings.GetWords(1);
+                ViewBag.Translate_words  = translate_words;
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GiveRole( int id_user, int id_role , int numb_page)
+        {
+            
+            DbConfig db = new DbConfig();
+            db.UseSqlCommand(" INSERT INTO user_role (id_user, id_role) " +
+                                "VALUES("+id_user+","+id_role+")");
+
+            
+           
+            return RedirectToAction("GiveRole_View", new RouteValueDictionary( 
+                                new { controller = "Admin", action = "GiveRole_View" , numb_page = numb_page} ));
 
         }
 
@@ -558,7 +785,7 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult TransactionModeration(int numb_page = 0)
         {
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -585,8 +812,8 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteTransaction(int id_transaction)
         {
-
-            DbConfig.UseSqlCommand("DELETE from deal WHERE deal.id =" + id_transaction);
+            DbConfig db = new DbConfig();
+            db.UseSqlCommand("DELETE from deal WHERE deal.id =" + id_transaction);
             return RedirectToAction("TransactionModeration", new RouteValueDictionary( 
                         new { controller = "Admin", action = "TransactionModeration"} ));
         }
@@ -596,9 +823,7 @@ namespace SoftSpace_web.Controllers
         public IActionResult RoleModeration(int numb_page = 0)
         {
            
-           
-           
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
                         new { controller = "Home", action = "Index"} ));
@@ -620,11 +845,18 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddRole(string name , string description)
+        public IActionResult AddRole(string name , string description , string [] check)
         {
+            DbConfig db = new DbConfig();
             Screening sr = new Screening();
             
-            if(IsAdmin() == false)
+            foreach(string a in check)
+            {
+                Console.Write(a+" -- ");
+
+            }
+            Console.WriteLine();
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Admin", action = "Index"} ));
@@ -633,16 +865,27 @@ namespace SoftSpace_web.Controllers
             {
                 List<List<string>> tmp_data = new List<List<string>>();
                
-                DbConfig.UseSqlCommand("Select * from roles WHERE name ="+sr.GetScr() + name + sr.GetScr(),tmp_data);
+                db.UseSqlCommand("Select * from roles WHERE name ="+sr.GetScr() + name + sr.GetScr(),tmp_data);
 
                 if(tmp_data.Count>0)
                 {
                     return RedirectToAction("AddRole_View", new RouteValueDictionary( 
                                 new { controller = "Admin", action = "AddRole_View", ex = 1 } )); 
                 }
-                DbConfig.UseSqlCommand("INSERT INTO roles(name, description)"+
+                db.UseSqlCommand("INSERT INTO roles(name, description)"+
                 " VALUES ("+sr.GetScr()+name+sr.GetScr()+","+sr.GetScr()+description+sr.GetScr()+")");
-           
+
+                tmp_data.Clear();
+                db.UseSqlCommand("SELECT roles.id FROM roles WHERE roles.name =  "+ sr.GetScr() + name + sr.GetScr() , tmp_data);
+                
+                
+                 foreach(string a in check)
+                {
+                    db.UseSqlCommand("INSERT INTO role_abilities(id_abilities, id_role) " + 
+	                    "VALUES " + 
+                        "(" + a + ", " + tmp_data[0][0]+ ")" );
+                }
+
             }
             return RedirectToAction("RoleModeration", new RouteValueDictionary( 
                                 new { controller = "Admin", action = "RoleModeration" } )); 
@@ -651,14 +894,20 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult AddRole_View(int ex =0)
         {
-             if(IsAdmin() == false)
+             if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
             }
             else
             {
+                DbConfig db = new DbConfig();
+                List<List<string>> tmp_abilities = new List<List<string>>();
+                db.UseSqlCommand("SELECT * from abilities" , tmp_abilities);
                 ViewBag.Ex = ex;
+                ViewBag.Abilities = tmp_abilities;
+
+
                 return View();
             }
         }
@@ -666,9 +915,10 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult EditRole(int id_role_users,int ex = 0)
         {
+            DbConfig db = new DbConfig();
             Category category = new Category();
             List<List<string>> tmp_data = new List<List<string>>();
-            DbConfig.UseSqlCommand("select * from roles where id=" + id_role_users,tmp_data);
+            db.UseSqlCommand("select * from roles where id=" + id_role_users,tmp_data);
             
             ViewBag.Role = tmp_data;
             ViewBag.Ex = ex;
@@ -681,8 +931,10 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditRole_Save(int id_role_users,string name, string description)
         {
+
             Screening sr = new Screening();
-            if(IsAdmin() == false)
+            DbConfig db = new DbConfig();
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
@@ -691,7 +943,7 @@ namespace SoftSpace_web.Controllers
             {
                  List<List<string>> tmp_data = new List<List<string>>();
                
-                DbConfig.UseSqlCommand("Select * from roles WHERE name ="
+                db.UseSqlCommand("Select * from roles WHERE name ="
                                         +sr.GetScr() + name + sr.GetScr()+" AND id != "+id_role_users,tmp_data);
 
                 if(tmp_data.Count>0)
@@ -699,7 +951,7 @@ namespace SoftSpace_web.Controllers
                     return RedirectToAction("EditRole", new RouteValueDictionary( 
                                 new { controller = "Admin", action = "EditRole", id_role_users = id_role_users,ex = 1 } )); 
                 }
-                    DbConfig.UseSqlCommand("UPDATE roles SET "+
+                    db.UseSqlCommand("UPDATE roles SET "+
                     "name   =  "+sr.GetScr()+name+sr.GetScr()+","+
                     "description      =  "+sr.GetScr()+description+sr.GetScr()+" "+
                     " WHERE roles.id= "+id_role_users );
@@ -713,15 +965,15 @@ namespace SoftSpace_web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DelRole(int id_role_users)
         {
+            DbConfig db = new DbConfig();
             
-            
-            if(IsAdmin() == false)
+            if(IsNotJustUser() == false)
             {
                  return RedirectToAction("Index", new RouteValueDictionary( 
                   new { controller = "Home", action = "Index"} ));
             }
             else
-                DbConfig.UseSqlCommand("delete from roles cascade where id = " + id_role_users);
+                db.UseSqlCommand("delete from roles cascade where id = " + id_role_users);
             
             return RedirectToAction("RoleModeration", new RouteValueDictionary( 
                                 new { controller = "Admin", action = "RoleModeration"} ));

@@ -1,19 +1,56 @@
 @await Component.InvokeAsync("Menu" , new {})
 <h1>UpdateInfo</h1>
-<form method="post" asp-controller="Dev" asp-action="UpdateInfo"  class="form_line">
-    <input hidden name="id_dev" value="@ViewBag.Dev.id_dev">
-    
-    <h4>name</h4>
-    <input type="text" name="name" value="@ViewBag.Dev.name"><br>
-    <h4>url_on_logo</h4>
-    <input type="text" name="url_on_logo" value="@ViewBag.Dev.url_on_logo"><br>
-    <h4>discription</h4>
-    <input type="text" name="description" value="@ViewBag.Dev.description"><br>
-    <h4>address</h4>
-    <input type="text" name="address" value="@ViewBag.Dev.address"><br>
-    <h4>mail</h4>
-    <input type="text" name="mail" value="@ViewBag.Dev.mail"><br>
-    <h4>phone</h4>
-    <input type="text" name="phone" value="@ViewBag.Dev.phone"><br>
-    <button type="submit"  class="bn_all">Save</button>
+
+
+<form method="post" enctype="multipart/form-data" asp-controller="Dev" asp-action="UpdateInfo"  class="form_line">
+    <div class="card" style="width: 28rem;">
+
+        <img src="~/Pictures/@ViewBag.Dev.url_on_logo" class="card-img-top" alt="...">
+        <div class="card-body">
+            
+            
+
+            <input type="file" name="u_file" multiple>
+            
+            
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Имя Компании</div>
+                </div>
+                <input type="text" class="form-control" name="name" placeholder="Имя " value="@ViewBag.Dev.name">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание</label>
+                <textarea class="form-control" name="description" rows="3">@ViewBag.Dev.description</textarea>
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Адрес </div>
+                </div>
+                <input type="text" class="form-control" name="address" placeholder="Адрес " value="@ViewBag.Dev.address">
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">@@mail </div>
+                </div>
+                <input type="text" class="form-control" name="mail" placeholder="E-mail " value="@ViewBag.Dev.mail">
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Телефон </div>
+                </div>
+                <input type="text" class="form-control" name="phone" placeholder="Телефон " value="@ViewBag.Dev.phone">
+            </div>
+
+
+
+            
+            <input type="submit"  class="btn btn-primary" value="Сохранить">
+        </div>
+    </div>
 </form>

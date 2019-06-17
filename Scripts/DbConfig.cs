@@ -14,9 +14,11 @@ namespace  SoftSpace_web.Script
         {
             conn.Open();
         }
-        public static  void  UseSqlCommand(string _sqlCommand,List<List<string>> Mas = null) // return an information from database with array
+        public    void  UseSqlCommand(string _sqlCommand,List<List<string>> Mas = null) 
         {
+            
             List<string> row = new List<string>();
+            
             NpgsqlCommand command = new NpgsqlCommand(_sqlCommand, conn);
             NpgsqlDataReader dr = command.ExecuteReader();
             while(dr.Read())
@@ -27,7 +29,7 @@ namespace  SoftSpace_web.Script
                 {
                     row.Add(dr[i].ToString());
                 }
-                Console.WriteLine();
+                
                 Mas.Add(row);
             }
             dr.Close();

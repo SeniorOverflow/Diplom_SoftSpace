@@ -1,0 +1,149 @@
+@await Component.InvokeAsync("Menu" , new {})
+<h1>OpenCategory</h1>
+
+
+@using SoftSpace_web.Models;
+@{
+    ViewData["Title"] = "Search Page";
+
+    int previous  = 0;
+    int next = 1;
+    int this_page = 0;
+    
+    if(@ViewBag.Page.currect_number < 0)
+      {
+        this_page = 0;
+      }
+    else
+      {
+        this_page = @ViewBag.Page.currect_number;
+      }
+      
+    if(this_page > 0) 
+      {
+        previous = this_page - 1;
+      }
+    else
+      {
+        this_page = 0;
+      }
+    
+    next = this_page  +1 ;
+}
+
+
+
+<div class ="row" >
+  @foreach( var a in @ViewBag.Page.list) 
+  {
+    <div class="_Cart">
+      <div class="card p_cart" >
+      @{
+        string pic = @a[3] ;
+        <img src="~/Pictures/@pic" class="card-img-top " style="max-height:200px;" alt="...">
+        <div class="card-body">
+          <h4 class="card-title">@a[1]</h4>
+          @if(@a[4] != "")
+          {
+            <h5 class="card-title">@ViewBag.Words_translate[35]: <strike>@a[2]</strike>  @a[4]</h5>
+          }
+          else
+          {
+            <h5 class="card-title">@ViewBag.Words_translate[35]: @a[2] </h5>
+          }
+          
+
+         
+        </div>
+        <div class="btn_p_cart">
+            <a class="btn btn-primary btn_p_cart_pos " asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
+        </div>
+         
+      }
+      </div>
+      
+    </div>
+    
+  }
+</div>
+
+@if(@ViewBag.Page.count_pages > 1 )
+{
+<nav aria-label="...">
+  <ul class="pagination">
+    @if(this_page > 0)
+    {
+    <li class="page-item">
+      <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@previous"  asp-route-name_product ="@ViewBag.NameProduct" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    }
+
+    
+    
+
+
+    @if(this_page < 12)
+    {
+      @for(int i = 0;i < 19; i++ )
+      {
+        int nn_page = i; 
+         @if(nn_page == this_page)
+        {
+          <li class="page-item active">
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@this_page" asp-route-name_product ="@ViewBag.NameProduct">@(this_page + 1) <span class="sr-only">(current)</span></a>
+          </li>
+
+        }
+        else{
+          if((i < @ViewBag.Page.count_pages)&&(i >= 0))
+          {
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@nn_page" asp-route-name_product ="@ViewBag.NameProduct" >@(nn_page + 1)</a>
+          }
+        }
+      }
+      
+    }
+    else
+    {
+      @for( int i =  Convert.ToInt32(this_page) - 9 ;
+        i < Convert.ToInt32(this_page) + 10; i++)
+      {
+        
+        int nn_page = i;
+        
+        @if(nn_page == this_page)
+        {
+          <li class="page-item active">
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@this_page" asp-route-name_product ="@ViewBag.NameProduct">@(this_page + 1) <span class="sr-only">(current)</span></a>
+          </li>
+
+        }
+        else{
+          if((i < @ViewBag.Page.count_pages)&&(i >= 0))
+          {
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@nn_page" asp-route-name_product ="@ViewBag.NameProduct" >@(nn_page + 1)</a>
+          }
+        }
+      }
+
+
+    }
+
+    @if(next < @ViewBag.Page.count_pages)
+    {
+    <li class="page-item">
+      <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@next" asp-route-name_product ="@ViewBag.NameProduct" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    }
+
+  </ul>
+</nav>
+}
+
+

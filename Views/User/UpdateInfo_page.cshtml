@@ -1,8 +1,30 @@
 @await Component.InvokeAsync("Menu" , new {})
-<h1>UserUpdateInfo</h1>
 
-<form method="post" asp-controller="User" asp-action="UpdateInfo"  class="form_line">
-    <input type="text" name="first_name" value="@ViewBag.User_data.first_name">
-    <input type="text" name="second_name" value="@ViewBag.User_data.second_name">
-    <button type="submit"  class="bn_all">Save</button>
+<h1> Изменение личной  информации </h1>
+<form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="UpdateInfo"  class="form_line">
+    <div class="card" style="width: 24rem;">
+
+        <img src="~/Pictures/@ViewBag.User_data.picture_profile" class="card-img-top" alt="...">
+        <div class="card-body">
+            
+            <input type="file" name="u_file" multiple>
+            
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                <div class="input-group-text">@@Имя</div>
+                </div>
+                <input type="text" class="form-control" name="first_name" placeholder="Имя " value="@ViewBag.User_data.first_name">  
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                <div class="input-group-text">@@Фамилия</div>
+                </div>
+                <input type="text" class="form-control" name="second_name" placeholder="Фамилия" value="@ViewBag.User_data.second_name">
+            </div>
+            
+            <input type="submit"  class="btn btn-sm-2 btn-dark" value="Сохранить">
+        </div>
+    </div>
 </form>

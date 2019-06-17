@@ -25,7 +25,7 @@
     
     next = this_page  +1 ;
 }
-<script src="/lib/jquery/dist/jquery.js"></script>
+
 
 
 
@@ -74,20 +74,25 @@
     <div class="_Cart">
         <div class="card" style="width: 18rem;">
         @{
-            string pic = @a[3] + ".png";
-            <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+            string pic = @a[3] ;
+            <!-- <img src="~/Pictures/@pic" class="card-img-top" alt="..."> -->
             <div class="card-body">
                 <h3 class="card-title">@a[1]</h3>
-            
-                <form method="post" asp-controller="Admin" asp-action="EditCategory"  class="form_line">
-                    <input type="hidden" name="id_category" value="@a[0]"/>
-                    <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[73]</button>
-                </form>
                 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
-
-                    
+                <br>
+                <div class="btn-group btn_p_cart">
+                    <a   asp-controller="Admin" asp-action="EditCategory"  asp-route-id_category="@a[0]" class="btn btn-sm-2 btn-dark ">Редактировать</a>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split  " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
                      
+                      
+                      <!-- <div class="dropdown-divider"></div> -->
+                     
+                      <button type="button" class="dropdown-item btn" data-toggle="modal" data-target="#@id_this" >@ViewBag.Translate_words[27]</button>
+                    </div>
+                  </div>     
             </div>
         }
         </div>

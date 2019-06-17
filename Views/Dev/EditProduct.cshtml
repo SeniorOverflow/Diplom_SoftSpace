@@ -5,17 +5,17 @@
 
 
 
-<form method="post" asp-controller="Dev" asp-action="EditProduct_Save"  class="form_line">
-    <div class="card" style="width: 18rem;">
+<form method="post" enctype="multipart/form-data" asp-controller="Dev" asp-action="EditProduct_Save"  class="form_line">
+    <div class="card" style="width: 26rem;">
   @{
-    string pic = @ViewBag.Product.def_picture + ".png";
+    string pic = @ViewBag.Product.def_picture ;
   }
-    <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+    <img src="~/Pictures/@pic" class="card-img-top" alt="..." >
     <div class="card-body">
      
         <div class="form-group">
-            <label for="file">Example file input</label>
-            <input type="File"  name="upload_file">
+            <label for="file">Выберите файл</label>
+            <input type="File"  name="u_file">
         </div>
     
     

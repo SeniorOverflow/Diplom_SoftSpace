@@ -13,19 +13,20 @@ namespace  SoftSpace_web.Script
 
         public   Sub_Date_Seting(string date_end_last_sub, int count_days)
         {
+             DbConfig db = new DbConfig();
 
             List<List<string>> tmp_data = new List<List<string>>();
             if(date_end_last_sub =="")
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("Select now() - interval '30 day ' ",tmp_data);
+                db.UseSqlCommand("Select now() - interval '30 day ' ",tmp_data);
 
                 date_end_last_sub =tmp_data[0][0];
             }
             Console.WriteLine(date_end_last_sub);
 
             tmp_data.Clear();
-            DbConfig.UseSqlCommand("SELECT now() >  '" +date_end_last_sub + "'" ,tmp_data);
+            db.UseSqlCommand("SELECT now() >  '" +date_end_last_sub + "'" ,tmp_data);
 
             Console.WriteLine(tmp_data[0][0]);
 
@@ -34,17 +35,17 @@ namespace  SoftSpace_web.Script
             if(now_is_bigger)
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("SELECT now() " , tmp_data);
+                db.UseSqlCommand("SELECT now() " , tmp_data);
                 this.begin_date = tmp_data[0][0];
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("SELECT  now() + interval '"+count_days+" day'" , tmp_data);
+                db.UseSqlCommand("SELECT  now() + interval '"+count_days+" day'" , tmp_data);
                 this.end_date = tmp_data[0][0];
             }
             else
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("SELECT  '" +date_end_last_sub + "'::timestamp + interval '"+count_days+" day'" , tmp_data);
+                db.UseSqlCommand("SELECT  '" +date_end_last_sub + "'::timestamp + interval '"+count_days+" day'" , tmp_data);
                 this.begin_date =  date_end_last_sub;
                 this.end_date = tmp_data[0][0];
             }

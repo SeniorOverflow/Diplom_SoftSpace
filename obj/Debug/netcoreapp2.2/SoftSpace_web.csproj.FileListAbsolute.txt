@@ -97,7 +97,6 @@ E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\Ad
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\DelDev.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\GetLicenseKeys.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Dev\SetSub.g.cshtml.cs
-E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Autorisation.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Download.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Reg.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\AddFriend.g.cshtml.cs
@@ -170,3 +169,7 @@ E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\ShowUsers.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\YourOrders.g.cshtml.cs
 E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\cancel\View\User\baggage.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Authorization.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Admin\GiveRole_View.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\ShowCategories.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\OpenCategory.g.cshtml.cs

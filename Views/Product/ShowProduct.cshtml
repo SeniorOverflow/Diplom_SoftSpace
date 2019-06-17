@@ -5,30 +5,107 @@
     ViewData["Title"] = "ShowProduct" + @Model  ;
 }
 
-<h1 >@ViewBag.Translate_words[22]: @ViewBag.Product.name</h1>
+<h1 > @ViewBag.Product.name</h1>
 
-<h4 >@ViewBag.Translate_words[23]: @ViewBag.Product.description</h4>
-<h4>@ViewBag.Translate_words[40] @ViewBag.Product.id_category </h4>
-<h4> @ViewBag.Translate_words[35]: @ViewBag.Product.price</h4>
-<a class="btn btn-primary" asp-controller="Home"  asp-action="DevShow" asp-route-id_dev = "@ViewBag.Product.id_dev">@ViewBag.Product.developer</a>
-<h5> Def Pic : @ViewBag.Def_picture</h5>
+<div class= "row">
+ <img src="~/Pictures/@ViewBag.Product.def_picture" class="card-img-top  im_product" style="height:400px; width : 400px;" alt="...">
+ <div class= "product">
+     <h4 >@ViewBag.Translate_words[23]:</h4> 
+     <p>@ViewBag.Product.description</p>
+     <h4>@ViewBag.Translate_words[40] @ViewBag.Product.category_name </h4>
+    @if(@ViewBag.Discount_price =="")
+    {
+    <h4> @ViewBag.Translate_words[35]: @ViewBag.Product.price </h4>
+    }
+    else
+    {
+        <h4> @ViewBag.Translate_words[35]:<strike> @ViewBag.Product.price </strike> @ViewBag.Discount_price </h4>
+    }
+    <div >
+        <ul class ="navbar-nav flex-grow-1">
+            <li class= "nav-item">
+            <a class="btn btn-sm-2 btn-dark product_btn" asp-controller="Home"  asp-action="DevShow" asp-route-id_dev = "@ViewBag.Product.id_dev">@ViewBag.Product.developer</a>
+            </li>
+            @if(@ViewBag.Product.liked)
+            {
+                <li class= "nav-item">
+                <form  asp-controller="Product" asp-action="RemoveLike" >
+                        <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />   
+                        <button class="btn btn-sm-2 btn-dark product_btn" type="submit">@ViewBag.Translate_words[39]</button>                          
+                </form>
+                </li>
+            }
+            else 
+            {
+                <li class= "nav-item">
+                <form  asp-controller="Product" asp-action="AddLike" >
+                        <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />   
+                        <button class="btn btn-sm-2 btn-dark product_btn" type="submit">@ViewBag.Translate_words[38]</button>                          
+                </form>
+                </li>
+            }
+            <li class= "nav-item">
+            <form  method="post"  asp-controller="Product" asp-action="AddProduct"  class="form-inline form_search">
+                                        
+                <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />              
+                <button class="btn btn-sm-2 btn-dark product_btn" type="submit">@ViewBag.Translate_words[36]</button>
+                                        
+            </form>
+            </li>
+
+        </ul>
+    </div>
+
+ </div>
+
+</div>
+
+
+
 <hr>
     
+
+DLCs:
 <hr>
-Pictures:
-<hr>
-@foreach (var pic in @ViewBag.Product.pictures)
-{
-    @pic <br>
-}
-<hr>
-@ViewBag.Translate_words[41]:
-<hr>
-@foreach (var label in @ViewBag.Product.labels)
-{
-    string str = label + ",";
-    @str
-}
+            <table class="table">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col">@ViewBag.Translate_words[19]</th>
+                <th scope="col">@ViewBag.Translate_words[22]</th>
+                <th scope="col">@ViewBag.Translate_words[35]</th>
+                
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+             @foreach (List<string> this_dlc in @ViewBag.Product.dlc)
+             {
+                <tr>
+                <td><img src="~/Pictures/@this_dlc[3]" class="card-img-top " style="height:100px; width : 100px;" alt="...">
+                 </td>
+                <td>@this_dlc[1]</td>
+                @if(@this_dlc[4] != "")
+                {
+                    <td><strike> @this_dlc[2] </strike> @this_dlc[4]</td>
+                }
+                else
+                {
+                    <td> @this_dlc[2]</td>
+                }
+               
+                <td>
+                    <form method="post" asp-controller="Product" asp-action="AddDLC" class="form-inline form_search">
+                        <input type ="hidden" name="_id_product" value="@ViewBag.Product.id_product">
+                        <input type ="hidden" name="_id_dlc" value="@this_dlc[0]">
+                        <button class="btn btn-sm-2 btn-dark" type="submit">@ViewBag.Translate_words[36]</button>
+                    </form>
+                </td>
+                </tr>
+            
+            }
+
+
+            </table>
 <hr>
 @ViewBag.Translate_words[42]:
 <hr>
@@ -63,50 +140,9 @@ Pictures:
 
 
             </table>
-<hr>
-DLCs:
-<hr>
-            <table class="table">
-            <thead class="thead-light">
-                <tr>
-                <th scope="col">id</th>
-                <th scope="col">name of product</th>
-                <th scope="col">@ViewBag.Translate_words[35]</th>
-                <th scope="col">picture</th>
-                <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-             @foreach (List<string> this_dlc in @ViewBag.Product.dlc)
-             {
-                <tr>
-                <th scope="row">@this_dlc[0]</th>
-                <td>@this_dlc[1]</td>
-                <td>@this_dlc[2]</td>
-                <td>@this_dlc[3]</td>
-                <td>
-                    <form method="post" asp-controller="Product" asp-action="AddDLC" class="form-inline form_search">
-                        <input type ="hidden" name="_id_product" value="@ViewBag.Product.id_product">
-                        <input type ="hidden" name="_id_dlc" value="@this_dlc[0]">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[36]</button>
-                    </form>
-                </td>
-                </tr>
-            
-            }
+<hr>            
 
 
-            </table>
-
-<hr>
-<form  method="post"  asp-controller="Product" asp-action="AddProduct"  class="form-inline form_search">
-                                  
-        <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />              
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[36]</button>
-                                  
-</form>
-
-<hr>
 
                             
 
@@ -133,7 +169,6 @@ DLCs:
             <input type="radio" id="Cool" name="_assessment" value="5" checked>
             <label for="Cool">@ViewBag.Translate_words[50]</label>
             </div>
-        
     </div>      
     
         <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />  
@@ -145,20 +180,7 @@ DLCs:
                                   
 </form>
 
-@if(@ViewBag.Product.liked)
-{
-    <form  asp-controller="Product" asp-action="RemoveLike" >
-            <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />   
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[39]</button>                          
-    </form>
-}
-else 
-{
-    <form  asp-controller="Product" asp-action="AddLike" >
-            <input type="hidden" name ="_id_product" value="@ViewBag.Product.id_product"  />   
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@ViewBag.Translate_words[38]</button>                          
-    </form>
-}
+
 
 
 <hr>

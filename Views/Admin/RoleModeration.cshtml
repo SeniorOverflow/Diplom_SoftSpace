@@ -85,10 +85,8 @@
       </td>
       <td>
           
-          <form method="post" asp-controller="Admin" asp-action="GiveRole"  class="form_line">
-                  <input type="hidden" name="id_role_users" value="@a[0]"/>
-                  <button type="submit"  class="btn btn-primary">@ViewBag.Translate_words[76]</button>
-          </form>
+          
+          <a class="btn btn-primary" asp-controller="Admin"  asp-action="GiveRole_View" asp-route-id_role = "@a[0]">@ViewBag.Translate_words[76]</a>
           
       </td>
       <td>

@@ -4,7 +4,7 @@
 }
 
 @await Component.InvokeAsync("Menu" , new {})
-<h1>SubTODev Select your subscription</h1>
+<h1>Выбор плана подписки</h1>
 
 
 
@@ -16,13 +16,14 @@
       @{
         <div class="card-body">
           <h4 class="card-title">@a[1]</h4>
-          <h5 class="card-title"> @a[2]</h5>
+           <h5 class="card-title"> Кол-во дней: @a[2] </h5>
+          
           <h5 class="card-title"> @a[3]</h5>
           
         <form method="post" asp-controller="User" asp-action="SubToDev"  class="form_line">
             <input type="hidden" name="id_dev" value="@ViewBag.Id_dev">
             <input type="hidden" name="id_type_sub" value="@a[0]">
-            <button type="submit"  class="btn btn-outline-success my-2 my-sm-0">Select</button>
+            <button type="submit"  class="btn btn-outline-success my-2 my-sm-0">Выбрать</button>
         </form>
         </div>
       }

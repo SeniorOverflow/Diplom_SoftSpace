@@ -26,15 +26,22 @@ namespace SoftSpace_web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
 
-
-              
-               DbConfig.SetStringConnection(Configuration.GetConnectionString("Connection"));
+               string str_conn = "" + Configuration.GetConnectionString("Connection");
+               Console.WriteLine(" -- -- -- " +str_conn);
+               if(str_conn == "")
+                    str_conn = "User ID =postgres; Password=postgres; Server=localhost; Port=5432;"+
+                    " Database=softspace; Integrated Security=true; Pooling=true;" ;
+               
+            
+               
+                DbConfig.SetStringConnection(str_conn);
                DbConfig.OpenConnection();
                Language_Settings.Initialization();
                ICOP.Initialization();

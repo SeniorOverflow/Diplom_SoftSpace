@@ -37,17 +37,31 @@
   @foreach( var a in @ViewBag.Page.new_product) 
   {
     <div class="_Cart">
-      <div class="card" style="width: 14rem; max-height:400px;">
+      <div class="card p_cart" >
       @{
-        string pic = @a[7] ;
+        string pic = @a[3] ;
         <img src="~/Pictures/@pic" class="card-img-top " style="max-height:200px;" alt="...">
         <div class="card-body">
           <h4 class="card-title">@a[1]</h4>
-          <h5 class="card-title">@ViewBag.Words_translate[35]: @a[5]</h5>
-          <a class="btn btn-primary" asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
+          @if(@a[4] != "")
+          {
+            <h5 class="card-title">@ViewBag.Words_translate[35]: <strike>@a[2]</strike>  @a[4]</h5>
+          }
+          else
+          {
+            <h5 class="card-title">@ViewBag.Words_translate[35]: @a[2] </h5>
+          }
+          
+
+         
         </div>
+        <div class="btn_p_cart">
+            <a class="btn btn-primary btn_p_cart_pos " asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
+        </div>
+         
       }
       </div>
+      
     </div>
     
   }

@@ -17,23 +17,35 @@ namespace SoftSpace_web.Controllers
         public IActionResult ShowProduct(int id_product)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             Product this_product = new Product();
             List<List<string>> product_data = new List<List<string>>();
 
            
-                DbConfig.UseSqlCommand("select * from product where id = " + id_product, product_data);
+                db.UseSqlCommand("select  product.id,"+
+                                        " product.name, "+
+                                        " product.description ," +
+                                        " product.id_dev ," +
+                                        " category.name ," +
+                                        " product.price ," + 
+                                        " product.def_picture ," + 
+                                        " discount.discount_price" + 
+                                        " from product inner join category on product.id_category = category.id"+
+                                        " left join discount on product.id = discount.id_product " +
+                                        " where product.id = " + id_product, product_data);
                 this_product.id_product = Convert.ToInt32(product_data[0][0]);
                 this_product.name = product_data[0][1];
                 this_product.description = product_data[0][2];
                 this_product.id_dev = Convert.ToInt32(product_data[0][3]);
-                this_product.id_category = Convert.ToInt32(product_data[0][4]);
+                this_product.category_name = product_data[0][4];
                 this_product.price = Convert.ToDouble(product_data[0][5]);
-                this_product.def_picture =  product_data[0][7];
+                this_product.def_picture =  product_data[0][6];
+                ViewBag.Discount_price =  product_data[0][7];
 
                 product_data.Clear();
 
-                DbConfig.UseSqlCommand("select  url_picture  from picture_product  where id_product = " + this_product.id_product, product_data);
+                db.UseSqlCommand("select  url_picture  from picture_product  where id_product = " + this_product.id_product, product_data);
 
                 foreach(var str in product_data)
                 {
@@ -45,7 +57,7 @@ namespace SoftSpace_web.Controllers
 
                 product_data.Clear();
 
-                DbConfig.UseSqlCommand("select label_name from label_product  where id_product = " + this_product.id_product,product_data);
+                db.UseSqlCommand("select label_name from label_product  where id_product = " + this_product.id_product,product_data);
                 foreach(var str in product_data)
                 {
                     foreach( string label in str)
@@ -55,12 +67,13 @@ namespace SoftSpace_web.Controllers
                 }
                 
                 product_data.Clear();
-                DbConfig.UseSqlCommand("select name_of_company from developers where id =" + this_product.id_dev,product_data);
+                db.UseSqlCommand("select name_of_company from developers where id =" + this_product.id_dev,product_data);
                 this_product.developer = product_data[0][0];
 
                 product_data.Clear();
-                DbConfig.UseSqlCommand("SELECT  dlc_for_product.id_sub_product, name ,price,def_picture " +
+                db.UseSqlCommand("SELECT  dlc_for_product.id_sub_product, name ,price,def_picture ,discount.discount_price " +
                 " FROM product  INNER JOIN dlc_for_product on product.id = dlc_for_product.id_sub_product " +
+                " left join discount on product.id = discount.id_product " +
                 " WHERE dlc_for_product.id_product = "+ this_product.id_product,product_data);
 
                     foreach(List<string> dlc in product_data)
@@ -68,7 +81,7 @@ namespace SoftSpace_web.Controllers
                         this_product.dlc.Add(dlc);
                     }
                 product_data.Clear();
-                DbConfig.UseSqlCommand("SELECT id,event_name, description , date_event from event_product  where id_product =  " + this_product.id_product,product_data );
+                db.UseSqlCommand("SELECT id,event_name, description , date_event from event_product  where id_product =  " + this_product.id_product,product_data );
 
                     foreach(List<string> _event in product_data)
                     {
@@ -77,7 +90,7 @@ namespace SoftSpace_web.Controllers
 
                 product_data.Clear();
 
-                DbConfig.UseSqlCommand("SELECT first_name,second_name, comment_to_product, assessment "+
+                db.UseSqlCommand("SELECT first_name,second_name, comment_to_product, assessment "+
                         "FROM users INNER JOIN review ON users.id = review.id_user " + 
                         " WHERE review.id_product = " + this_product.id_product , product_data);
                     
@@ -90,11 +103,11 @@ namespace SoftSpace_web.Controllers
             {
                 List<List<string>> tmp_data = new List<List<string>>();
                 
-                DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+                db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 product_data.Clear();
-                DbConfig.UseSqlCommand("Select id from liked_product WHERE id_product = " + this_product.id_product
+                db.UseSqlCommand("Select id from liked_product WHERE id_product = " + this_product.id_product
                     + " AND  id_user = " + id_user,product_data );
                 if(product_data.Count > 0)
                 {
@@ -121,21 +134,22 @@ namespace SoftSpace_web.Controllers
         public IActionResult AddProduct(int _id_product, int count =1)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
             }
             else
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+                db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("INSERT INTO shopping_cart("+
+                db.UseSqlCommand("INSERT INTO shopping_cart("+
 	                                    "id_product, id_user, count)"+
 	                                    "VALUES ('"+_id_product+"', '"+id_user+"', '"+count+"')");
             }
@@ -148,21 +162,22 @@ namespace SoftSpace_web.Controllers
         public IActionResult AddDLC(int _id_product, int _id_dlc, int count =1)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
             }
             else
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+                db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("INSERT INTO shopping_cart("+
+                db.UseSqlCommand("INSERT INTO shopping_cart("+
 	                                    "id_product, id_user, count)"+
 	                                    "VALUES ('"+_id_dlc+"', '"+id_user+"', '"+count+"')");
             }
@@ -176,22 +191,23 @@ namespace SoftSpace_web.Controllers
         public IActionResult AddLike(int _id_product)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
             }
             else
             {
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+                db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("INSERT INTO liked_product("+
+                db.UseSqlCommand("INSERT INTO liked_product("+
 	                                    "id_product, id_user)"+
 	                                    "VALUES ('"+_id_product+"', '"+id_user+"')");
 
@@ -206,22 +222,23 @@ namespace SoftSpace_web.Controllers
         public IActionResult RemoveLike(int _id_product)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
             }
             else
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = " 
+                db.UseSqlCommand("select id from users where login = " 
                                             +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("DELETE FROM liked_product"+
+                db.UseSqlCommand("DELETE FROM liked_product"+
                                             " WHERE id_product = " + _id_product +
                                                 " AND  id_user = " + id_user);
             }
@@ -235,22 +252,23 @@ namespace SoftSpace_web.Controllers
         public IActionResult AddComment(int _id_product, string _comment , int _assessment = 5)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
             }
             else
             {
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = "+sr.GetScr() +login+sr.GetScr() ,tmp_data);
+                db.UseSqlCommand("select id from users where login = "+sr.GetScr() +login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
             
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("INSERT INTO review( "+
+                db.UseSqlCommand("INSERT INTO review( "+
 	                                    " id_product, id_user, assessment, comment_to_product) "+
 	                                    " VALUES ("+_id_product+", "+id_user+", "+_assessment+", "+sr.GetScr()+_comment+sr.GetScr()+")");
 
@@ -266,23 +284,24 @@ namespace SoftSpace_web.Controllers
         public IActionResult RemoveProduct(int _id_product_in_cart)
         {
             Screening sr = new Screening();
-           
+            DbConfig db = new DbConfig();
+            
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
-                return RedirectToAction("Autorisation", new RouteValueDictionary( 
-                        new { controller = "Home", action = "Autorisation", ex= 0} ));
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
             }
             else
             {
                 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
+                db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("DELETE FROM shopping_cart  where id_user = " + id_user + " AND id =" + _id_product_in_cart);
+                db.UseSqlCommand("DELETE FROM shopping_cart  where id_user = " + id_user + " AND id =" + _id_product_in_cart);
             }
                 return RedirectToAction("Cart", new RouteValueDictionary( 
                          new { controller = "User", action = "Cart"} ));

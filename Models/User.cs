@@ -14,6 +14,7 @@ namespace SoftSpace_web.Models
       public  int lvl;
       public  double score ;
       public  double bonus_score ;
+      public string picture_profile;
 
       public int id_dev;
       public string name_of_company;

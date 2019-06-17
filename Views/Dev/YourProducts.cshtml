@@ -59,8 +59,8 @@
       </div>
     </div>
 
-    string id_add_discount = "d" + @a[0];
-    <div class="modal fade" id="@id_add_discount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     string id_add_discount = "d" + @a[0];
+    <div class="modal fade "  id="@id_add_discount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -70,15 +70,23 @@
           
           <div class="modal-footer">
 
-            <form method="post" asp-controller="Dev" asp-action="AddDiscount"  class="form_line">
+            <form method="post" asp-controller="Dev" asp-action="AddDiscount"  class="form_line" >
                     <input type="hidden"  name="id_product" value="@a[0]"/>
-                    <input type="number" name ="discount" value="0" max="99" min="0"/>
-                    <input type="number" name ="count_days" value="0"/>
+                    <div class="inline">
+                      <label for="discount">Скидка %</label>
+                      <input type="number" name ="discount"    class="form-control input_numb"     value="0" max="99" min="0" />
+                    </div>
+                    <div class="inline">
+                      <label for="count_days">Кол-во дней</label>
+                      <input type="number" name ="count_days"  class="form-control input_numb"    value="0" min="0"/>
+                    </div>
                     <input type="hidden"  name="numb_page" value="@this_page"/>
-                    <button type="submit"  class="btn btn-primary">Confirm</button>
-            </form>    
+                    <button type="submit"  class="btn btn-primary inline">Подтвердить</button>
+                    <button type="button" class="btn btn-secondary inline" data-dismiss="modal">Отменить</button>
+            </form> 
+               
           
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            
           </div>
         </div>
       </div>
@@ -86,23 +94,31 @@
 
   
     <div class="_Cart">
-      <div class="card" style="width: 14rem;">
+      <div class="card p_cart ">
       @{
-          string pic = @a[7];
+          string pic = @a[3];
           <img src="~/Pictures/@pic" class="card-img-top" alt="...">
           <div class="card-body">
               <h3 class="card-title">@a[1]</h3>
-              <h4 class="card-title">Price: @a[5]</h4>
+              @if(@a[5] != "")
+              {
+                <h4 class="card-title">Цена: <strike> @a[2]</strike> @a[5] </h4>
+              }
+              else
+              {
+                 <h4 class="card-title">Цена:  @a[2] </h4>
+              }
+              <h1>@a[0]</h1>
               
 
               <!-- Example split danger button -->
-                  <div class="btn-group">
-                    <a  method ="get" asp-controller="Dev" asp-action="EditProduct"  asp-route-id_product="@a[0]" class="btn btn-sm-2 btn-dark">Редактировать</a>
-                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="btn-group btn_p_cart">
+                    <a  method ="get" asp-controller="Dev" asp-action="EditProduct"  asp-route-id_product="@a[0]" class="btn btn-sm-2 btn-dark ">Редактировать</a>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split  " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu">
-                      @if( @Convert.ToBoolean(@a[8]) == false)
+                      @if( @Convert.ToBoolean(@a[4]) == false)
                       {
                         <a   asp-controller="Dev" asp-action="AddDlC_view"   asp-route-id_product="@a[0]" class=" dropdown-item btn ">Добавить DLC</a>
                         <a   asp-controller="Dev" asp-action="AddEvent_view" asp-route-id_product="@a[0]" class=" dropdown-item btn ">Добавить событие</a>

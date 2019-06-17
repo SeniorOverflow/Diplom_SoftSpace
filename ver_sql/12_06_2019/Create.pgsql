@@ -3,40 +3,21 @@ CREATE EXTENSION pgcrypto;
 --1
 CREATE TABLE users (
 	id serial,
-	first_name 		varchar(50) 	default 'Empty' not null,
-	second_name		varchar(50) 	default 'Empty'	not null,
-	login			varchar(50) 	UNIQUE 			not null,
-	password 		text 							not null,
-	mail 			text 			UNIQUE			not null,
-	lvl             int             default '1'		not null,
-	score			decimal(10,2) 	default '0.00' 	not null,
-	bonus_score 	decimal(10,2) 	default '0.00'	not null,
+	first_name 		varchar(50) 	default 'Не указанно' 	not null,
+	second_name		varchar(50) 	default 'Не указанно'	not null,
+	login			varchar(50) 	UNIQUE 					not null,
+	password 		text 									not null,
+	mail 			text 			UNIQUE					not null,
+	lvl             int             default '1'				not null,
+	score			decimal(10,2) 	default '0.00' 			not null,
+	bonus_score 	decimal(10,2) 	default '0.00'			not null,
+	profile_pictute varchar(100) 	default 'NaPicture.png' not null,
 	primary key(id)
 );
+
+
 
 --2
-CREATE TABLE activity_status (
-	id serial,
-	name 				varchar(50)									not null,
-	description 		text 			default'NaD' 				not null,
-	primary key(id)
-);
-
---3
-CREATE TABLE activity_status_user(
-
-	id serial,
-	id_user						int		 REFERENCES users(id)
-		ON DELETE CASCADE ON UPDATE CASCADE 					not null,
-	id_activity_status			int		 REFERENCES activity_status(id)
-		ON DELETE CASCADE ON UPDATE CASCADE 					not null,
-	primary key(id)
-);
-
-
-
-
---4
 CREATE TABLE developers (
 	id serial,
 	name_of_company 	varchar(50)		 UNIQUE  		 	 not null,
@@ -49,7 +30,7 @@ CREATE TABLE developers (
 	primary key(id)
 );
 
---5
+--3
 CREATE TABLE user_dev(
 	id serial,
 	id_user				int		 REFERENCES users(id)
@@ -58,7 +39,7 @@ CREATE TABLE user_dev(
 		ON DELETE CASCADE ON UPDATE CASCADE						not null,
 	primary key(id)	
 );
---6
+--4
 CREATE TABLE type_of_subscription(
 	id serial,
 	name				varchar(50) 							not null,
@@ -66,7 +47,7 @@ CREATE TABLE type_of_subscription(
 	price 				decimal(10,2) 		default '0.00'		not null,
 	primary key(id)	
 );
---7
+--5
 CREATE TABLE subscription_on_dev(
 	id serial,
 	id_type 			int 				REFERENCES type_of_subscription(id)
@@ -80,7 +61,7 @@ CREATE TABLE subscription_on_dev(
 	primary key(id)	
 );
 
---8
+--6
 CREATE TABLE user_sub_on_dev(
 	id serial,
 	id_user 			int 		REFERENCES users(id)
@@ -90,16 +71,16 @@ CREATE TABLE user_sub_on_dev(
 	primary key(id)	
 );
 
---9
+--7
 CREATE TABLE category (
 	id serial,
 	name 				varchar(50) 								not null,
-	description 		text 			default'NaD' 				not null,
+	description 		text 			default 'NaD' 				not null,
 	def_picture			varchar(100) 	default 'NaPicture' 		not null, 
 	primary key(id)
 );
 
---10
+--8
 CREATE TABLE picture_category(
 	id serial,
 	id_category 		int 			REFERENCES category(id)
@@ -108,7 +89,7 @@ CREATE TABLE picture_category(
 	primary key(id)	
 );
 
---11
+--9
 CREATE TABLE product(
 	id serial,
 	name 				varchar(100)	UNIQUE						 not null,
@@ -119,12 +100,12 @@ CREATE TABLE product(
 		ON DELETE CASCADE ON UPDATE CASCADE							 not null,
 	price				decimal(10,2)	default '0.00' 				 not null,
 	url_on_product 		varchar(100) 	default 'NaUrlOnProduct'	 not null,
-	def_picture			varchar(100) 	default 'NaPicture' 		 not null,
+	def_picture			varchar(100) 	default 'NaPicture.png' 	 not null,
 	is_dlc				boolean			default false 				 not null,
 	primary key(id)
 );
 
---12
+--10
 CREATE TABLE picture_product (
 	id serial,
 	id_product 			int 			REFERENCES product(id)
@@ -133,7 +114,7 @@ CREATE TABLE picture_product (
 	primary key(id)
 );
 
---13
+--11
 CREATE TABLE label_product (
 	id serial,
 	id_product 			int 			REFERENCES product(id)
@@ -142,7 +123,7 @@ CREATE TABLE label_product (
 	primary key(id)
 );
 
---14
+--12
 CREATE TABLE event_product (
 	id serial,
 	id_product 			int 			REFERENCES product(id)
@@ -154,7 +135,7 @@ CREATE TABLE event_product (
 	primary key(id)
 );
 
---15
+--13
 CREATE TABLE picture_event (
 	id serial,
 	id_envent 			int 			REFERENCES event_product(id)
@@ -163,7 +144,7 @@ CREATE TABLE picture_event (
 	primary key(id)
 );
 
---16
+--14
 CREATE TABLE dlc_for_product(
 	id serial,
 	id_product 		    int  			REFERENCES product(id)
@@ -173,7 +154,7 @@ CREATE TABLE dlc_for_product(
 	primary key(id)	
 );
 
---17
+--15
 CREATE TABLE roles  (
 	id serial,
 	name 				varchar(50) 	UNIQUE						not null,
@@ -181,13 +162,31 @@ CREATE TABLE roles  (
 	primary key(id)
 );
 
---18
+--16
 CREATE TABLE user_role(
 	id serial,
 	id_user			 	int 	REFERENCES users(id)
 		ON DELETE CASCADE ON UPDATE CASCADE			 			 		not null,
 	id_role 			int 	REFERENCES roles(id)
 		ON DELETE CASCADE ON UPDATE CASCADE			 	default '1' 	not null,
+	primary key(id)	
+);
+
+--17 
+CREATE TABLE abilities(
+	id serial,
+	name 				varchar(50) 	UNIQUE						not null,
+	description 		text 			default'NaD'				not null,
+	primary key(id)
+);
+
+--18 
+CREATE TABLE role_abilities(
+	id serial,
+	id_abilities		int 	REFERENCES abilities(id)
+		ON DELETE CASCADE ON UPDATE CASCADE			 			 		not null,
+	id_role 			int 	REFERENCES roles(id)
+		ON DELETE CASCADE ON UPDATE CASCADE			 	 				not null,
 	primary key(id)	
 );
 
@@ -309,7 +308,7 @@ CREATE TABLE confirmation_email(
 	primary key(id)
 );
 
---30 
+--30
 
 CREATE TABLE discount(
 	id serial,

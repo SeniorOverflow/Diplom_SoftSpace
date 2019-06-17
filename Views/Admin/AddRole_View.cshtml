@@ -26,6 +26,11 @@
             </div>
             <input type="text" class="form-control" name="name" placeholder="Role Name" value="">
         </div>
+        @foreach (var item in @ViewBag.Abilities)
+        {
+            <input type="checkbox" name="check" value="@item[0]"> @item[1] <br>
+            
+        }
         
         <div class="form-group">
             <label for="description">Description</label>

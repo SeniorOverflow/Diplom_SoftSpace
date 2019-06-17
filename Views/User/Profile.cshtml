@@ -1,16 +1,16 @@
 @await Component.InvokeAsync("Menu" , new {})
-<h1>Profile</h1>
+<h1>Ваш профайл</h1>
 
 
 <div class="media">
-  <img class="mr-3" src="~/Pictures/NaPicture2.png" alt="Generic placeholder image" width="128" height="128">
+  <img class="mr-3" src="~/Pictures/@ViewBag.User_data.picture_profile" alt="Generic placeholder image" width="128px" height="128px">
   <div class="media-body">
     
     <h5>@ViewBag.Translate_words[28]: @ViewBag.User_data.login</h5>
 
     <h5>@ViewBag.Translate_words[22]: @ViewBag.User_data.first_name @ViewBag.User_data.second_name</h5>
     <h5>@ViewBag.Translate_words[52]: @ViewBag.User_data.score</h5>
-    <h5>@ViewBag.Translate_words[53]: @ViewBag.User_data.bonus_score</h5>
+
     
    
   </div>
@@ -31,12 +31,12 @@
 {
     
     <div class="_Cart">
-        <div class="card" style="width: 18rem; height:24rem">
-        <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
+        <div class="card" style="width: 18rem; height:16rem;">
+        
             <div class="card-body">
-                <h5 class="card-title">Create DevTeam</h5>
+                <h5 class="card-title"> Управление компанией </h5>
                 
-                <a  method ="get" asp-controller="Dev" asp-action="AddDev" class="btn btn-sm-2 btn-dark"><h3>@ViewBag.Translate_words[56]</h3></a>
+                <a  method ="get" asp-controller="Dev" asp-action="AddDev" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[56]</h4></a>
             </div>
         </div>
     </div>
@@ -44,10 +44,10 @@
 else
 {
    <div class="_Cart">
-        <div class="card" style="width: 16rem; height:24rem;">
-        <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
+        <div class="card" style="width: 17rem; height:16rem;">
+        
             <div class="card-body">
-                <h5 class="card-title"> @ViewBag.User_data.company</h5>
+                <h5 class="card-title"> Управление компанией</h5>
                 <a  method ="get" asp-controller="Dev" asp-action="Index" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[7]</h4></a>
             </div>
         </div>
@@ -55,8 +55,8 @@ else
 }
 
     <div class="_Cart">
-        <div class="card" style="width: 16rem;  height:24rem;">
-        <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
+        <div class="card" style="width: 16rem;  height:16rem;">
+        
             <div class="card-body">
                
                 <h5 class="card-title">  @ViewBag.Translate_words[57]  </h5>
@@ -79,14 +79,14 @@ else
 
  
     <div class="_Cart">
-        <div class="card" style="width: 16rem; height:24rem">
-        <img class="card-img-top" src="~/Pictures/NaPicture2.png" alt="Card image cap">
+        <div class="card" style="width: 16rem; height:16rem">
+       
             <div class="card-body">
                
-                <h5 class="card-title">  Your Subscriptions  </h5>
+                <h5 class="card-title">  Подписки </h5>
                 
             
-                <a  method ="get" asp-controller="User" asp-action="YourSubscriptions" class="btn btn-sm-2 btn-dark"><h4>Your Subscriptions </h4></a>
+                <a  method ="get" asp-controller="User" asp-action="YourSubscriptions" class="btn btn-sm-2 btn-dark"><h4>Ваши подписки </h4></a>
                
             </div>
         </div>

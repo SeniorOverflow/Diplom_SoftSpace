@@ -10,6 +10,7 @@ namespace SoftSpace_web.Models
       public string description;
       public int id_dev;
       public int id_category;
+      public string category_name;
       public  List<string> pictures= new List<string>();
       public  List<string> labels  = new List<string>();
 

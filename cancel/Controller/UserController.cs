@@ -20,6 +20,7 @@ namespace SoftSpace_web.Controllers
         {
 
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
 
@@ -31,11 +32,11 @@ namespace SoftSpace_web.Controllers
             else
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
+                db.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
 
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
 
-                DbConfig.UseSqlCommand("INSERT INTO public.social_interconnection( "+      
+                db.UseSqlCommand("INSERT INTO public.social_interconnection( "+      
 	                                    "id_user_first, id_user_second, id_social_status) " +
 	                                    "VALUES ("+ id_user+", "+id_user_add+", 1)");
             }
@@ -50,6 +51,7 @@ namespace SoftSpace_web.Controllers
                 public IActionResult ShowUsers(int numb_page = 0)
         {
             Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
 
@@ -61,7 +63,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                 tmp_data.Clear();
-                DbConfig.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
+                db.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
 
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
             

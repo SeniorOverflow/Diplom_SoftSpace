@@ -11,6 +11,41 @@ VALUES
  ('Admin', 'it`s god  '),
  ('Moderator', 'less then admin and more then user');
 
+
+INSERT INTO abilities(
+	id, name)
+	VALUES
+	 (1,'Category Moderation'),
+	 (2,'Dev Moderation'),
+	 (3,'Product Moderation'),
+	 (4,'Role Moderation'),
+	 (5,'Subscription Moderation'),
+	 (6,'Transaction Moderation'),
+	 (7,'Users Moderation'),
+	 (8,'Comments Moderation'),
+	 (9,'Subscriptions Edition');
+
+
+INSERT INTO role_abilities(
+	 id_abilities, id_role)
+	VALUES
+	 (1, 2), -- Admin
+	 (2, 2),
+	 (3, 2),
+	 (4, 2),
+	 (5, 2),
+	 (6, 2),
+	 (7, 2),
+	 (8, 2),
+	 (9, 2),
+
+	 (1, 3), -- Moderator
+	 (3, 3),
+	 (5, 3),
+	 (8, 3),
+	 (9, 3);
+
+
 INSERT INTO category(name, description )
 VALUES
  ('FPS', 		'Firs Person Shooter'),
