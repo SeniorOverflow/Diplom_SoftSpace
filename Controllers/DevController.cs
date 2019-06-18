@@ -31,10 +31,14 @@ namespace SoftSpace_web.Controllers
                     " inner join user_dev on users.id = user_dev.id_user "+ 
                     " inner join developers on user_dev.id_dev =  developers.id "+
                     " WHERE users.id = "+sr.GetScr()+ id_user +sr.GetScr() ,tmp_dev);
-
+            int id_dev = Convert.ToInt32(tmp_dev[0][0]);
             ViewBag.DesDev = tmp_dev;
+            List<List<string>> tmp_count = new List<List<string>>();
+            db.UseSqlCommand("SELECT count(product.id) FROM product WHERE id_dev =" + id_dev,tmp_count);
+            int count_p = Convert.ToInt32(tmp_count[0][0]);
             List<string> translate_words = Language_Settings.GetWords(1);
             ViewBag.Translate_words = translate_words;
+            ViewBag.Count_p = count_p;
             return View();
         }
 
@@ -136,7 +140,7 @@ namespace SoftSpace_web.Controllers
      
 
 
-        public IActionResult AddProduct_View()
+        public IActionResult AddProduct_View(int ex = 0)
         {
             DbConfig db = new DbConfig();
             List<List<string>> tmp_data = new List<List<string>>();
@@ -146,12 +150,13 @@ namespace SoftSpace_web.Controllers
             ViewBag.List_category =  tmp_data;
             List<string> translate_words = Language_Settings.GetWords(1);
             ViewBag.Translate_words = translate_words;
+            ViewBag.Ex = ex ;
             return View();
         }
 
         [HttpPost]
         
-        public async Task<IActionResult> AddProduct(
+        public async Task<IActionResult> AddProduct(  
                                         
                                         string name  , 
                                         string description ,
@@ -163,10 +168,19 @@ namespace SoftSpace_web.Controllers
                                         IFormFile u_file = null
                                         )
         {
+            Screening sr = new Screening();
+            DbConfig db = new DbConfig();
             string filePath = "";
             string file_name="";
-            
            
+            List<List<string>> tmp_check_product = new List<List<string>>();
+            db.UseSqlCommand("SELECT id from product WHERE name = "+ sr.GetScr() + name + sr.GetScr(),tmp_check_product);
+            if(tmp_check_product.Count > 0)
+            {
+                 return RedirectToAction("AddProduct_View", new RouteValueDictionary( 
+                                new { controller = "Dev", action = "AddProduct_View", ex = 1} ));
+
+            }
                 if(u_file != null)
                 {
                     string [] type = u_file.FileName.Split('.');
@@ -230,8 +244,8 @@ namespace SoftSpace_web.Controllers
                     file_name = "NaPicture.png";
                 }
 
-            Screening sr = new Screening();
-            DbConfig db = new DbConfig();
+            
+            
             List<List<string>> tmp_dev = new List<List<string>>();
             db.UseSqlCommand("SELECT id_dev FROM users "+ 
                     " inner join user_dev on users.id = user_dev.id_user "+ 
@@ -550,6 +564,11 @@ namespace SoftSpace_web.Controllers
         {
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
+
+            List<List<string>> tmp_data = new List<List<string>>();
+            db.UseSqlCommand("Select id,name from category",tmp_data);
+            ViewBag.List_category =  tmp_data;
+
             string login = HttpContext.Session.GetString("login");
             List<List<string>> tmp_check_on_righted = new List<List<string>>(); 
 
@@ -562,34 +581,31 @@ namespace SoftSpace_web.Controllers
 
                 List<List<string>> tmp          =    new List<List<string>>(); 
                 List<List<string>> tmp_lalbels  =    new List<List<string>>(); 
-                List<List<string>> tmp_pictures =    new List<List<string>>();
+               
                 List<List<string>> tmp_events   =    new List<List<string>>();
-                List<List<string>> tmp_dlc      =    new List<List<string>>();
+               
 
                 db.UseSqlCommand("SELECT label_name FROM label_product WHERE id_product = " + 
                                         id_product ,tmp_lalbels);
-                db.UseSqlCommand("SELECT url_picture FROM picture_product WHERE id_product = " +
-                                        id_product ,tmp_pictures);
+                
                 db.UseSqlCommand("SELECT id,event_name FROM event_product WHERE  id_product = " +
                                         id_product  ,tmp_events);
-                db.UseSqlCommand("SELECT name ,price,def_picture"+
-                " FROM product  INNER JOIN dlc_for_product on product.id = dlc_for_product.id_sub_product "+
-                    " WHERE dlc_for_product.id_product = "+ id_product,tmp_dlc);
+                
                
 
-                db.UseSqlCommand("SELECT * FROM product WHERE product.id = " + id_product + ";",tmp);
+                db.UseSqlCommand("SELECT name,description,price, def_picture, is_dlc ,id_category"+
+                " FROM product  WHERE product.id = " + id_product ,tmp);
                 Product you_product = new Product();
 
                 you_product.id_product = id_product;
-                you_product.name = tmp[0][1];
-                you_product.description = tmp[0][2];
-                you_product.price =  Convert.ToDouble(tmp[0][5]);
+                you_product.name = tmp[0][0];
+                you_product.description = tmp[0][1];
+                you_product.price =  Convert.ToDouble(tmp[0][2]);
+                
+                you_product.def_picture = tmp[0][3];
                
-                you_product.def_picture = tmp[0][7];
                 
-
-
-                
+                ViewBag.Id_Cat = tmp[0][5];
 
                 foreach(var  a in tmp_lalbels)
                 {
@@ -599,18 +615,8 @@ namespace SoftSpace_web.Controllers
                     }
                 } 
 
-                foreach(var  a in tmp_pictures)
-                {
-                    foreach(string url in a)
-                    {
-                        you_product.pictures.Add(url);
-                    }
-                } 
-
                 you_product.product_events = tmp_events;
-                you_product.dlc = tmp_dlc;
-
-               
+                
                 ViewBag.Product = you_product;
                 return View();
             }
@@ -656,12 +662,17 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct_Save( 
-                                                int         id_product ,
-                                                string      name,
-                                                string      description,
-                                                string      labels, 
-                                                IFormFile   u_file = null)
+        public async Task<IActionResult> EditProduct_Save(
+                                        int id_product,
+                                        string name  , 
+                                        string description ,
+                                        int id_category  ,
+                                        int type_product , 
+                                        
+                                        string price,
+                                        string labels  = null,
+                                        IFormFile u_file = null) 
+                                               
         {
             DbConfig db = new DbConfig();
             Screening sr = new Screening();
@@ -671,11 +682,13 @@ namespace SoftSpace_web.Controllers
             string login = HttpContext.Session.GetString("login");
             List<List<string>> tmp_check_on_righted = new List<List<string>>(); 
 
-            db.UseSqlCommand("select product.id  from users inner join user_dev on users.id = user_dev.id_user "+
+            db.UseSqlCommand("select product.id  from users inner join user_dev on users.id = user_dev.id_user " +
 							   " inner join product on user_dev.id_dev = product.id_dev "+
 				   " where users.login= "+sr.GetScr()+login+sr.GetScr()+" AND product.id = "+id_product,tmp_check_on_righted); 
             if(tmp_check_on_righted.Count>0)
             {
+                
+                
                  if(u_file != null)
                 {
                     string [] type = u_file.FileName.Split('.');
@@ -719,32 +732,50 @@ namespace SoftSpace_web.Controllers
                         return RedirectToAction("UpdateInfo_page", new RouteValueDictionary( 
                                 new { controller = "User", action = "UpdateInfo_page"} )); 
                     }
+                    bool is_dlc = false ;
+                    if (type_product == 1)
+                    {
+                        is_dlc = true;
+                    }
 
                      db.UseSqlCommand("UPDATE product SET "+
                     "name   =  "+sr.GetScr()+name+sr.GetScr()+","+
                     "description      =  "+sr.GetScr()+description+sr.GetScr()+" ,"+
+                    "id_category      = " + id_category + ", "+
+                    "is_dlc           = " + is_dlc + ", " + 
                     "def_picture   =  "+sr.GetScr()+file_name+sr.GetScr()+" "+
                     " WHERE product.id= "+id_product );
 
                 }
                 else 
                 {
+                     bool is_dlc = false ;
+                    if (type_product == 1)
+                    {
+                        is_dlc = true;
+                    }
+
                     tmp_check_on_righted = null;
                     db.UseSqlCommand("UPDATE product SET "+
                     "name   =  "+sr.GetScr()+name+sr.GetScr()+","+
-                    "description      =  "+sr.GetScr()+description+sr.GetScr()+" "+
+                    "description      =  "+sr.GetScr()+description+sr.GetScr()+" ,"+
+                    "id_category      = " + id_category + ", "+
+                    "is_dlc           = " + is_dlc + " " + 
+                   
                     " WHERE product.id= "+id_product );
                 }
 
             
-            
-            string [] array_labels = labels.Split(",");
-                db.UseSqlCommand("Delete from label_product where id_product = "+id_product);
-                foreach(string a in array_labels)
-                {
-                     db.UseSqlCommand("INSERT INTO label_product(id_product,label_name) "+
-                     "VALUES ("+id_product+","+sr.GetScr()+a+sr.GetScr()+")");
-                }
+                if(labels != null)
+                    {
+                        string [] array_labels = labels.Split(",");
+                        db.UseSqlCommand("Delete from label_product where id_product = "+id_product );
+                        foreach(string a in array_labels)
+                        {
+                            db.UseSqlCommand("INSERT INTO label_product(id_product,label_name) "+
+                            "VALUES ("+id_product+","+sr.GetScr()+a+sr.GetScr()+")");
+                        }
+                    }
             }
 
             return RedirectToAction("YourProducts", new RouteValueDictionary( 

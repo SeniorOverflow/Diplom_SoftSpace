@@ -2,18 +2,21 @@
 <h1>@ViewBag.Translate_words[57]</h1>
 
 
-
+@if(@ViewBag.Ex == 1)
+{
+  <h1>У вас уже есть такой продукт в библиотеке </h1>
+}
 
 <table class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Изображение</th>
+      <th scope="col">Изображение </th>
       <th scope="col">@ViewBag.Translate_words[22]</th>
       <th scope="col">@ViewBag.Translate_words[23]</th>
       <th scope="col">@ViewBag.Translate_words[65]</th>
       <th scope="col">@ViewBag.Translate_words[66]</th>
+      <th scope="col">Ключ лицензии </th>
       <th scope="col"></th>
-      
     </tr>
   </thead>
   <tbody>
@@ -25,6 +28,7 @@
       <td>@a[2]</td>
       <td>@a[3]</td>
       <td>@a[4]</td>
+      <td>@a[6]</td>
 
       <td>
            <form method="post" asp-controller="User" asp-action="AddToLib"  class="form_line">

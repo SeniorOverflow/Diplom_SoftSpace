@@ -71,11 +71,17 @@ namespace SoftSpace_web.Controllers
         public IActionResult Buy(int _id_user)
         {
             DbConfig db = new DbConfig();
-
+            Screening sr = new Screening();
              Cart cart = new Cart();
              cart.id_user = _id_user;
              cart.Set_Price();
              double total_price = cart.Get_TotalPrice();
+             if(total_price == 0.0)
+             {
+                  return RedirectToAction("Cart", new RouteValueDictionary( 
+                            new { controller = "User", action = "Cart"} ));
+                
+             }
 
              string str_price = ""+ total_price;
              str_price = str_price.Replace(',','.');
@@ -112,8 +118,15 @@ namespace SoftSpace_web.Controllers
                         int id_product = Convert.ToInt32(item[0]);
                         int count = Convert.ToInt32(item[1]);
                         string price = item[2].Replace(',','.');
-                        db.UseSqlCommand("INSERT INTO deal_product(id_deal, id_product, count, price)"+
-                                            "       VALUES ( "+id_deal+", "+id_product+","+count+", "+price+")");
+                        
+                        for(int i =0;i<count;i++)  //i am here 
+                        {
+                            Guid guid_product = Guid.NewGuid();
+                            
+                            db.UseSqlCommand("INSERT INTO deal_product(id_deal, id_product, guid, price)"+
+                                                "       VALUES ( "+id_deal+", "+id_product+","
+                                                +sr.GetScr() + guid_product+ sr.GetScr() +", "+price+")");
+                        
 
                         List<List<string>> tmp_dev = new List<List<string>>();
                         db.UseSqlCommand("SELECT developers.id from developers"+
@@ -121,6 +134,7 @@ namespace SoftSpace_web.Controllers
                                                 " WHERE product.id = " + id_product,tmp_dev);
                         int id_dev = Convert.ToInt32(tmp_dev[0][0]);
                         db.UseSqlCommand("UPDATE developers SET score = score + " + price);
+                        
                                         
 
                         List<List<string>> tmp_this_deal_product = new List<List<string>>();
@@ -131,6 +145,7 @@ namespace SoftSpace_web.Controllers
                         int deal_product = Convert.ToInt32(tmp_this_deal_product[0][0]);
                         db.UseSqlCommand("INSERT INTO baggage(id_user, id_deal_product)"+
                                                 "VALUES ("+cart.id_user+", "+deal_product+")");
+                        }
 
                     }
                 
@@ -317,25 +332,41 @@ namespace SoftSpace_web.Controllers
                 tmp_data.Clear();
                 db.UseSqlCommand("select id from users where login = " +sr.GetScr()+login+sr.GetScr() ,tmp_data);
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
+                List<List<string>> tmp_check = new List<List<string>>();
+                db.UseSqlCommand("SELECT id_product from deal_product WHERE  deal_product.id =" + _id_deal_product,tmp_check);
+                int id_product= Convert.ToInt32(tmp_check[0][0]);
 
-                 tmp_data.Clear();
-                db.UseSqlCommand("select deal_product.id, product.name, product.description, developers.name_of_company, deal.date_deal " +
-                                       "  from deal inner join deal_product on deal.id = deal_product.id_deal " +
-		                                            " inner join product on deal_product.id_product = product.id " +
-		                                            " inner join developers on product.id_dev = developers.id " +
-                                                    " inner join library on  deal_product.id = library.id_deal_product "+
-	                                   " WHERE deal_product.id = "+_id_deal_product+" AND  deal.id_user = " + id_user, tmp_data);
-
-
-                if(tmp_data.Count < 1)
+                tmp_check.Clear();
+                db.UseSqlCommand("SELECT id_deal_product " +
+	                " from library inner join deal_product on  library.id_deal_product = deal_product.id "+
+                    " WHERE  deal_product.id_product =" + id_product + " AND library.id_user =" + id_user,tmp_check);
+                if(tmp_check.Count >0)
                 {
-                db.UseSqlCommand("INSERT INTO  library( id_user, id_deal_product )"+
-                        "  VALUES ( "+id_user+", "+_id_deal_product+")");  
-                db.UseSqlCommand("DELETE FROM baggage WHERE id_deal_product = " + _id_deal_product);
+                     return RedirectToAction("Baggage", new RouteValueDictionary( 
+                        new { controller = "User", action = "Baggage", ex= 1} ));
+
                 }
-                else 
+                else
                 {
+                    tmp_data.Clear();
+                    db.UseSqlCommand("select deal_product.id, product.name, product.description, developers.name_of_company, deal.date_deal, deal_product.guid " +
+                                        "  from deal inner join deal_product on deal.id = deal_product.id_deal " +
+                                                        " inner join product on deal_product.id_product = product.id " +
+                                                        " inner join developers on product.id_dev = developers.id " +
+                                                        " inner join library on  deal_product.id = library.id_deal_product "+
+                                        " WHERE deal_product.id = "+_id_deal_product+" AND  deal.id_user = " + id_user, tmp_data);
 
+
+                    if(tmp_data.Count < 1)
+                    {
+                    db.UseSqlCommand("INSERT INTO  library( id_user, id_deal_product )"+
+                            "  VALUES ( "+id_user+", "+_id_deal_product+")");  
+                    db.UseSqlCommand("DELETE FROM baggage WHERE id_deal_product = " + _id_deal_product);
+                    }
+                    else 
+                    {
+
+                    }
                 }
                 
             }
@@ -387,7 +418,7 @@ namespace SoftSpace_web.Controllers
             }
         }
         
-        public IActionResult Baggage()//need pagination
+        public IActionResult Baggage(int ex = 0)//need pagination
         {
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
@@ -407,7 +438,7 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
                 db.UseSqlCommand("select deal_product.id, product.name, product.description, "+
-                                        " developers.name_of_company, deal.date_deal, product.def_picture " +
+                                        " developers.name_of_company, deal.date_deal, product.def_picture,deal_product.guid " +
                                        "   from baggage inner join deal_product on baggage.id_deal_product = deal_product.id " +
                                                     " inner join deal on deal_product.id_deal = deal.id " + 
 		                                            " inner join product on deal_product.id_product = product.id " +
@@ -417,7 +448,7 @@ namespace SoftSpace_web.Controllers
                 ViewBag.Baggage = tmp_data;
                 List<string> translate_words = Language_Settings.GetWords(1);
                 ViewBag.Translate_words  = translate_words;
-                
+                ViewBag.Ex = ex;
                 return View();
             }
         }
@@ -494,8 +525,8 @@ namespace SoftSpace_web.Controllers
                 db.UseSqlCommand("INSERT INTO subscription_on_dev(id_type, id_dev,id_user, date_begin, date_end) "+
 	            " VALUES ( "+id_type_sub+", "+id_dev+","+id_user+", '"+date_begin+"', '"+date_end+"')");
 
-                return RedirectToAction("Index", new RouteValueDictionary( 
-                                new { controller = "Home", action = "Index"} ));
+                return RedirectToAction("YourSubscriptions", new RouteValueDictionary( 
+                                new { controller = "User", action = "YourSubscriptions"} ));
              }
              else
              {
@@ -684,7 +715,11 @@ namespace SoftSpace_web.Controllers
         {
             DbConfig db = new DbConfig();
 
+            List<List<string>> tmp_data = new List<List<string>>();
 
+            db.UseSqlCommand("SELECT name FROM category WHERE id = "+ id_cat, tmp_data);
+
+            ViewBag.NameCategory = tmp_data[0][0];
             Edit product = new Edit();
 
                 string _sql_com =
@@ -701,8 +736,64 @@ namespace SoftSpace_web.Controllers
             product = ShowPage.TakePages("product WHERE product.id_category =  "+ id_cat,_sql_com,numb_page,ICOP.main);
            
             ViewBag.Page = product;
+            ViewBag.Id_cat = id_cat;
             List<string> words_translate = Language_Settings.GetWords(1);
             ViewBag.Words_translate = words_translate;
+            return View();
+        }
+
+        public IActionResult YourLiked(int numb_page = 0)
+        {
+            Screening sr = new Screening();
+            DbConfig db = new DbConfig();
+            ShopPage page = new ShopPage();
+            string login = HttpContext.Session.GetString("login");
+            List<List<string >> tmp_data = new List<List<string>>();
+
+            if(string.IsNullOrEmpty( login))
+            {
+                return RedirectToAction("Authorization", new RouteValueDictionary( 
+                        new { controller = "Home", action = "Authorization", ex= 0} ));
+            }
+            else
+            {
+                tmp_data.Clear();
+                db.UseSqlCommand("select id  from users where login = "+ sr.GetScr()+ login + sr.GetScr(),tmp_data);
+
+                int id_user = Convert.ToInt32(tmp_data[0][0]);
+                tmp_data.Clear();
+
+                Check_discount.Check();
+            
+                tmp_data.Clear();
+                db.UseSqlCommand("SELECT count(product.id)  "+
+                                 "from product inner join liked_product on product.id = liked_product.id_product " +
+                                 "  WHERE liked_product.id_user =   " + id_user  , tmp_data);
+                if(tmp_data.Count > 0)
+                {
+                    page.count_pages = Convert.ToInt32(tmp_data[0][0]) / ICOP.main;
+                    int items = Convert.ToInt32(tmp_data[0][0]);
+                    if((items % ICOP.main != 0)&&(items > ICOP.main))
+                    {
+                    page.count_pages++;
+                    }
+                }
+                db.UseSqlCommand("SELECT product.id,product.name,price ,def_picture,discount_price "+
+                        "FROM product left join discount  on product.id = discount.id_product  "+
+                        " inner join liked_product on product.id = liked_product.id_product " + 
+                        " where  liked_product.id_user = "+ id_user +
+                        "  order by  product.id  desc  OFFSET  " +
+                        (numb_page)*ICOP.main +" limit "+ICOP.main,page.new_product);
+                
+                page.currect_number = numb_page;
+                ViewBag.Page = page;
+               
+                List<string> words_translate = Language_Settings.GetWords(1);
+                ViewBag.Words_translate = words_translate;
+                
+            }
+
+
             return View();
         }
 

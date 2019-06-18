@@ -3257,6 +3257,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\User\\YourLiked.cshtml",
+      "TargetPath": "Views\\User\\YourLiked.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\User\\Subscriptions.cshtml",
       "TargetPath": "Views\\User\\Subscriptions.cshtml",
       "FileKind": "mvc"

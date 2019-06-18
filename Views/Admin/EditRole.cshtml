@@ -1,5 +1,5 @@
 @await Component.InvokeAsync("Menu" , new {})
-<h1>Edit Your Product  check on bellow</h1>
+<h1>Редактирование роли</h1>
 
 @if(@ViewBag.Ex == 1)
 {
@@ -16,22 +16,41 @@
     
     <div class="input-group mb-2">
         <div class="input-group-prepend">
-          <div class="input-group-text">@@</div>
+          <div class="input-group-text">Имя</div>
         </div>
         <input type="text" class="form-control" name="name" placeholder="RoleName" value="@ViewBag.Role[0][1]">
     </div>
+
+     @foreach (var item in @ViewBag.Abilities)
+        {
+            bool is_use = false;
+            foreach( var use_ab in @ViewBag.Id_use_ab) 
+            {
+                if(use_ab[0] == item[0])
+                {
+                 <input type="checkbox" name="check" value="@item[0]" checked > @item[1] <br>
+                    is_use = true;
+                    break;
+                }
+            }
+            if(is_use == false)
+            {
+                <input type="checkbox" name="check" value="@item[0]"> @item[1] <br>
+            }
+            
+        }
+     
     <div class="form-group">
-        <label for="description">Description</label>
+        <label for="description">Описание</label>
         <textarea class="form-control" name="description" rows="3">@ViewBag.Role[0][2]</textarea>
     </div>
     
     
-     
     
    
-    <button type="submit"  class="btn btn-primary">Save</button>
+    
       </div>
-  
+  <button type="submit"  class="btn btn-sm-2 btn-dark ">Обновить</button>
     </div>
 </form>
 

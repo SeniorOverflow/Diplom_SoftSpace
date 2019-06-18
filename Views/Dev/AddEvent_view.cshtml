@@ -1,5 +1,5 @@
 @await Component.InvokeAsync("Menu" , new {})
-<h1>Add Event</h1>
+<h1>Добавить событие</h1>
 
 
 
@@ -12,18 +12,18 @@
 
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">@@</div>
+                    <div class="input-group-text">Имя</div>
                 </div>
-                <input type="text" class="form-control" name="name" placeholder="EventName" value="">
+                <input required type="text" class="form-control" name="name" placeholder="EventName" value="">
             </div>
 
             <div class="form-group">
-                <label for="description">Example textarea</label>
-                <textarea class="form-control" name="description" rows="3"></textarea>
+                <label for="description">Описание</label>
+                <textarea required class="form-control" name="description" rows="3"></textarea>
             </div>
 
-             <button type="submit">Add</button>
+             
         </div>
-  
+        <button class="btn btn-sm-2 btn-dark" type="submit">Добавить</button>
     </div>
 </form>

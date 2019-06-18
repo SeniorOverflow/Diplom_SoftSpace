@@ -689,7 +689,7 @@ namespace SoftSpace_web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddSub(string name, string description, string price)
+        public IActionResult AddSub(string name, string count_days, string price)
         {
             DbConfig db = new DbConfig();
              if(IsNotJustUser() == false)
@@ -701,9 +701,9 @@ namespace SoftSpace_web.Controllers
             {
                 Console.WriteLine("+++++++++++++++++++++++++++++++++++",price);
                  Screening sr = new Screening();
-                 db.UseSqlCommand("INSERT INTO type_of_subscription( name, description, price)"+
+                 db.UseSqlCommand("INSERT INTO type_of_subscription( name, count_days, price)"+
                                         " VALUES ("+sr.GetScr() + name          + sr.GetScr()   +", "
-                                                   +sr.GetScr() + description   + sr.GetScr()   +", "
+                                                   +sr.GetScr() + count_days    + sr.GetScr()   +", "
                                                    +sr.GetScr() + price         + sr.GetScr()   +") ");
 
                  return RedirectToAction("SubEdition", new RouteValueDictionary( 
@@ -743,7 +743,7 @@ namespace SoftSpace_web.Controllers
                  Screening sr = new Screening();
                 db.UseSqlCommand("UPDATE type_of_subscription " +
 	                                        "SET  name="    +sr.GetScr() + name          + sr.GetScr()   +
-                                            ", count_days="+sr.GetScr() + count_days   + sr.GetScr()   +
+                                            ", count_days=" +sr.GetScr() + count_days    + sr.GetScr()   +
                                             ", price="      +sr.GetScr() + price         + sr.GetScr()   +
 	                                    "WHERE id ="+ id_sub);
 
@@ -976,8 +976,19 @@ namespace SoftSpace_web.Controllers
             Category category = new Category();
             List<List<string>> tmp_data = new List<List<string>>();
             db.UseSqlCommand("select * from roles where id=" + id_role_users,tmp_data);
+
             
+            
+            List<List<string>> tmp_abilities = new List<List<string>>();
+            db.UseSqlCommand("SELECT * from abilities" , tmp_abilities);
+            ViewBag.Abilities = tmp_abilities;
             ViewBag.Role = tmp_data;
+
+              List<List<string>> tmp_data2 = new List<List<string>>();
+            db.UseSqlCommand("SELECT id_abilities from role_abilities " +
+                                "WHERE role_abilities.id_role = " + id_role_users,tmp_data2);
+            ViewBag.Id_use_ab = tmp_data2;
+
             ViewBag.Ex = ex;
             return View();
         }
@@ -986,7 +997,7 @@ namespace SoftSpace_web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditRole_Save(int id_role_users,string name, string description)
+        public IActionResult EditRole_Save(int id_role_users,string name, string description, string [] check)
         {
 
             Screening sr = new Screening();
@@ -1012,6 +1023,14 @@ namespace SoftSpace_web.Controllers
                     "name   =  "+sr.GetScr()+name+sr.GetScr()+","+
                     "description      =  "+sr.GetScr()+description+sr.GetScr()+" "+
                     " WHERE roles.id= "+id_role_users );
+
+                 db.UseSqlCommand("DELETE FROM role_abilities WHERE id_role=" + id_role_users);
+                 foreach(string a in check)
+                {
+                    db.UseSqlCommand("INSERT INTO role_abilities(id_abilities, id_role) " + 
+	                    "VALUES " + 
+                        "(" + a + ", " + id_role_users+ ")" );
+                }
 
                 return RedirectToAction("RoleModeration", new RouteValueDictionary( 
                     new { controller = "Admin", action = "RoleModeration"} ));

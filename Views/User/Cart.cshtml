@@ -12,6 +12,7 @@
       <th scope="col">@ViewBag.Translate_words[22]</th>
       <th scope="col">@ViewBag.Translate_words[63]</th>
       <th scope="col">@ViewBag.Translate_words[35]</th>
+      
       <th scope="col"></th>
     </tr>
   </thead>
@@ -23,7 +24,13 @@
       
       <td><img src="~/Pictures/@a[2]" class="card-img-top " style="height:100px; width : 100px;" alt="..."></td>
       <th scope="row">@a[1]</th>
-      <td>@a[3]</td>
+      <td>
+        
+        <div class="mb-2">
+         @a[3]
+        </div>
+        
+        </td>
       
        @if(@a[5] != "")
           {
@@ -52,13 +59,13 @@
   <tr>
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
+    <td> <h3>К оплате :</h3></td>
+    <td><h3 class="">@ViewBag.Cart.this_price у.е.<h3></td>
     <td>
     
       <form  asp-controller="User" asp-action="Buy"  class="test" style="width: 60%;">        
               <input type="hidden" name ="_id_user" value="@ViewBag.Cart.id_user"  />  
-              <h3 class="">@ViewBag.Cart.this_price у.е.<h3>
+              
               <button  name="buy" class="btn btn-sm-2 btn-dark  "  type="submit">@ViewBag.Translate_words[64]</button>     
       </form>
     

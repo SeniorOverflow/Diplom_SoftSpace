@@ -1,8 +1,6 @@
 @await Component.InvokeAsync("Menu" , new {})
-<h1>Edit Your Product  check on bellow</h1>
 
-
-
+<h1>Редактирование продукта</h1>
 
 
 <form method="post" enctype="multipart/form-data" asp-controller="Dev" asp-action="EditProduct_Save"  class="form_line">
@@ -14,7 +12,7 @@
     <div class="card-body">
      
         <div class="form-group">
-            <label for="file">Выберите файл</label>
+            <label for="file">Выберите фото</label>
             <input type="File"  name="u_file">
         </div>
     
@@ -24,19 +22,19 @@
     
     <div class="input-group mb-2">
         <div class="input-group-prepend">
-          <div class="input-group-text">@@</div>
+          <div class="input-group-text">Имя</div>
         </div>
-        <input type="text" class="form-control" name="name" placeholder="ProductName" value="@ViewBag.Product.name">
+        <input required type="text" class="form-control" name="name" placeholder="ProductName" value="@ViewBag.Product.name">
     </div>
     
     <div class="form-group">
-        <label for="description">Example textarea</label>
-        <textarea class="form-control" name="description" rows="3">@ViewBag.Product.description</textarea>
+        <label for="description">Описание</label>
+        <textarea required class="form-control" name="description" rows="3">@ViewBag.Product.description</textarea>
     </div>
     
      
     <div class="form-group">
-        <label for="labels">Example textarea</label>
+        <label for="labels">Метки</label>
         <textarea class="form-control" name="labels" rows="3">
         @for (int i =0;i<@ViewBag.Product.labels.Count;i++)
         {
@@ -45,14 +43,34 @@
             if(i<(ViewBag.Product.labels.Count -1))
             {
                 @comma
-            }
-            
-            
+            }   
         }
     </textarea>
     </div>
-   
-    <button type="submit"  class="btn btn-primary">Save</button>
+     <select name="id_category">
+        @foreach (var item in ViewBag.List_category)
+        {
+          @if(@item[0] == @ViewBag.Id_Cat)
+          {
+           <option selected value="@item[0]">@item[1] </option>
+          }
+          else
+          {
+            <option  value="@item[0]">@item[1] </option>
+          }
+        }
+      </select>
+
+      <select name="type_product">
+          <option   value="0" >Продукт </option>
+          <option  selected value="1">Доп контент</option>
+      </select>
+    
+   <div class="form-group">
+        <label for="price">Цена у.е.</label>
+        <input type="number"  class="form-control" name="price"  value="@ViewBag.Product.price" step="0.01" max="12000000">
+    </div>
+    <button type="submit"  class="btn btn-sm-2 btn-dark">Сохранить</button>
       </div>
   
     </div>
@@ -65,4 +83,4 @@
 
 
 
-<h1>Price : @ViewBag.Product.price</h1>
+

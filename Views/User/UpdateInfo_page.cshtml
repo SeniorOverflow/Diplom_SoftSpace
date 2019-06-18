@@ -7,19 +7,24 @@
         <img src="~/Pictures/@ViewBag.User_data.picture_profile" class="card-img-top" alt="...">
         <div class="card-body">
             
-            <input type="file" name="u_file" multiple>
+
+            
+            <div class="input-group mb-2">
+                <label for="file">Выберите фото</label>
+                <input type="File"  name="u_file" >
+            </div>
             
 
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                <div class="input-group-text">@@Имя</div>
+                <div class="input-group-text">Имя</div>
                 </div>
                 <input type="text" class="form-control" name="first_name" placeholder="Имя " value="@ViewBag.User_data.first_name">  
             </div>
 
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                <div class="input-group-text">@@Фамилия</div>
+                <div class="input-group-text">Фамилия</div>
                 </div>
                 <input type="text" class="form-control" name="second_name" placeholder="Фамилия" value="@ViewBag.User_data.second_name">
             </div>

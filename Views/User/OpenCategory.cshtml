@@ -1,5 +1,5 @@
 @await Component.InvokeAsync("Menu" , new {})
-<h1>OpenCategory</h1>
+<h1> @ViewBag.NameCategory</h1>
 
 
 @using SoftSpace_web.Models;
@@ -56,7 +56,7 @@
          
         </div>
         <div class="btn_p_cart">
-            <a class="btn btn-primary btn_p_cart_pos " asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
+            <a class="btn btn-sm-2 btn-dark btn_p_cart_pos " asp-controller="Product"  asp-action="ShowProduct" asp-route-id_product = "@a[0]">@ViewBag.Words_translate[3]</a>
         </div>
          
       }
@@ -74,7 +74,7 @@
     @if(this_page > 0)
     {
     <li class="page-item">
-      <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@previous"  asp-route-name_product ="@ViewBag.NameProduct" aria-label="Previous">
+      <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@previous"  asp-route-id_cat ="@ViewBag.Id_cat" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
         <span class="sr-only">Previous</span>
       </a>
@@ -93,14 +93,14 @@
          @if(nn_page == this_page)
         {
           <li class="page-item active">
-            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@this_page" asp-route-name_product ="@ViewBag.NameProduct">@(this_page + 1) <span class="sr-only">(current)</span></a>
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@this_page" asp-route-id_cat ="@ViewBag.Id_cat">@(this_page + 1) <span class="sr-only">(current)</span></a>
           </li>
 
         }
         else{
           if((i < @ViewBag.Page.count_pages)&&(i >= 0))
           {
-            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@nn_page" asp-route-name_product ="@ViewBag.NameProduct" >@(nn_page + 1)</a>
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@nn_page" asp-route-id_cat ="@ViewBag.Id_cat" >@(nn_page + 1)</a>
           }
         }
       }
@@ -117,14 +117,14 @@
         @if(nn_page == this_page)
         {
           <li class="page-item active">
-            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@this_page" asp-route-name_product ="@ViewBag.NameProduct">@(this_page + 1) <span class="sr-only">(current)</span></a>
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@this_page" asp-route-id_cat ="@ViewBag.Id_cat">@(this_page + 1) <span class="sr-only">(current)</span></a>
           </li>
 
         }
         else{
           if((i < @ViewBag.Page.count_pages)&&(i >= 0))
           {
-            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@nn_page" asp-route-name_product ="@ViewBag.NameProduct" >@(nn_page + 1)</a>
+            <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@nn_page" asp-route-id_cat ="@ViewBag.Id_cat" >@(nn_page + 1)</a>
           }
         }
       }
@@ -135,7 +135,7 @@
     @if(next < @ViewBag.Page.count_pages)
     {
     <li class="page-item">
-      <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@next" asp-route-name_product ="@ViewBag.NameProduct" aria-label="Next">
+      <a class="page-link" asp-controller="User"  asp-action="OpenCategory" asp-route-numb_page = "@next" asp-route-id_cat ="@ViewBag.Id_cat" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
       </a>

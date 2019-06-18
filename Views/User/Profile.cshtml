@@ -31,12 +31,12 @@
 {
     
     <div class="_Cart">
-        <div class="card" style="width: 18rem; height:16rem;">
+        <div class="card" style="width: 17rem; height:10rem;">
         
             <div class="card-body">
                 <h5 class="card-title"> Управление компанией </h5>
                 
-                <a  method ="get" asp-controller="Dev" asp-action="AddDev" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[56]</h4></a>
+                <a  method ="get" asp-controller="Dev" asp-action="AddDev" class="btn btn-sm-2 btn-dark mb-2">@ViewBag.Translate_words[56]</a>
             </div>
         </div>
     </div>
@@ -44,34 +44,30 @@
 else
 {
    <div class="_Cart">
-        <div class="card" style="width: 17rem; height:16rem;">
+        <div class="card" style="width: 17rem; height:10rem;">
         
             <div class="card-body">
                 <h5 class="card-title"> Управление компанией</h5>
-                <a  method ="get" asp-controller="Dev" asp-action="Index" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[7]</h4></a>
+                <a  method ="get" asp-controller="Dev" asp-action="Index" class="btn btn-sm-2 btn-dark mb-2">@ViewBag.Translate_words[7]</a>
             </div>
         </div>
    </div>
 }
 
     <div class="_Cart">
-        <div class="card" style="width: 16rem;  height:16rem;">
+        <div class="card" style="width: 16rem;  height:10rem;">
         
             <div class="card-body">
                
                 <h5 class="card-title">  @ViewBag.Translate_words[57]  </h5>
                 
                 <div class="inline">
-                    <ul class="navbar-nav flex-grow-1"> 
-                        <li class="nav-item">
-                            <a  method ="get" asp-controller="User" asp-action="Library" class="btn btn-sm-2 btn-dark"><h4>@ViewBag.Translate_words[58] </h4></a>
-                        </li>
-                        <br>
-                        <li>
-                       
-                            <a  method ="get" asp-controller="User" asp-action="Baggage" class="btn btn-sm-5 btn-dark"><h4>@ViewBag.Translate_words[59] </h4></a>
-                        </li>
-                    </ul>
+                    
+                        
+                            <a  method ="get" asp-controller="User" asp-action="Library" class="btn btn-sm-2 btn-dark mb-2">@ViewBag.Translate_words[58] </a>
+                            <a  method ="get" asp-controller="User" asp-action="Baggage" class="btn btn-sm-2 btn-dark mb-2">@ViewBag.Translate_words[59] </a>
+                        
+                    
                 </div>
             </div>
         </div>
@@ -79,14 +75,15 @@ else
 
  
     <div class="_Cart">
-        <div class="card" style="width: 16rem; height:16rem">
+        <div class="card" style="width: 17rem; height:10rem">
        
             <div class="card-body">
                
-                <h5 class="card-title">  Подписки </h5>
+                <h5 class="card-title"> Подписки и избранное </h5>
                 
             
-                <a  method ="get" asp-controller="User" asp-action="YourSubscriptions" class="btn btn-sm-2 btn-dark"><h4>Ваши подписки </h4></a>
+                <a  method ="get" asp-controller="User" asp-action="YourSubscriptions" class="btn btn-sm-2 btn-dark mb-2">Ваши подписки </a>
+                <a  method ="get" asp-controller="User" asp-action="YourLiked" class="btn btn-sm-2 btn-dark mb-2">В избранном</a>
                
             </div>
         </div>

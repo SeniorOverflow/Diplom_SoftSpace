@@ -178,3 +178,4 @@ D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Admin\
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Authorization.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\OpenCategory.g.cshtml.cs
 D:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\ShowCategories.g.cshtml.cs
+E:\diploma_project_here\SoftSpace_web\obj\Debug\netcoreapp2.2\Razor\Views\User\YourLiked.g.cshtml.cs
