@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SoftSpace_web.Models;
+
 using Npgsql;
-using SoftSpace_web.Script;
+using SoftSpace_web.Scripts;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -15,15 +15,26 @@ namespace SoftSpace_web.Controllers
 {
     public class HomeController : Controller
     {   
+        private readonly SoftspaceContext _softspaceContext;
+
+        public HomeController(SoftspaceContext softspaceContext)
+        {
+            _softspaceContext = softspaceContext;
+        }
         DbConfig db = new DbConfig();
         
          public IActionResult ShowCategory()
-        {
-            List<List<string>> tmp_data = new List<List<string>>();
-            db.UseSqlCommand("select * from category",tmp_data);
+         { 
+             var Categotyes = _softspaceContext.Categories.ToList();
+
+             foreach (var VARIABLE in Categotyes)
+             {
+                 VARIABLE.Name += "*";
+
+             }
 
            
-            ViewBag.Categories = tmp_data;
+            ViewBag.Categories = Categotyes;
 
             return View();
         }
@@ -45,8 +56,8 @@ namespace SoftSpace_web.Controllers
         public IActionResult Index( int numb_page = 0)
         {
             DbConfig db = new DbConfig();
-            ShopPage page = new ShopPage();
-            Check_discount.Check();
+            Models.ShopPage page = new Models.ShopPage();
+            Check_discount.Check(_softspaceContext);
             
 
             HttpContext.Session.SetString("search_porduct_name","" );
@@ -89,7 +100,7 @@ namespace SoftSpace_web.Controllers
                 count ++;
                 HttpContext.Session.SetString("CountIn",""+count);
             }
-            Authorization data = new Authorization();
+             Models.Authorization data = new Models.Authorization();
             data.ex = ex;
             data.count = count;
             List<string> data_names_on_lg = Language_Settings.GetWords(1);
@@ -188,7 +199,7 @@ namespace SoftSpace_web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

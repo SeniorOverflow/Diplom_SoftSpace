@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Npgsql;
 using SoftSpace_web.Models;
-namespace  SoftSpace_web.Script
+namespace  SoftSpace_web.Scripts
 {
     static class   UnionList
     {

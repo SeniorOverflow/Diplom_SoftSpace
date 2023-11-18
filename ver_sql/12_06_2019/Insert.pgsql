@@ -1,15 +1,13 @@
-INSERT INTO users(first_name, second_name ,login,password ,mail)
-VALUES
- ('igor', 'popov','donenot',crypt('12345', gen_salt('bf', 8)),'haha@mail.ru');
-
---
-
-
 INSERT INTO roles(name, description)
 VALUES
  ('user', 'just user '),
  ('Admin', 'it`s god  '),
  ('Moderator', 'less then admin and more then user');
+
+
+INSERT INTO users(first_name, second_name ,login,password ,mail)
+VALUES
+ ('igor', 'popov','donenot',crypt('12345', gen_salt('bf', 8)),'haha@mail.ru');
 
 
 INSERT INTO abilities(
@@ -83,7 +81,7 @@ VALUES
  ('Mr', 'Admin','admin',crypt('admin', gen_salt('bf', 8)),'2010igorpopov2010@gmail.com');
 
  INSERT INTO user_role (id_user, id_role)
-	VALUES(1,2)
+	VALUES(1,2);
 
 --
 
@@ -104,7 +102,7 @@ INSERT INTO public.social_interconnection(                         					-- add t
 	id_user_first, id_user_second, id_status)
 	VALUES (1, 2, 1);
 
-select * from social_interconnection where id_user_second = 1 and id_status =1   	-- select add request 
+select * from social_interconnection where id_user_second = 1 and id_status =1 ;  	-- select add request 
 
 UPDATE public.social_interconnection
 	SET  id_status=2
@@ -140,4 +138,4 @@ INSERT INTO public.dlc_for_product(
 	VALUES (,);
 
 INSERT INTO user_role (id_user, id_role)
-	VALUES(1,2)
+	VALUES(1,2);

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SoftSpace_web.Models;
+
 using Npgsql;
-using SoftSpace_web.Script;
+using SoftSpace_web.Scripts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
@@ -14,12 +14,19 @@ namespace SoftSpace_web.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly SoftspaceContext _softspaceContext;
+
+        public ProductController(SoftspaceContext softspaceContext)
+        {
+            _softspaceContext = softspaceContext; 
+        }
+        
         public IActionResult ShowProduct(int id_product)
         {
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
-            Product this_product = new Product();
+            Models.Product this_product = new Models.Product();
             List<List<string>> product_data = new List<List<string>>();
 
            
@@ -136,7 +143,7 @@ namespace SoftSpace_web.Controllers
             
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
-            string login = HttpContext.Session.GetString("login");
+            string? login = HttpContext.Session.GetString("login");
             Console.WriteLine(_id_product + " - " + login   );
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
@@ -151,7 +158,7 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
                 db.UseSqlCommand("SELECT shopping_cart.count from shopping_cart WHERE id_product = " + _id_product 
-                                +"AND shopping_cart.id_user =" + id_user,tmp_data);
+                                +" AND shopping_cart.id_user =" + id_user,tmp_data);
                 if(tmp_data.Count > 0)
                 {
                     int count_in_cart = 0;
@@ -160,7 +167,7 @@ namespace SoftSpace_web.Controllers
 
                     db.UseSqlCommand(" UPDATE shopping_cart set count = " + count_in_cart +
                                          " WHERE  id_product = "+ _id_product
-                                          +"AND shopping_cart.id_user =" + id_user); 
+                                          +" AND shopping_cart.id_user =" + id_user); 
 
                 }
                 else
@@ -168,8 +175,8 @@ namespace SoftSpace_web.Controllers
                 
                 tmp_data.Clear();
                 db.UseSqlCommand("INSERT INTO shopping_cart("+
-	                                    "id_product, id_user, count)"+
-	                                    "VALUES ('"+_id_product+"', '"+id_user+"', '"+count+"')");
+	                                    " id_product, id_user, count)"+
+	                                    " VALUES ('"+_id_product+"', '"+id_user+"', '"+count+"')");
                 }
             }
            if(_id_dlc == -1)
@@ -337,7 +344,7 @@ namespace SoftSpace_web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

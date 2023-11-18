@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using SoftSpace_web.Models;
-using SoftSpace_web.Script;
+
+using SoftSpace_web.Scripts;
 using System.IO;
 using System.Drawing;
 using System.Threading;
@@ -16,6 +16,12 @@ namespace SoftSpace_web.Controllers
 {
     public class DevController : Controller
     {
+        private readonly SoftspaceContext _softspaceContext;
+
+        public DevController(SoftspaceContext softspaceContext)
+        {
+            _softspaceContext = softspaceContext;
+        }
         
         public IActionResult Index()
         {
@@ -145,7 +151,7 @@ namespace SoftSpace_web.Controllers
             DbConfig db = new DbConfig();
             List<List<string>> tmp_data = new List<List<string>>();
             db.UseSqlCommand("Select id,name from category",tmp_data);
-            Console.WriteLine("++++++++ +++ ++ " +tmp_data[0][1] + " -- " + tmp_data.Count);
+           // Console.WriteLine("++++++++ +++ ++ " +tmp_data[0][1] + " -- " + tmp_data.Count);
 
             ViewBag.List_category =  tmp_data;
             List<string> translate_words = Language_Settings.GetWords(1);
@@ -325,7 +331,7 @@ namespace SoftSpace_web.Controllers
         {
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
-            Check_discount.Check();
+            Check_discount.Check(_softspaceContext);
             List<List<string>> tmp_dev = new List<List<string>>();
             db.UseSqlCommand("SELECT id_dev FROM users "+ 
                     " inner join user_dev on users.id = user_dev.id_user "+ 
@@ -334,7 +340,7 @@ namespace SoftSpace_web.Controllers
             int id_dev = Convert.ToInt32(tmp_dev[0][0]);
             
 
-            Edit you_product = new Edit();
+            Models.Edit you_product = new Models.Edit();
             string _sql_com = "SELECT product.id, product.name ,"+
             " product.price ,product.def_picture, product.is_dlc, discount.discount_price "+
             "  FROM product left join discount on product.id = discount.id_product " +
@@ -355,7 +361,7 @@ namespace SoftSpace_web.Controllers
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
             List<List<string>> tmp_dev = new List<List<string>>();
-            AddDLC addDLC = new AddDLC();
+            Models.AddDLC addDLC = new Models.AddDLC();
             db.UseSqlCommand("SELECT id_dev FROM users "+ 
                     " inner join user_dev on users.id = user_dev.id_user "+ 
                     " inner join developers on user_dev.id_dev =  developers.id "+
@@ -425,7 +431,7 @@ namespace SoftSpace_web.Controllers
             {
                 List<List<string>> tmp_team_info = new List<List<string>>(); 
                 db.UseSqlCommand("select * from developers WHERE id="+id_dev,tmp_team_info); // XXX NEED COOL VIEW 
-                Developer dev = new Developer();
+                Models.Developer dev = new Models.Developer();
                 dev.id_dev =id_dev;
                
                 dev.name = tmp_team_info[0][1]; 
@@ -595,7 +601,7 @@ namespace SoftSpace_web.Controllers
 
                 db.UseSqlCommand("SELECT name,description,price, def_picture, is_dlc ,id_category"+
                 " FROM product  WHERE product.id = " + id_product ,tmp);
-                Product you_product = new Product();
+                Models.Product you_product = new Models.Product();
 
                 you_product.id_product = id_product;
                 you_product.name = tmp[0][0];
@@ -798,7 +804,7 @@ namespace SoftSpace_web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

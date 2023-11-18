@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace  SoftSpace_web.Script
+namespace  SoftSpace_web.Scripts
 {
      class    Language_Settings
     {

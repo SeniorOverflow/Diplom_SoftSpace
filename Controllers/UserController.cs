@@ -5,16 +5,22 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using SoftSpace_web.Models;
-using SoftSpace_web.Script;
+
+using SoftSpace_web.Scripts;
 
 namespace SoftSpace_web.Controllers
 {
     public class UserController : Controller
     {
+        private readonly SoftspaceContext _softspaceContext;
+        public UserController(SoftspaceContext softspaceContext)
+        {
+            _softspaceContext = softspaceContext;
+        }
         public IActionResult Index()
         {
 
@@ -25,9 +31,9 @@ namespace SoftSpace_web.Controllers
         {
             Screening sr  = new Screening();
             DbConfig db = new DbConfig();
-            Check_discount.Check();
+            Check_discount.Check(_softspaceContext);
             string login = HttpContext.Session.GetString("login");
-            Cart cart = new Cart();
+            Models.Cart cart = new Models.Cart();
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
@@ -72,7 +78,7 @@ namespace SoftSpace_web.Controllers
         {
             DbConfig db = new DbConfig();
             Screening sr = new Screening();
-             Cart cart = new Cart();
+            Models.Cart cart = new Models.Cart();
              cart.id_user = _id_user;
              cart.Set_Price();
              double total_price = cart.Get_TotalPrice();
@@ -94,22 +100,22 @@ namespace SoftSpace_web.Controllers
 
             if(u_score -  total_price > 0)
             {
-                db.UseSqlCommand("UPDATE users set score = score - " + str_price + "WHERE users.id = " + cart.id_user);
+                db.UseSqlCommand("UPDATE users set score = score - " + str_price + " WHERE users.id = " + cart.id_user);
 
                 db.UseSqlCommand("INSERT INTO deal (id_user, date_deal, total_price) "+
                                             " VALUES ("+cart.id_user+", now(), "+str_price+")");
 
                 List<List<string>> tmp_data = new List<List<string>>();
 
-                db.UseSqlCommand(" select  id   from deal " +
-                                        "where id_user = " + cart.id_user + 
+                db.UseSqlCommand(" select  id   from deal " + 
+                                        " where id_user = " + cart.id_user + 
                                         " order by id  desc  LIMIT 1 ",tmp_data);
 
                 int id_deal = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
                 Console.WriteLine(id_deal);
 
-                db.UseSqlCommand("select shopping_cart.id_product,shopping_cart.count,product.price"+
+                db.UseSqlCommand("select shopping_cart.id_product,shopping_cart.count,product.price "+
                                                 " from shopping_cart  inner join product on shopping_cart.id_product = product.id " +
                                                 " where shopping_cart.id_user = " + _id_user,tmp_data);
 
@@ -118,14 +124,15 @@ namespace SoftSpace_web.Controllers
                         int id_product = Convert.ToInt32(item[0]);
                         int count = Convert.ToInt32(item[1]);
                         string price = item[2].Replace(',','.');
-                        
+                         db.UseSqlCommand("INSERT INTO deal_product(id_deal, id_product, count, price)"+
+                                                "       VALUES ( "+id_deal+", "+id_product+"," + count
+                                                 +", "+price+")");
+
                         for(int i =0;i<count;i++)  //i am here 
                         {
                             Guid guid_product = Guid.NewGuid();
                             
-                            db.UseSqlCommand("INSERT INTO deal_product(id_deal, id_product, guid, price)"+
-                                                "       VALUES ( "+id_deal+", "+id_product+","
-                                                +sr.GetScr() + guid_product+ sr.GetScr() +", "+price+")");
+                           
                         
 
                         List<List<string>> tmp_dev = new List<List<string>>();
@@ -143,8 +150,8 @@ namespace SoftSpace_web.Controllers
                                         " order by id  desc  LIMIT 1 ",tmp_this_deal_product);
 
                         int deal_product = Convert.ToInt32(tmp_this_deal_product[0][0]);
-                        db.UseSqlCommand("INSERT INTO baggage(id_user, id_deal_product)"+
-                                                "VALUES ("+cart.id_user+", "+deal_product+")");
+                        db.UseSqlCommand("INSERT INTO baggage(id_user, id_deal_product) "+
+                                                " VALUES ("+cart.id_user+", "+deal_product+")");
                         }
 
                     }
@@ -234,7 +241,7 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
            
 
-                User _user = new User();
+                Models.User _user = new Models.User();
                 _user.is_dev = false;
                 List<List<string>> tmp_login = new List<List<string>>();
               
@@ -242,7 +249,7 @@ namespace SoftSpace_web.Controllers
                 
                 List<List<string>> tmp = new List<List<string>>();
                 db.UseSqlCommand("SELECT id,login,lvl,score,first_name,second_name,bonus_score,picture_profile "+
-                                        "FROM users WHERE users.id = "+id_user ,tmp);
+                                        " FROM users WHERE users.id = "+id_user ,tmp);
                 if(tmp.Count()>0)
                 {
                         _user.id_user= Convert.ToInt32(tmp[0][0]);
@@ -255,10 +262,10 @@ namespace SoftSpace_web.Controllers
                         _user.picture_profile = tmp[0][7];
                         List<List<string>> tmp_u =  new List<List<string>>();
                         db.UseSqlCommand("SELECT name_of_company " +  
-                                                    "FROM developers "+
-                                                        "inner join user_dev on"+
+                                                    " FROM developers "+
+                                                        " inner join user_dev on"+
                                                         " developers.id = user_dev.id_dev "+
-                                                "WHERE user_dev.id_user = "+ _user.id_user,tmp_u);
+                                                " WHERE user_dev.id_user = "+ _user.id_user,tmp_u);
                         if(tmp_u.Count>0)
                         {
                             _user.is_dev = true;
@@ -300,7 +307,7 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
                 db.UseSqlCommand("select deal_product.id, product.name, product.description,"+
-                "  developers.name_of_company, deal.date_deal , product.def_picture" +
+                "  developers.name_of_company, deal.date_deal , product.def_picture " +
                                        "  from deal inner join deal_product on deal.id = deal_product.id_deal " +
 		                                            " inner join product on deal_product.id_product = product.id " +
 		                                            " inner join developers on product.id_dev = developers.id " +
@@ -399,7 +406,7 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
 
-                Edit subs = new Edit();
+                Models.Edit subs = new Models.Edit();
                 string _sql_com =  "SELECT  type_of_subscription.name, developers.name_of_company,"+
                                             " date_begin, date_end ,subscription_on_dev.id_dev"+
                     " FROM subscription_on_dev inner join type_of_subscription "+
@@ -423,7 +430,7 @@ namespace SoftSpace_web.Controllers
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
             string login = HttpContext.Session.GetString("login");
-            Cart cart = new Cart();
+            Models.Cart cart = new Models.Cart();
             List<List<string >> tmp_data = new List<List<string>>();
             if(string.IsNullOrEmpty( login))
             {
@@ -558,7 +565,7 @@ namespace SoftSpace_web.Controllers
              List<List<string>> tmp_user = new List<List<string>>();
             db.UseSqlCommand("SELECT first_name,second_name,picture_profile FROM users "+ 
                     " WHERE users.login = "+sr.GetScr()+HttpContext.Session.GetString("login")+sr.GetScr() ,tmp_user);
-            User user = new User();
+            Models.User user = new Models.User();
             
             user.first_name = tmp_user[0][0];
             user.second_name =tmp_user[0][1];
@@ -650,12 +657,12 @@ namespace SoftSpace_web.Controllers
 
         public IActionResult SearchProduct( string name_product, int  numb_page = 0)
         {
-            Check_discount.Check();
+            Check_discount.Check(_softspaceContext);
             
             HttpContext.Session.SetString("search_porduct_name","" + name_product);
             
             
-            ShopPage page = new ShopPage();
+            Models.ShopPage page = new Models.ShopPage();
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
          
@@ -690,21 +697,22 @@ namespace SoftSpace_web.Controllers
         public IActionResult ShowCategories( int numb_page = 0)
         {
             DbConfig db = new DbConfig();
-            Check_discount.Check();
+            Check_discount.Check(_softspaceContext);
+            
+            Models.Edit categories = new Models.Edit();
 
-            Edit categories = new Edit();
 
-                string _sql_com =  "SELECT  category.id , " + 
-                                    " category.name ," + 
-                                    " category.description,"+
-                                    " category.def_picture ," +
-                                    " count(product.id) " + 
-                                "from category  left join product on category.id = product.id_category"+
-                                " GROUP BY   category.id  ORDER BY   category.id  asc OFFSET  " + (numb_page)*ICOP.main +" limit "+ICOP.main ;
+            string _sql_com =  "SELECT  category.id , " + 
+                               " category.name ," + 
+                               " category.description,"+
+                               " category.def_picture ," +
+                               " count(product.id) " + 
+                               "from category  left join product on category.id = product.id_category"+
+                               " GROUP BY   category.id  ORDER BY   category.id  asc OFFSET  " + (numb_page)*ICOP.main +" limit "+ICOP.main ;
                 
-
+            
             categories = ShowPage.TakePages("category ",_sql_com,numb_page,ICOP.main);
-           
+            
             ViewBag.Categories = categories;
             List<string> words_translate = Language_Settings.GetWords(1);
             ViewBag.Translate_words = words_translate;
@@ -720,7 +728,7 @@ namespace SoftSpace_web.Controllers
             db.UseSqlCommand("SELECT name FROM category WHERE id = "+ id_cat, tmp_data);
 
             ViewBag.NameCategory = tmp_data[0][0];
-            Edit product = new Edit();
+            Models.Edit product = new Models.Edit();
 
                 string _sql_com =
 
@@ -746,7 +754,7 @@ namespace SoftSpace_web.Controllers
         {
             Screening sr = new Screening();
             DbConfig db = new DbConfig();
-            ShopPage page = new ShopPage();
+            Models.ShopPage page = new Models.ShopPage();
             string login = HttpContext.Session.GetString("login");
             List<List<string >> tmp_data = new List<List<string>>();
 
@@ -763,7 +771,7 @@ namespace SoftSpace_web.Controllers
                 int id_user = Convert.ToInt32(tmp_data[0][0]);
                 tmp_data.Clear();
 
-                Check_discount.Check();
+                Check_discount.Check(_softspaceContext);
             
                 tmp_data.Clear();
                 db.UseSqlCommand("SELECT count(product.id)  "+
@@ -805,7 +813,7 @@ namespace SoftSpace_web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Npgsql;
-namespace  SoftSpace_web.Script
+namespace  SoftSpace_web.Scripts
 {
      class   Screening
     {

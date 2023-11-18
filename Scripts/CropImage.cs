@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 
-namespace  SoftSpace_web.Script
+namespace  SoftSpace_web.Scripts
 {
     static class CropImage
     {

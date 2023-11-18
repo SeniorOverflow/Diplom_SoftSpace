@@ -1,0 +1,319 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SoftSpace
+build_property.RootNamespace = SoftSpace
+build_property.ProjectDir = c:\Users\DonEn\Documents\GitHub\Diplom_SoftSpace\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = c:\Users\DonEn\Documents\GitHub\Diplom_SoftSpace
+build_property._RazorSourceGeneratorDebug = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/baggage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxiYWdnYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/Order.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxPcmRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/SearchPeople.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxTZWFyY2hQZW9wbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/SetOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxTZXRPcmRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/ShowUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxTaG93VXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/cancel/View/User/YourOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Y2FuY2VsXFZpZXdcVXNlclxZb3VyT3JkZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/AddCategory_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkQ2F0ZWdvcnlfVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/AddRole_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkUm9sZV9WaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/AddSub_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkU3ViX1ZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/CategoryModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcnlNb2RlcmF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/CommentModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ29tbWVudE1vZGVyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/DelCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/DevModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGV2TW9kZXJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/EditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdENhdGVnb3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/EditRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFJvbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/GiveRole_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cR2l2ZVJvbGVfVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/ProductModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvZHVjdE1vZGVyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/RoleModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZU1vZGVyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/SubEdition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3ViRWRpdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/SubModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3ViTW9kZXJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/TransactionModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVHJhbnNhY3Rpb25Nb2RlcmF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/UpdateSub_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXBkYXRlU3ViX1ZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Admin/UserModeration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlck1vZGVyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/AddDev.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEFkZERldi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/AddDlC_view.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEFkZERsQ192aWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/AddEvent_view.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEFkZEV2ZW50X3ZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/AddProduct_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEFkZFByb2R1Y3RfVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/DelDev.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XERlbERldi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/DelProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XERlbFByb2R1Y3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/EditProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEVkaXRQcm9kdWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/GetLicenseKeys.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEdldExpY2Vuc2VLZXlzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/SetSub.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XFNldFN1Yi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/ShowDev.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XFNob3dEZXYuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/UpdateInfo_page.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XFVwZGF0ZUluZm9fcGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Dev/YourProducts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2XFlvdXJQcm9kdWN0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Authorization.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBdXRob3JpemF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Autorisation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBdXRvcmlzYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/DevShow.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXZTaG93LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Download.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEb3dubG9hZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Menu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxNZW51LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/Reg.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Home/ShowCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTaG93Q2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Product/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxTZWFyY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Product/ShowProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxTaG93UHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Shared/Components/Menu/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTWVudVxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Shared/_CookieConsentPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db29raWVDb25zZW50UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/AddFriend.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxBZGRGcmllbmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Baggage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxCYWdnYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Cart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDYXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Library.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxMaWJyYXJ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/OpenCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxPcGVuQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Order.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxPcmRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/SearchPeople.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTZWFyY2hQZW9wbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/SearchProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTZWFyY2hQcm9kdWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/SetOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTZXRPcmRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/ShowCategories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTaG93Q2F0ZWdvcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/ShowUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTaG93VXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/Subscriptions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTdWJzY3JpcHRpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/SubToDev_View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTdWJUb0Rldl9WaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/UpdateInfo_page.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxVcGRhdGVJbmZvX3BhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/YourLiked.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxZb3VyTGlrZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/YourOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxZb3VyT3JkZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/User/YourSubscriptions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxZb3VyU3Vic2NyaXB0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/DonEn/Documents/GitHub/Diplom_SoftSpace/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

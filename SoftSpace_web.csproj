@@ -1,20 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RootNamespace>SoftSpace</RootNamespace>
-  </PropertyGroup>
+
+     <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        
+        <UserSecretsId>aspnet-SoftSpace-1B39E396-E99B-44E8-83D3-CDF0B7BEEA56</UserSecretsId>
+    </PropertyGroup>
 
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-   
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  Version = "2.2.0-preview1"/>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25718-03" />
-    
-    
-  </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
+            <PackageReference Include="Npgsql" Version="7.0.0" />
+            <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+            <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="cancel\View\User\baggage.cshtml" />
+      <_ContentIncludedByDefault Remove="cancel\View\User\Order.cshtml" />
+      <_ContentIncludedByDefault Remove="cancel\View\User\Profile.cshtml" />
+      <_ContentIncludedByDefault Remove="cancel\View\User\SearchPeople.cshtml" />
+      <_ContentIncludedByDefault Remove="cancel\View\User\SetOrder.cshtml" />
+      <_ContentIncludedByDefault Remove="cancel\View\User\ShowUsers.cshtml" />
+      <_ContentIncludedByDefault Remove="cancel\View\User\YourOrders.cshtml" />
+    </ItemGroup>
 
 </Project>

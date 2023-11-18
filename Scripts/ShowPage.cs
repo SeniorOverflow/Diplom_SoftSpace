@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Npgsql;
 using SoftSpace_web.Models;
-namespace  SoftSpace_web.Script
+namespace  SoftSpace_web.Scripts
 {
     static class   ShowPage
     {

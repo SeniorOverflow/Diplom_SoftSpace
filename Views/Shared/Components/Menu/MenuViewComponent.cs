@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using SoftSpace_web.Models;
-using SoftSpace_web.Script;
+using SoftSpace_web.Scripts;
 
 namespace SoftSpace_web.Views.Components.Menu
 {
@@ -14,7 +14,7 @@ namespace SoftSpace_web.Views.Components.Menu
         public IViewComponentResult Invoke()
         {
             Screening sr = new Screening();
-            User user = new User();
+            Models.User user = new  Models.User();
             DbConfig db = new DbConfig();
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("login")))
             {

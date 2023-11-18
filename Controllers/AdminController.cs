@@ -5,16 +5,24 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Diplom_SoftSpace;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using SoftSpace_web.Models;
-using SoftSpace_web.Script;
+
+using SoftSpace_web.Scripts;
 
 namespace SoftSpace_web.Controllers
 {
+    
     public class AdminController : Controller
     {
+        private readonly SoftspaceContext _softspaceContext;
+
+        public AdminController(SoftspaceContext softspaceContext)
+        {
+            _softspaceContext = softspaceContext;
+        }
 
         private bool IsNotJustUser()
         {
@@ -130,7 +138,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                
-                Edit dev = new Edit();
+                Models.Edit dev = new Models.Edit();
                 string _sql_com = "Select id,name_of_company,description,mail,phone,score from developers OFFSET  "+(numb_page)*ICOP.a_dev +" limit " + ICOP.a_dev;
                 dev = ShowPage.TakePages("developers",_sql_com,numb_page,ICOP.a_dev);
 
@@ -160,7 +168,7 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-                Edit users = new Edit();
+                Models.Edit users = new Models.Edit();
                 string _sql_com = "Select id,login,score FROM users OFFSET  "+(numb_page)*ICOP.a_users +" limit "+ICOP.a_users ;  
                 users = ShowPage.TakePages("users",_sql_com,numb_page,ICOP.a_users);
                 
@@ -224,7 +232,7 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-                Edit comments = new Edit();
+                Models.Edit comments = new Models.Edit();
 
                 string _sql_com = "SELECT review.id, login, comment_to_product, assessment "+
                     "FROM users INNER JOIN review ON users.id = review.id_user OFFSET  "+(numb_page)*ICOP.a_reviews +" limit "+ICOP.a_reviews;
@@ -304,7 +312,7 @@ namespace SoftSpace_web.Controllers
         
         public IActionResult ProductModeration(int numb_page = 0)
         {
-            Check_discount.Check();
+            Check_discount.Check(_softspaceContext);
             if(IsNotJustUser() == false)
             {
                 return RedirectToAction("Index", new RouteValueDictionary( 
@@ -313,7 +321,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                 
-                Edit product = new Edit();
+                Models.Edit product = new Models.Edit();
                 string _sql_com = "SELECT product.id , product.name , name_of_company, category.name "+
 	                                    "FROM product inner join developers on product.id_dev = developers.id "+
 		                                "inner join category on product.id_category = category.id OFFSET  "+(numb_page)*ICOP.a_products +" limit "+ICOP.a_products ;
@@ -372,7 +380,7 @@ namespace SoftSpace_web.Controllers
         public IActionResult EditCategory(int id_category)
         {
             DbConfig db = new DbConfig();
-            Category category = new Category();
+            Models.Category category = new Models.Category();
             List<List<string>> tmp_data = new List<List<string>>();
             db.UseSqlCommand("select * from category where id=" + id_category,tmp_data);
             category.id_category = Convert.ToInt32( tmp_data[0][0]);
@@ -614,7 +622,7 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-                Edit category = new Edit();
+                Models.Edit category = new Models.Edit();
                 string _sql_com = "select * from category OFFSET "+(numb_page)*ICOP.a_category +" limit "+ICOP.a_category ;
                  
                 category = ShowPage.TakePages("category",_sql_com,numb_page,ICOP.a_category);
@@ -636,7 +644,7 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-                Edit sub = new Edit();
+                Models.Edit sub = new Models.Edit();
                 string _sql_com = "select subscription_on_dev.id, users.login,type_of_subscription.name,type_of_subscription.price,developers.name_of_company,subscription_on_dev.date_end "+
                     " from subscription_on_dev inner join users on  subscription_on_dev.id_user = users.id "+
                     "                          inner join type_of_subscription on subscription_on_dev.id_type  = type_of_subscription.id "+
@@ -662,7 +670,7 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-                Edit sub = new Edit();
+                Models.Edit sub = new Models.Edit();
                 string _sql_com = "select * from type_of_subscription OFFSET "+(numb_page)*ICOP.a_type_sub +" limit "+ICOP.a_type_sub ;
                  
                 sub = ShowPage.TakePages("type_of_subscription",_sql_com,numb_page,ICOP.a_type_sub);
@@ -808,7 +816,7 @@ namespace SoftSpace_web.Controllers
             }
             else
             {
-                Edit users = new Edit();
+                Models.Edit users = new Models.Edit();
                 string _sql_com = "Select id,login,mail,lvl,score, bonus_score FROM users OFFSET  "+(numb_page)*ICOP.a_users +" limit "+ICOP.a_users ;
                 users = ShowPage.TakePages("users",_sql_com,numb_page,ICOP.a_users);
                 
@@ -850,7 +858,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                
-                Edit transaction = new Edit();
+                Models.Edit transaction = new Models.Edit();
                 string _sql_com = "SELECT deal.id, users.login, date_deal,total_price"+
                 " FROM deal inner join users on deal.id_user = users.id OFFSET "+(numb_page)*ICOP.a_trans +" limit "+ICOP.a_trans ;
                  
@@ -888,7 +896,7 @@ namespace SoftSpace_web.Controllers
             else
             {
                 
-                Edit roles = new Edit();
+                Models.Edit roles = new Models.Edit();
                 string _sql_com = "SELECT * from roles OFFSET "+(numb_page)*ICOP.a_roles +" limit "+ICOP.a_roles ;
                  
                 roles = ShowPage.TakePages("roles",_sql_com,numb_page,ICOP.a_roles);
@@ -922,7 +930,7 @@ namespace SoftSpace_web.Controllers
             {
                 List<List<string>> tmp_data = new List<List<string>>();
                
-                db.UseSqlCommand("Select * from roles WHERE name ="+sr.GetScr() + name + sr.GetScr(),tmp_data);
+                db.UseSqlCommand("Select * from roles WHERE name = "+sr.GetScr() + name + sr.GetScr(),tmp_data);
 
                 if(tmp_data.Count>0)
                 {
@@ -1066,7 +1074,7 @@ namespace SoftSpace_web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

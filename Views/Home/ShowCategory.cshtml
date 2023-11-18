@@ -6,16 +6,17 @@
 @foreach( var a in @ViewBag.Categories) 
 {
     <div class="_Cart">
+        <h1>**</h1>
         <div class="card" style="width: 18rem;">
-        @{
-            string pic = @a[3] + ".png";
-            <img src="~/Pictures/@pic" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h3 class="card-title">@a[1]</h3>
-                <p>@a[2]</p>
-                
-            </div>
-        }
+            @{
+                string pic = @a[3] + ".png";
+                <img src="~/Pictures/@pic" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title">@a[1]</h3>
+                    <p>@a[2]</p>
+
+                </div>
+            }
         </div>
     </div>
 }

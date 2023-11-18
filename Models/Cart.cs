@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SoftSpace_web.Script;
+using SoftSpace_web.Scripts;
 
 namespace SoftSpace_web.Models
 {
